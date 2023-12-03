@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.6
   flutter_svg: ^2.0.9
   flutter_slidable: ^3.0.1
+  firebase_core: ^2.24.0
 
 dev_dependencies:
   flutter_test:

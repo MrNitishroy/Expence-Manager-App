@@ -20,15 +20,12 @@ class MyBottomNavigation extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 onTap: (){
                   Get.bottomSheet(
-                    MyBottomSheet(),
+                    MyBottomSheet(
+                      isExpense: false,
+                    ),
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.only(
-                    //     topLeft: Radius.circular(20),
-                    //     topRight: Radius.circular(20),
-                    //   )
-                    // )
+                  
                 
                   );
                 },
@@ -67,36 +64,49 @@ class MyBottomNavigation extends StatelessWidget {
             ),
             SizedBox(width: 30),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(100),
-                    topRight: Radius.circular(100),
+              child: InkWell(
+                  onTap: (){
+                  Get.bottomSheet(
+                    MyBottomSheet(
+                      isExpense: true,
+                    ),
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                  
+                
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(100),
+                      topRight: Radius.circular(100),
+                    ),
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   ),
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                ),
-                padding: EdgeInsets.all(5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Text(
-                      "EXPENSE",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                  padding: EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Text(
+                        "EXPENSE",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(100)),
-                      child: SvgPicture.asset("Assets/Icons/expense.svg"),
-                    ),
-                  ],
+                      SizedBox(width: 10),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(100)),
+                        child: SvgPicture.asset("Assets/Icons/expense.svg"),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

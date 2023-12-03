@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import '../Controller/BottomSheetController.dart';
 
 class MyBottomSheet extends StatelessWidget {
-  const MyBottomSheet({super.key});
+  final bool isExpense;
+  const MyBottomSheet({super.key, required this.isExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,9 @@ class MyBottomSheet extends StatelessWidget {
                   SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("Expense")],
+                    children: [
+                     isExpense?  Text("EXPENSE") : Text("INCOME")
+                    ],
                   ),
                   SizedBox(height: 5),
                   Row(
