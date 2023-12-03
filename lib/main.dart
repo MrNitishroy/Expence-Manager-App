@@ -1,7 +1,9 @@
+import 'package:expense_manager/Config/PagePath.dart';
 import 'package:expense_manager/Config/Theme.dart';
 import 'package:expense_manager/Pages/HomePage/HomePage.dart';
 import 'package:expense_manager/Pages/LoginPage/LoginPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +14,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      getPages: pages,
       title: 'Expense Tracker',
       theme: lightTheme,
       debugShowCheckedModeBanner: false,

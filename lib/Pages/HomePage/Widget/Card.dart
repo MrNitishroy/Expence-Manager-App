@@ -1,55 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-class CardWidget extends StatelessWidget {
-  const CardWidget({super.key});
+class CreditCard extends StatelessWidget {
+  const CreditCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return     Container(
-              padding: EdgeInsets.all(15),
               height: 200,
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(20),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).colorScheme.primaryContainer),
               child: Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.wallet,
-                              size: 40,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "20343.00",
-                              style: TextStyle(
-                                fontSize: 30,
+                      child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset("Assets/Icons/logo.svg"),
+                          SizedBox(width: 10),
+                          const Text(
+                            "5423.00",
+                            style: TextStyle(
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
+                                letterSpacing: 1.5),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Text(
+                            "Total Balance",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                         ),
-                        Slider(
-
-                          value: 30,
-                          onChanged: (e) {},
-                          min: 0,
-                          max: 100,
-                        ),
+                        height: 10,
+                        child: Row(children: [
+                          AnimatedContainer(
+                            duration: Duration(microseconds: 200),
+                            width: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                        ]),
+                      ),
+                      SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                        Text("0"),
-                        Text("320"),
-                      ],)
-                      ],
-                    ),
-
-                  )
+                          Text(
+                            "0",
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer),
+                          ),
+                          Text(
+                            "54230",
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ))
                 ],
               ),
             );

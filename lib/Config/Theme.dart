@@ -22,23 +22,22 @@ var lightTheme = ThemeData(
   ),
 );
 var darkTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: const ColorScheme.dark(
-    brightness: Brightness.dark,
-    background: darkBgColor,
-    onBackground: darkFontColor,
-    primaryContainer: darkDivColor,
-    onPrimaryContainer: darkFontColor,
-    secondaryContainer: darkLableColor,
-    primary: darkPrimaryColor,
-  ),
-
-  inputDecorationTheme: InputDecorationTheme(
-    fillColor: darkBgColor,
-    filled: true,
-    enabledBorder: InputBorder.none,
-    prefixIconColor: darkLableColor,
-    
-
-  )
-);
+    useMaterial3: true,
+    colorScheme: const ColorScheme.dark(
+      brightness: Brightness.dark,
+      background: darkBgColor,
+      onBackground: darkFontColor,
+      primaryContainer: darkDivColor,
+      onPrimaryContainer: darkFontColor,
+      secondaryContainer: darkLableColor,
+      primary: darkPrimaryColor,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: darkBgColor,
+      filled: true,
+      enabledBorder: InputBorder.none,
+      prefixIconColor: darkLableColor,
+    ));

@@ -13,3 +13,5 @@ const darkFontColor = Color(0xffFFFFFF);
 const darkDivColor = Color(0xff34374B);
 const darkPrimaryColor = Color(0xffFF9900);
 const darkLableColor = Color(0xff9E9E9E);
+
+const greenColor = Color(0xff00D254);
