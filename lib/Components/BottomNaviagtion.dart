@@ -20,8 +20,15 @@ class MyBottomNavigation extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 onTap: (){
                   Get.bottomSheet(
-                  
                     MyBottomSheet(),
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.only(
+                    //     topLeft: Radius.circular(20),
+                    //     topRight: Radius.circular(20),
+                    //   )
+                    // )
                 
                   );
                 },

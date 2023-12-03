@@ -15,3 +15,6 @@ const darkPrimaryColor = Color(0xffFF9900);
 const darkLableColor = Color(0xff9E9E9E);
 
 const greenColor = Color(0xff00D254);
+
+const paymentModeColor = Color(0xff8583FF);
+const paymentResionColor = Color(0xff00D254);
