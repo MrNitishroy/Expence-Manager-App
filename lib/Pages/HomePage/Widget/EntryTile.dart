@@ -52,7 +52,7 @@ class EntryTile extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(100)),
                       child: SvgPicture.asset(
-                        "Assets/Icons/expense.svg",
+                        "Assets/Icons/FoodIcon/food1.svg",
                         width: 30,
                       ),
                     ),
@@ -61,12 +61,11 @@ class EntryTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Buy food items",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
-                        // SizedBox(height: 4),
                         Text(
                           "18 jan 2023",
                           style: TextStyle(
@@ -79,7 +78,7 @@ class EntryTile extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
+                const Text(
                   "-234",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),

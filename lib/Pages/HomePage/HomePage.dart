@@ -1,3 +1,4 @@
+import 'package:expense_manager/Components/BottomNaviagtion.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
@@ -44,12 +45,13 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: MyBottomNavigation(),
       body: Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
           children: [
-            CreditCard(),
-            SizedBox(height: 20),
+            const CreditCard(),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -135,15 +137,22 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               children: [
                 Text("TODAY"),
               ],
             ),
-            EntryTile(),
-            EntryTile(),
-            EntryTile(),
+            const SizedBox(height: 10),
+            const Column(
+              children: [
+                EntryTile(),
+                EntryTile(),
+                EntryTile(),
+                EntryTile(),
+                EntryTile(),
+              ],
+            )
           ],
         ),
       ),

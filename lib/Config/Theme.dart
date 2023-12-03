@@ -32,6 +32,15 @@ var darkTheme = ThemeData(
       secondaryContainer: darkLableColor,
       primary: darkPrimaryColor,
     ),
+    bottomAppBarTheme: BottomAppBarTheme(
+      color: Colors.transparent,
+      
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,
     ),
