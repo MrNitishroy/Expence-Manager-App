@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 70),
               AnimatedContainer(
                 duration: const Duration(seconds: 1),
                 padding: const EdgeInsets.all(20),

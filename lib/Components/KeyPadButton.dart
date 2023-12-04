@@ -1,5 +1,6 @@
 import 'package:expense_manager/Controller/BottomSheetController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class KeyPaddButton extends StatelessWidget {
@@ -12,6 +13,7 @@ class KeyPaddButton extends StatelessWidget {
         Get.put(BottomSheetController());
     return InkWell(
       onTap: () {
+        HapticFeedback.lightImpact();
         if (keyName == ".") {
           if (bottomSheetController.amountValue.value.contains(".")) {
             return;

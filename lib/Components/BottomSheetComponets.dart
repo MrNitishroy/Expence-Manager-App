@@ -1,6 +1,7 @@
 import 'package:expense_manager/Components/KeyPadButton.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -42,22 +43,22 @@ class MyBottomSheet extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ReasionSelector(),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [isExpense ? Text("EXPENSE") : Text("INCOME")],
+                    children: [isExpense ? const Text("EXPENSE") : const Text("INCOME")],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset("Assets/Icons/rupee.svg"),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
-                        "${bottomSheetController.amountValue.value}",
-                        style: TextStyle(
+                        bottomSheetController.amountValue.value,
+                        style: const TextStyle(
                           fontSize: 70,
                           fontWeight: FontWeight.bold,
                         ),
@@ -99,15 +100,15 @@ class MyBottomSheet extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
-                                child: Center(child: Icon(Icons.done)),
+                                child: const Center(child: Icon(Icons.done)),
                               ),
                             )
-                          : SizedBox(),
-                      SizedBox(width: 20),
+                          : const SizedBox(),
+                      const SizedBox(width: 20),
                     ],
                   ),
                   bottomSheetController.isFocus.value
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Column(
                           children: [
                             Row(
@@ -130,9 +131,9 @@ class MyBottomSheet extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
+                                      HapticFeedback.lightImpact();
                                       if (bottomSheetController
-                                              .amountValue.value.length >
-                                          0) {
+                                              .amountValue.value.isNotEmpty) {
                                         bottomSheetController
                                                 .amountValue.value =
                                             bottomSheetController
@@ -147,12 +148,12 @@ class MyBottomSheet extends StatelessWidget {
                                       }
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.all(2),
+                                      margin: const EdgeInsets.all(2),
                                       height: 80,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Color(0xff008BEF)
+                                          color: const Color(0xff008BEF)
                                               .withOpacity(0.2)),
                                       child: Center(
                                         child: SvgPicture.asset(
@@ -188,7 +189,7 @@ class MyBottomSheet extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        Row(
+                                        const Row(
                                           children: [
                                             Expanded(
                                               child: KeyPaddButton(
@@ -257,6 +258,7 @@ class MyBottomSheet extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
+                                      HapticFeedback.lightImpact();
                                       Get.back();
                                     },
                                     child: Container(
@@ -289,6 +291,8 @@ class MyBottomSheet extends StatelessWidget {
   }
 
   Row ReasionSelector() {
+    BottomSheetController bottomSheetController =
+        Get.put(BottomSheetController());
     return Row(
       children: [
         Expanded(
@@ -304,36 +308,31 @@ class MyBottomSheet extends StatelessWidget {
               focusColor: paymentModeColor.withOpacity(0.2),
               icon: Icon(Icons.arrow_drop_down_rounded),
               underline: SizedBox(),
-              value: "Cash",
               isExpanded: true,
+              value: bottomSheetController.paymentModeValue.value,
               iconSize: 25,
-              items: const [
-                DropdownMenuItem(
-                  value: "Cash",
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.wallet),
-                          SizedBox(width: 10),
-                          Text(
-                            "Cash",
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+              items: bottomSheetController.paymentModeData.map((e) => DropdownMenuItem(
+                value: e.value,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(e.icon!),
+                        SizedBox(width: 10),
+                        Text(
+                          e.name!,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                DropdownMenuItem(value: "Card", child: Text("Card")),
-                DropdownMenuItem(value: "UPI", child: Text("UPI")),
-                DropdownMenuItem(
-                  value: "Net Banking",
-                  child: Text("Net Banking"),
-                ),
-              ],
-              onChanged: (s) {},
+              )).toList(),
+              onChanged: (changeValue) {
+                bottomSheetController.paymentModeValue.value = changeValue.toString();
+                print(changeValue);
+              },
             ),
           ),
         ),
@@ -351,37 +350,32 @@ class MyBottomSheet extends StatelessWidget {
               focusColor: paymentResionColor.withOpacity(0.2),
               icon: Icon(Icons.arrow_drop_down_rounded),
               underline: SizedBox(),
-              value: "Cash",
+              value: bottomSheetController.paymentResionValue.value,
               isExpanded: true,
               iconSize: 25,
-              items: const [
-                DropdownMenuItem(
-                  value: "Cash",
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.wallet),
-                          SizedBox(width: 10),
-                          Text(
-                            "Cash",
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+              items: bottomSheetController.payemntResoneData.map((e) => DropdownMenuItem(
+                value: e.value,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(e.icon!),
+                        SizedBox(width: 10),
+                        Text(
+                          e.name!,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                DropdownMenuItem(value: "Card", child: Text("Card")),
-                DropdownMenuItem(value: "UPI", child: Text("UPI")),
-                DropdownMenuItem(
-                  value: "Net Banking",
-                  child: Text("Net Banking"),
-                ),
-              ],
-              onChanged: (s) {},
-            ),
+              )).toList(),
+              onChanged: (changeValue) {
+                bottomSheetController.paymentResionValue.value = changeValue.toString();
+                print(changeValue);
+              },
+          ),
           ),
         )
       ],

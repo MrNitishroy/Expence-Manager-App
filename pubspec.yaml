@@ -67,6 +67,7 @@ flutter:
   assets:
     - Assets/Icons/
     - Assets/Icons/FoodIcon/
+    - Assets/Icons/PyementMode/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
