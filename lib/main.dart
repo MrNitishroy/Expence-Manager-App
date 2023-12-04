@@ -1,6 +1,7 @@
 import 'package:expense_manager/Config/PagePath.dart';
 import 'package:expense_manager/Config/Theme.dart';
 import 'package:expense_manager/Pages/LoginPage/LoginPage.dart';
+import 'package:expense_manager/Pages/SplacePage/SplacePage.dart';
 import 'package:expense_manager/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
       themeMode: ThemeMode.dark,
-      home: LoginPage()
+      home: SplacePage()
     );
   }
 }

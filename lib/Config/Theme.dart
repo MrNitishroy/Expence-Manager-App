@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 var lightTheme = ThemeData(
   useMaterial3: true,
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     filled: true,
     fillColor: lightBgColor,
-    contentPadding: const EdgeInsets.symmetric(
+    contentPadding: EdgeInsets.symmetric(
       vertical: 20,
       horizontal: 20,
     ),
@@ -32,11 +32,7 @@ var darkTheme = ThemeData(
       secondaryContainer: darkLableColor,
       primary: darkPrimaryColor,
     ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-    ),
+
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: darkBgColor,
       filled: true,
