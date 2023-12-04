@@ -4,6 +4,7 @@ import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
+import 'package:expense_manager/Pages/ProfilePage/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
@@ -57,7 +58,8 @@ class HomePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              authController.logOut();
+              // authController.logOut();
+              Get.to(ProfilePage());
             },
             child: Container(
               padding: EdgeInsets.all(10),
