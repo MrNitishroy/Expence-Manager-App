@@ -12,7 +12,7 @@ class LoginForm extends StatelessWidget {
     return Column(
       children: [
          TextField(
-          controller: authController.email,
+          controller: authController.loginEmail,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
               enabledBorder: InputBorder.none,
@@ -23,10 +23,10 @@ class LoginForm extends StatelessWidget {
         ),
         const SizedBox(height: 30),
         TextFormField(
-          controller: authController.password,
+          controller: authController.loginPassword,
           onFieldSubmitted: (s) {
             print("Click on Done button $s ");
-            Get.offAllNamed("/home");
+           authController.loginWithEmailAndPassword();
           },
           decoration: const InputDecoration(
               hintText: "Password",
@@ -47,7 +47,7 @@ class LoginForm extends StatelessWidget {
         InkWell(
           onTap: () {
             // Get.offAllNamed("/home");
-            // authController.loginWithGamil();
+            authController.loginWithEmailAndPassword();
           },
           child: Obx(()=>Container(
             width: 250,

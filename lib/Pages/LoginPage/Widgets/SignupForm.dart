@@ -38,7 +38,6 @@ class SignupForm extends StatelessWidget {
         TextFormField(
           controller: authController.cPassword,
           onFieldSubmitted: (s) {
-            authController.signupWithEmailAndPass();
           },
           decoration: const InputDecoration(
               hintText: "Confirm Password",
@@ -49,7 +48,7 @@ class SignupForm extends StatelessWidget {
         const SizedBox(height: 30),
         Obx(() => InkWell(
           onTap: () {
-            authController.signupWithEmailAndPass();
+            authController.signupWithEmailAndPassword();
           },
           child: Container(
                   width: 250,

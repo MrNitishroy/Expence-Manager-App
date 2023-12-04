@@ -114,47 +114,47 @@ class LoginPage extends StatelessWidget {
                             ),
                             Expanded(
                               child: InkWell(
-                                  onTap: () {
-                                    authController.isLogin.value = false;
-                                  },
-                                  child: Obx(
-                                    () => Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "Sign up",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: authController
-                                                          .isLogin.value
+                                onTap: () {
+                                  authController.isLogin.value = false;
+                                },
+                                child: Obx(
+                                  () => Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Sign up",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color:
+                                                  authController.isLogin.value
                                                       ? Theme.of(context)
                                                           .colorScheme
                                                           .onBackground
                                                       : Theme.of(context)
                                                           .colorScheme
                                                           .primary),
-                                            ),
-                                            SizedBox(height: 10),
-                                            AnimatedContainer(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 200),
-                                              height: 4,
-                                              width:
-                                                  authController.isLogin.value
-                                                      ? 0
-                                                      : 100,
-                                            )
-                                          ],
-                                        )),
-                                  )),
+                                        ),
+                                        SizedBox(height: 10),
+                                        AnimatedContainer(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          duration: Duration(milliseconds: 200),
+                                          height: 4,
+                                          width: authController.isLogin.value
+                                              ? 0
+                                              : 100,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
