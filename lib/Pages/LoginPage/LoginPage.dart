@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/LoginController.dart';
 import 'package:expense_manager/Pages/LoginPage/Widgets/LoginForm.dart';
 import 'package:expense_manager/Pages/LoginPage/Widgets/SignupForm.dart';
@@ -10,15 +11,13 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginController loginController = Get.put(LoginController());
+    AuthController authController = Get.put(AuthController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
-            child: Column(
-              
-              children: [
+            child: Column(children: [
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +73,7 @@ class LoginPage extends StatelessWidget {
                             Expanded(
                               child: InkWell(
                                   onTap: () {
-                                    loginController.isLogin.value = true;
+                                    authController.isLogin.value = true;
                                   },
                                   child: Obx(
                                     () => Container(
@@ -84,7 +83,7 @@ class LoginPage extends StatelessWidget {
                                             Text("Login",
                                                 style: TextStyle(
                                                     fontSize: 18,
-                                                    color: loginController
+                                                    color: authController
                                                             .isLogin.value
                                                         ? Theme.of(context)
                                                             .colorScheme
@@ -104,9 +103,10 @@ class LoginPage extends StatelessWidget {
                                               duration: const Duration(
                                                   milliseconds: 200),
                                               height: 4,
-                                              width: loginController.isLogin.value
-                                                  ? 100
-                                                  : 0,
+                                              width:
+                                                  authController.isLogin.value
+                                                      ? 100
+                                                      : 0,
                                             )
                                           ],
                                         )),
@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
                             Expanded(
                               child: InkWell(
                                   onTap: () {
-                                    loginController.isLogin.value = false;
+                                    authController.isLogin.value = false;
                                   },
                                   child: Obx(
                                     () => Container(
@@ -126,7 +126,7 @@ class LoginPage extends StatelessWidget {
                                               "Sign up",
                                               style: TextStyle(
                                                   fontSize: 18,
-                                                  color: loginController
+                                                  color: authController
                                                           .isLogin.value
                                                       ? Theme.of(context)
                                                           .colorScheme
@@ -147,9 +147,10 @@ class LoginPage extends StatelessWidget {
                                               duration:
                                                   Duration(milliseconds: 200),
                                               height: 4,
-                                              width: loginController.isLogin.value
-                                                  ? 0
-                                                  : 100,
+                                              width:
+                                                  authController.isLogin.value
+                                                      ? 0
+                                                      : 100,
                                             )
                                           ],
                                         )),
@@ -158,7 +159,7 @@ class LoginPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        Obx(() => loginController.isLogin.value
+                        Obx(() => authController.isLogin.value
                             ? LoginForm()
                             : SignupForm())
                       ],
@@ -166,6 +167,41 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Obx(() => InkWell(
+                        onTap: () {
+                          authController.loginWithGamil();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                          ),
+                          child: authController.isLoading.value
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Row(
+                                  children: [
+                                    SvgPicture.asset("Assets/Icons/google.svg"),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    const Text(
+                                      "Login With Google  ",
+                                      style: TextStyle(fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                        ),
+                      ))
+                ],
+              )
             ]),
           ),
         ),

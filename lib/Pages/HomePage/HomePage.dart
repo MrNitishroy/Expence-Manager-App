@@ -1,16 +1,19 @@
 import 'package:expense_manager/Components/BottomNaviagtion.dart';
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -50,10 +53,12 @@ class HomePage extends StatelessWidget {
           ],
         ),
         actions: [
-          Container(
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              onTap: () {},
+          InkWell(
+            onTap: () {
+              authController.logOut();
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
               child: SvgPicture.asset("Assets/Icons/menu.svg"),
             ),
           ),

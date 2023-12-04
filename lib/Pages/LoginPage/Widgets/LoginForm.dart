@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -7,11 +8,13 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
     return Column(
       children: [
-        const TextField(
+         TextField(
+          controller: authController.email,
           textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
               enabledBorder: InputBorder.none,
               hintText: "Email",
               prefixIcon: Icon(
@@ -20,6 +23,7 @@ class LoginForm extends StatelessWidget {
         ),
         const SizedBox(height: 30),
         TextFormField(
+          controller: authController.password,
           onFieldSubmitted: (s) {
             print("Click on Done button $s ");
             Get.offAllNamed("/home");
@@ -41,17 +45,17 @@ class LoginForm extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         InkWell(
-          onTap: (){
-              Get.offAllNamed("/home");
-          }
-          ,
-          child: Container(
+          onTap: () {
+            // Get.offAllNamed("/home");
+            // authController.loginWithGamil();
+          },
+          child: Obx(()=>Container(
             width: 250,
             height: 50,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Theme.of(context).colorScheme.primary),
-            child: Row(
+            child: authController.isLoading.value ?  Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onBackground,),) : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset('Assets/Icons/lock.svg',
@@ -65,7 +69,7 @@ class LoginForm extends StatelessWidget {
                 )
               ],
             ),
-          ),
+          ),)
         )
       ],
     );
