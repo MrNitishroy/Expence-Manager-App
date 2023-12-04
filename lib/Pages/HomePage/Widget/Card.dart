@@ -1,12 +1,18 @@
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/CreditcardController.dart';
+import 'package:expense_manager/Controller/DbController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class CreditCard extends StatelessWidget {
   const CreditCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CreditcardController creditcardController =
+        Get.put(CreditcardController());
+    DbController dbController = Get.put(DbController());
     return Container(
       height: 200,
       padding: EdgeInsets.all(10),
@@ -34,24 +40,24 @@ class CreditCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  DropdownButton(
+                  Obx(() => DropdownButton(
                     underline: SizedBox(),
                     dropdownColor:
                         Theme.of(context).colorScheme.primaryContainer,
                     elevation: 0,
-                    value: "Personal",
+                    value: dbController.accountSelected.value,
                     enableFeedback: true,
                     borderRadius: BorderRadius.circular(10),
-                    items: const [
-                      DropdownMenuItem(
-                          child: Text("Personal"), value: "Personal"),
-                      DropdownMenuItem(
-                          child: Text("Rent Manage"), value: "RentMange"),
-                      DropdownMenuItem(
-                          child: Text("Kotak Bank"), value: "Kotakbank"),
-                    ],
-                    onChanged: (s) {},
-                  )
+                    items: creditcardController.accountData
+                        .map((e) => DropdownMenuItem(
+                              value: e.value,
+                              child: Text("${e.name}"),
+                            ))
+                        .toList(),
+                    onChanged: (selected) {
+                      dbController.accountSelected.value = selected.toString();
+                    },
+                  ))
                 ],
               ),
               SizedBox(height: 6),

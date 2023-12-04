@@ -11,7 +11,7 @@ class LoginForm extends StatelessWidget {
     AuthController authController = Get.put(AuthController());
     return Column(
       children: [
-         TextField(
+        TextField(
           controller: authController.loginEmail,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
@@ -26,7 +26,7 @@ class LoginForm extends StatelessWidget {
           controller: authController.loginPassword,
           onFieldSubmitted: (s) {
             print("Click on Done button $s ");
-           authController.loginWithEmailAndPassword();
+            authController.loginWithEmailAndPassword();
           },
           decoration: const InputDecoration(
               hintText: "Password",
@@ -45,32 +45,40 @@ class LoginForm extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         InkWell(
-          onTap: () {
-            // Get.offAllNamed("/home");
-            authController.loginWithEmailAndPassword();
-          },
-          child: Obx(()=>Container(
-            width: 250,
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).colorScheme.primary),
-            child: authController.isLoading.value ?  Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onBackground,),) : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('Assets/Icons/lock.svg',
-                    color: Theme.of(context).colorScheme.onBackground),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "LOGIN",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),)
-        )
+            onTap: () {
+              authController.loginWithEmailAndPassword();
+            },
+            child: Obx(
+              () => Container(
+                width: 250,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.primary),
+                child: authController.isLoading.value
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('Assets/Icons/lock.svg',
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text(
+                            "LOGIN",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+              ),
+            ))
       ],
     );
   }
