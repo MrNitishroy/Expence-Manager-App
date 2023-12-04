@@ -47,9 +47,7 @@ class MyBottomSheet extends StatelessWidget {
                   SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                     isExpense?  Text("EXPENSE") : Text("INCOME")
-                    ],
+                    children: [isExpense ? Text("EXPENSE") : Text("INCOME")],
                   ),
                   SizedBox(height: 5),
                   Row(
@@ -295,53 +293,97 @@ class MyBottomSheet extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: paymentModeColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10)),
-            height: 50,
-            child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+              borderRadius: BorderRadius.circular(10),
+              color: paymentModeColor.withOpacity(0.2),
+            ),
+            child: DropdownButton(
+              borderRadius: BorderRadius.circular(10),
+              dropdownColor: paymentModeColor.withOpacity(0.2),
+              focusColor: paymentModeColor.withOpacity(0.2),
+              icon: Icon(Icons.arrow_drop_down_rounded),
+              underline: SizedBox(),
+              value: "Cash",
+              isExpanded: true,
+              iconSize: 25,
+              items: const [
+                DropdownMenuItem(
+                  value: "Cash",
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.wallet),
-                      SizedBox(width: 10),
-                      Text(
-                        "Cash",
-                        style: TextStyle(fontSize: 15),
+                      Row(
+                        children: [
+                          Icon(Icons.wallet),
+                          SizedBox(width: 10),
+                          Text(
+                            "Cash",
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_drop_down_rounded)
-                ]),
+                ),
+                DropdownMenuItem(value: "Card", child: Text("Card")),
+                DropdownMenuItem(value: "UPI", child: Text("UPI")),
+                DropdownMenuItem(
+                  value: "Net Banking",
+                  child: Text("Net Banking"),
+                ),
+              ],
+              onChanged: (s) {},
+            ),
           ),
         ),
-        SizedBox(width: 40),
+        SizedBox(width: 30),
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: paymentResionColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10)),
-            height: 50,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+              borderRadius: BorderRadius.circular(10),
+              color: paymentResionColor.withOpacity(0.2),
+            ),
+            child: DropdownButton(
+              borderRadius: BorderRadius.circular(10),
+              dropdownColor: paymentResionColor.withOpacity(0.2),
+              focusColor: paymentResionColor.withOpacity(0.2),
+              icon: Icon(Icons.arrow_drop_down_rounded),
+              underline: SizedBox(),
+              value: "Cash",
+              isExpanded: true,
+              iconSize: 25,
+              items: const [
+                DropdownMenuItem(
+                  value: "Cash",
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.food_bank),
-                      SizedBox(width: 10),
-                      Text(
-                        "Food",
-                        style: TextStyle(fontSize: 15),
+                      Row(
+                        children: [
+                          Icon(Icons.wallet),
+                          SizedBox(width: 10),
+                          Text(
+                            "Cash",
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_drop_down_rounded)
-                ]),
+                ),
+                DropdownMenuItem(value: "Card", child: Text("Card")),
+                DropdownMenuItem(value: "UPI", child: Text("UPI")),
+                DropdownMenuItem(
+                  value: "Net Banking",
+                  child: Text("Net Banking"),
+                ),
+              ],
+              onChanged: (s) {},
+            ),
           ),
-        ),
+        )
       ],
     );
   }
