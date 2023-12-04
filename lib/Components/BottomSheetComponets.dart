@@ -1,5 +1,6 @@
 import 'package:expense_manager/Components/KeyPadButton.dart';
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/DbController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,13 +9,15 @@ import 'package:get/get.dart';
 import '../Controller/BottomSheetController.dart';
 
 class MyBottomSheet extends StatelessWidget {
-  final bool isExpense;
-  const MyBottomSheet({super.key, required this.isExpense});
+  final bool isIncome;
+  const MyBottomSheet({super.key, required this.isIncome});
 
   @override
   Widget build(BuildContext context) {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
+        bottomSheetController.isIncome.value = isIncome;
+        DbController dbController = Get.put(DbController());
     return Obx(
       () => AnimatedContainer(
         duration: Duration(milliseconds: 200),
@@ -48,7 +51,7 @@ class MyBottomSheet extends StatelessWidget {
                   const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [isExpense ? const Text("EXPENSE") : const Text("INCOME")],
+                    children: [isIncome ? const Text("INCOME") : const Text("EXPENSE")],
                   ),
                   const SizedBox(height: 5),
                   Row(
@@ -71,6 +74,7 @@ class MyBottomSheet extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextField(
+                          controller: bottomSheetController.comment,
                           onTap: () {
                             bottomSheetController.isFocus.value = true;
                           },
@@ -259,6 +263,7 @@ class MyBottomSheet extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       HapticFeedback.lightImpact();
+                                      dbController.addTransaction();
                                       Get.back();
                                     },
                                     child: Container(

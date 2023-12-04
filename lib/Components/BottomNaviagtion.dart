@@ -22,7 +22,7 @@ class MyBottomNavigation extends StatelessWidget {
               onTap: () {
                 Get.bottomSheet(
                   MyBottomSheet(
-                    isExpense: false,
+                    isIncome: false,
                   ),
                   backgroundColor: Colors.transparent,
                   isScrollControlled: true,
@@ -67,7 +67,7 @@ class MyBottomNavigation extends StatelessWidget {
               onTap: () {
                 Get.bottomSheet(
                   MyBottomSheet(
-                    isExpense: true,
+                    isIncome: true,
                   ),
                   backgroundColor: Colors.transparent,
                   isScrollControlled: true,

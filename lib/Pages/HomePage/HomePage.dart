@@ -1,6 +1,7 @@
 import 'package:expense_manager/Components/BottomNaviagtion.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
+import 'package:expense_manager/Controller/DbController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.put(AuthController());
+    DbController dbController = Get.put(DbController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -102,7 +104,7 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                            Text(
+                            const Text(
                               "23543",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
@@ -130,7 +132,7 @@ class HomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100)),
                           child: SvgPicture.asset("Assets/Icons/expense.svg"),
                         ),
-                        SizedBox(width: 10),
+                      const  SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +145,7 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                            Text(
+                           const  Text(
                               "23543",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
@@ -163,15 +165,15 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            const Column(
-              children: [
-                EntryTile(),
-                EntryTile(),
-                EntryTile(),
-                EntryTile(),
-                EntryTile(),
-              ],
-            )
+            Obx(
+              () => Column(
+                children: dbController.transactionList
+                    .map(
+                      (element) => EntryTile(),
+                    )
+                    .toList(),
+              ),
+            ),
           ],
         ),
       ),

@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 class BottomSheetController extends GetxController {
   RxBool isFocus = false.obs;
   FocusNode focusNode = FocusNode();
-
+  RxBool isIncome = false.obs;
   RxString amountValue = "".obs;
-
   RxString paymentModeValue = "cash".obs;
   RxString paymentResionValue = "food".obs;
-
+  TextEditingController comment = TextEditingController();
   List paymentModeData = [
     DropDownModel(
       name: "Cash",

@@ -1,24 +1,33 @@
+import 'dart:ffi';
 
 class TransactionModel {
   String? id;
   String? date;
   int? amount;
-  String? type;
+  String? paymentType;
   String? category;
   String? comment;
-  String? paymentType;
+  bool? isIncome;
   String? iconPath;
 
-  TransactionModel({this.id, this.date, this.amount, this.type, this.category, this.comment, this.paymentType, this.iconPath});
+  TransactionModel(
+      {this.id,
+      this.date,
+      this.amount,
+      this.paymentType,
+      this.category,
+      this.isIncome,
+      this.comment,
+      this.iconPath});
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     date = json["date"];
     amount = json["amount"];
-    type = json["type"];
+    paymentType = json["paymentType"];
     category = json["category"];
     comment = json["comment"];
-    paymentType = json["paymentType"];
+    isIncome = json["isIncome"];
     iconPath = json["iconPath"];
   }
 
@@ -27,10 +36,10 @@ class TransactionModel {
     _data["id"] = id;
     _data["date"] = date;
     _data["amount"] = amount;
-    _data["type"] = type;
+    _data["paymentType"] = paymentType;
     _data["category"] = category;
     _data["comment"] = comment;
-    _data["paymentType"] = paymentType;
+    _data["isIncome"] = isIncome;
     _data["iconPath"] = iconPath;
     return _data;
   }
