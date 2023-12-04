@@ -17,16 +17,16 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         primary: true,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(5.0),
-          child: LinearProgressIndicator(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-            color: greenColor,
-          ),
-        ),
+        // bottom: const PreferredSize(
+        //   preferredSize: Size.fromHeight(5.0),
+        //   child: LinearProgressIndicator(
+        //     borderRadius: BorderRadius.only(
+        //       bottomLeft: Radius.circular(10),
+        //       bottomRight: Radius.circular(10),
+        //     ),
+        //     color: greenColor,
+        //   ),
+        // ),
         title: Row(
           children: [
             Container(

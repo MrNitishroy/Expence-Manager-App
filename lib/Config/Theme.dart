@@ -32,19 +32,12 @@ var darkTheme = ThemeData(
       secondaryContainer: darkLableColor,
       primary: darkPrimaryColor,
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
-      color: Colors.transparent,
-      
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
-      elevation: 0,
-
+      shadowColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-    ),
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       fillColor: darkBgColor,
       filled: true,
       enabledBorder: InputBorder.none,

@@ -42,7 +42,7 @@ class CreditCard extends StatelessWidget {
                     value: "Personal",
                     enableFeedback: true,
                     borderRadius: BorderRadius.circular(10),
-                    items: [
+                    items: const [
                       DropdownMenuItem(
                           child: Text("Personal"), value: "Personal"),
                       DropdownMenuItem(
