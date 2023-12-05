@@ -45,6 +45,7 @@ dependencies:
   fluttertoast: ^8.2.4
   uuid: ^4.2.1
   shared_preferences: ^2.2.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

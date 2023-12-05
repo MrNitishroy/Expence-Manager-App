@@ -55,7 +55,7 @@ class SignupForm extends StatelessWidget {
         const SizedBox(height: 30),
         Obx(() => InkWell(
           onTap: () {
-            authController.signupWithEmailAndPassword();
+            authController.signupWithEmailAndPassword(context);
           },
           child: Container(
                   width: 250,

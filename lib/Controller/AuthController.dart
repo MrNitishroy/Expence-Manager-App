@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -36,7 +37,7 @@ class AuthController extends GetxController {
     loginPassword.text = prefs.getString("password") ?? "";
   }
 
-  void signupWithEmailAndPassword() async {
+  void signupWithEmailAndPassword(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     pwdError.value = "";
     if (email.text.isEmpty || password.text.isEmpty || cPassword.text.isEmpty) {
@@ -50,7 +51,7 @@ class AuthController extends GetxController {
               email: email.text, password: password.text);
 
           successMessage("🎉 Account Created Successfully");
-          initDatabase();
+          initDatabase(context);
           Get.offNamed("/home");
           prefs.setString("email", email.text);
           prefs.setString("password", password.text);
@@ -85,36 +86,11 @@ class AuthController extends GetxController {
         Get.offNamed("/home");
         prefs.setString("email", loginEmail.text);
         prefs.setString("password", loginPassword.text);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          errorMessage("😍 No user found for that email.");
-        } else if (e.code == 'wrong-password') {
-          errorMessage("😍 Wrong password provided for that user.");
-        }
+      } catch (e) {
+        errorMessage("😭 Invalid Email or Password");
       }
       isLoading.value = false;
     }
-  }
-
-  void loginWithGamil() async {
-    isLoading.value = true;
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    Get.snackbar("Success", "Account Created Successfully");
-    Get.offNamed("/home");
-    isLoading.value = false;
   }
 
   void logOut() async {
@@ -125,16 +101,20 @@ class AuthController extends GetxController {
 
 // Data base work
 
-  void initDatabase() async {
+  void initDatabase(BuildContext context) async {
+      String time = TimeOfDay.now().format(context);
+    String date = DateFormat("dd MMM yyyy").format(
+      DateTime.now(),
+    );
     var uId = Uuid().v4();
     var initAccount = AccountModel(
       id: uId,
       name: "Personal",
-      date: "",
+      date: date,
       expense: 00,
       income: 00,
       total: 00,
-      time: "",
+      time: time,
     );
     await db
         .collection("users")

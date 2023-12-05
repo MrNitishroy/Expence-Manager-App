@@ -263,7 +263,7 @@ class MyBottomSheet extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       HapticFeedback.lightImpact();
-                                      dbController.addTransaction();
+                                      dbController.addTransaction(context);
                                       Get.back();
                                     },
                                     child: Container(

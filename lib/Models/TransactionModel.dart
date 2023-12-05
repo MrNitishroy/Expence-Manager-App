@@ -1,8 +1,8 @@
-import 'dart:ffi';
 
 class TransactionModel {
   String? id;
   String? date;
+  String? time;
   int? amount;
   String? paymentType;
   String? category;
@@ -13,6 +13,7 @@ class TransactionModel {
   TransactionModel(
       {this.id,
       this.date,
+      this.time,
       this.amount,
       this.paymentType,
       this.category,
@@ -23,6 +24,7 @@ class TransactionModel {
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     date = json["date"];
+    date = json["time"];
     amount = json["amount"];
     paymentType = json["paymentType"];
     category = json["category"];
@@ -35,6 +37,7 @@ class TransactionModel {
     final Map<String, dynamic> _data = <String, dynamic>{};
     _data["id"] = id;
     _data["date"] = date;
+    _data["time"] = time;
     _data["amount"] = amount;
     _data["paymentType"] = paymentType;
     _data["category"] = category;

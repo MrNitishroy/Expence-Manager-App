@@ -3,7 +3,9 @@ import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
 import 'package:expense_manager/Models/TransactionModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'BottomSheetController.dart';
 
@@ -16,12 +18,13 @@ class DbController extends GetxController {
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
   RxList<AccountModel> accountList = RxList<AccountModel>();
 
-@override
+  @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getTransactionList();
   }
+
   void getTransactionList() async {
     transactionList.clear();
     db
@@ -38,7 +41,12 @@ class DbController extends GetxController {
     });
   }
 
-  void addTransaction() async {
+  void addTransaction(BuildContext context) async {
+    String time = TimeOfDay.now().format(context);
+    String date = DateFormat("dd MMM yyyy").format(
+      DateTime.now(),
+    );
+
     var transactionModel = TransactionModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       amount: 23,
@@ -63,7 +71,8 @@ class DbController extends GetxController {
 
   void getAccountsList() async {
     accountList.clear();
-    db.collection("users")
+    db
+        .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accountsList")
         .get()
@@ -74,15 +83,17 @@ class DbController extends GetxController {
     });
   }
 
-  void addNewAccount() async {
+  void addNewAccount(BuildContext context) async {
     var newAccount = AccountModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: bottomSheetController.comment.text,
-      expense: 1,
-      income: 1,
-      total: 1,
-      time: "",
-      date: DateTime.now().toString(),
+      expense: 0,
+      income: 0,
+      total: 0,
+      time:  TimeOfDay.now().format(context),
+      date: DateFormat("dd MMM yyyy").format(
+        DateTime.now(),
+      ),
     );
     await db
         .collection("users")
@@ -93,7 +104,4 @@ class DbController extends GetxController {
         );
     successMessage("😍 Transaction Added");
   }
-
-
-
 }

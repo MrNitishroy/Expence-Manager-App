@@ -7,6 +7,7 @@ import 'package:expense_manager/Pages/ProfilePage/PersonalInfomation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -77,7 +78,11 @@ class ProfilePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
               ),
             ),
-           
+            ElevatedButton(
+                onPressed: () {
+                 
+                },
+                child: Text("Time Button")),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

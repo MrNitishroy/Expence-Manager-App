@@ -168,40 +168,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Obx(() => InkWell(
-                        onTap: () {
-                          authController.loginWithGamil();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                          ),
-                          child: authController.isLoading.value
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Row(
-                                  children: [
-                                    SvgPicture.asset("Assets/Icons/google.svg"),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    const Text(
-                                      "Login With Google  ",
-                                      style: TextStyle(fontSize: 15),
-                                    )
-                                  ],
-                                ),
-                        ),
-                      ))
-                ],
-              )
+            
             ]),
           ),
         ),
