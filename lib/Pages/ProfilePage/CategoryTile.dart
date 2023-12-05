@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../Controller/AccountController.dart';
 import '../../Controller/BottomSheetController.dart';
 
 class CategoryTile extends StatelessWidget {
@@ -11,6 +12,7 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
+        AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -63,9 +65,10 @@ class CategoryTile extends StatelessWidget {
               children: [
                 const Icon(Icons.add),
                 const SizedBox(width: 10),
-                const Expanded(
+                 Expanded(
                     child: TextField(
-                  decoration: InputDecoration(
+                      controller: accountCntroller.category,
+                  decoration: const InputDecoration(
                     filled: false,
                     enabledBorder: InputBorder.none,
                     border: InputBorder.none,
@@ -73,6 +76,9 @@ class CategoryTile extends StatelessWidget {
                   ),
                 )),
                 InkWell(
+                  onTap: () {
+                    accountCntroller.addNewCategory();
+                  },
                   child: Container(
                     width: 30,
                     height: 30,

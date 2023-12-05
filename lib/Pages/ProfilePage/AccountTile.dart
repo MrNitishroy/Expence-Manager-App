@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../Controller/AccountController.dart';
 import '../../Controller/CreditcardController.dart';
 
 class AccountTile extends StatelessWidget {
@@ -11,13 +12,13 @@ class AccountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CreditcardController creditcardController = Get.put(CreditcardController());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: ExpansionTile(
-        
         collapsedBackgroundColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         shape: Border(),
@@ -27,8 +28,9 @@ class AccountTile extends StatelessWidget {
         ),
         title: Text("Your Accounts"),
         children: [
-          Column(
-              children: creditcardController.accountData
+          Obx(
+            () => Column(
+              children: accountCntroller.accountData
                   .map(
                     (e) => ListTile(
                         title: Text(e.name!),
@@ -48,17 +50,24 @@ class AccountTile extends StatelessWidget {
                                     .secondaryContainer,
                               ),
                               SizedBox(width: 20),
-                              Icon(
-                                Icons.delete_rounded,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
+                              InkWell(
+                                onTap: () {
+                                  accountCntroller.deleteAccount(e.name!);
+                                },
+                                child: Icon(
+                                  Icons.delete_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
                               ),
                             ],
                           ),
                         )),
                   )
-                  .toList()),
+                  .toList(),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: Row(
@@ -67,9 +76,10 @@ class AccountTile extends StatelessWidget {
               children: [
                 const Icon(Icons.add),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                     child: TextField(
-                  decoration: InputDecoration(
+                  controller: accountCntroller.accountName,
+                  decoration: const InputDecoration(
                     filled: false,
                     enabledBorder: InputBorder.none,
                     border: InputBorder.none,
@@ -77,6 +87,9 @@ class AccountTile extends StatelessWidget {
                   ),
                 )),
                 InkWell(
+                  onTap: () {
+                    accountCntroller.addNewAccount(context);
+                  },
                   child: Container(
                     width: 30,
                     height: 30,

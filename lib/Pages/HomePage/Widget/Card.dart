@@ -1,4 +1,5 @@
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/CreditcardController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class CreditCard extends StatelessWidget {
   Widget build(BuildContext context) {
     CreditcardController creditcardController =
         Get.put(CreditcardController());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     DbController dbController = Get.put(DbController());
     return Container(
       height: 200,
@@ -46,11 +48,12 @@ class CreditCard extends StatelessWidget {
                         Theme.of(context).colorScheme.primaryContainer,
                     elevation: 0,
                     value: dbController.accountSelected.value,
+                    hint: Text("Select Account"),
                     enableFeedback: true,
                     borderRadius: BorderRadius.circular(10),
-                    items: creditcardController.accountData
+                    items: accountCntroller.accountData
                         .map((e) => DropdownMenuItem(
-                              value: e.value,
+                              value: e.name,
                               child: Text("${e.name}"),
                             ))
                         .toList(),

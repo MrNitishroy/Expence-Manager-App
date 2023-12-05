@@ -14,7 +14,7 @@ class DbController extends GetxController {
       Get.put(BottomSheetController());
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
-  RxString accountSelected = "personal".obs;
+  RxString accountSelected = "Personal".obs;
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
   RxList<AccountModel> accountList = RxList<AccountModel>();
 
@@ -83,25 +83,5 @@ class DbController extends GetxController {
     });
   }
 
-  void addNewAccount(BuildContext context) async {
-    var newAccount = AccountModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: bottomSheetController.comment.text,
-      expense: 0,
-      income: 0,
-      total: 0,
-      time:  TimeOfDay.now().format(context),
-      date: DateFormat("dd MMM yyyy").format(
-        DateTime.now(),
-      ),
-    );
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accountsList")
-        .add(
-          newAccount.toJson(),
-        );
-    successMessage("😍 Transaction Added");
-  }
+ 
 }
