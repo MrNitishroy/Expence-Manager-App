@@ -22,27 +22,48 @@ class LoginForm extends StatelessWidget {
               )),
         ),
         const SizedBox(height: 30),
-        TextFormField(
+        Obx(() => TextFormField(
+          obscureText: authController.ispwdHide.value,
           controller: authController.loginPassword,
           onFieldSubmitted: (s) {
             print("Click on Done button $s ");
             authController.loginWithEmailAndPassword();
           },
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
               hintText: "Password",
+              suffix: authController.ispwdHide.value
+                  ? InkWell(
+                      onTap: () {
+                        authController.ispwdHide.value =
+                            !authController.ispwdHide.value;
+                      },
+                      child: const Icon(Icons.visibility_off))
+                  : InkWell(
+                      onTap: () {
+                        authController.ispwdHide.value =
+                            !authController.ispwdHide.value;
+                      },
+                      child: const Icon(Icons.visibility)),
               prefixIcon: Icon(
                 Icons.lock_sharp,
               )),
-        ),
-        const SizedBox(height: 20),
-        const Text(
-          "Forgot your password?",
-          style: TextStyle(
-              color: Colors.blue,
-              decoration: TextDecoration.underline,
-              decorationColor: Colors.blue,
-              fontSize: 15),
-        ),
+        ),),
+        const SizedBox(height: 10),
+        // const Text(
+        //   "Forgot your password?",
+        //   style: TextStyle(
+        //       color: Colors.blue,
+        //       decoration: TextDecoration.underline,
+        //       decorationColor: Colors.blue,
+        //       fontSize: 15),
+        // ),
+        Row(children: [
+          Obx(() => Checkbox(value: authController.remenberMe.value, onChanged: (value) {
+            authController.remenberMe.value = value!;
+          }),),
+          Text("Remember me")
+
+        ],),
         const SizedBox(height: 20),
         InkWell(
             onTap: () {

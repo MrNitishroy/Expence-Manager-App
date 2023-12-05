@@ -34,7 +34,7 @@ class SignupForm extends StatelessWidget {
                 )),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         TextFormField(
           controller: authController.cPassword,
           onFieldSubmitted: (s) {
@@ -45,6 +45,13 @@ class SignupForm extends StatelessWidget {
                 Icons.lock_sharp,
               )),
         ),
+          Row(children: [
+          Obx(() => Checkbox(value: authController.remenberMe.value, onChanged: (value) {
+            authController.remenberMe.value = value!;
+          }),),
+          Text("Remember me")
+
+        ],),
         const SizedBox(height: 30),
         Obx(() => InkWell(
           onTap: () {

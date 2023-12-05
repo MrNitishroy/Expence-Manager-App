@@ -4,10 +4,9 @@ import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class AuthController extends GetxController {
@@ -19,10 +18,26 @@ class AuthController extends GetxController {
   TextEditingController cPassword = TextEditingController();
   RxString pwdError = "".obs;
   RxBool isLoading = false.obs;
+  RxBool ispwdHide = true.obs;
+  RxBool remenberMe = true.obs;
   final auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    fillData();
+  }
+
+  void fillData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginEmail.text = prefs.getString("email") ?? "";
+    loginPassword.text = prefs.getString("password") ?? "";
+  }
+
   void signupWithEmailAndPassword() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     pwdError.value = "";
     if (email.text.isEmpty || password.text.isEmpty || cPassword.text.isEmpty) {
       errorMessage("😎 All fields are required");
@@ -33,9 +48,12 @@ class AuthController extends GetxController {
         try {
           await auth.createUserWithEmailAndPassword(
               email: email.text, password: password.text);
+
           successMessage("🎉 Account Created Successfully");
           initDatabase();
           Get.offNamed("/home");
+          prefs.setString("email", email.text);
+          prefs.setString("password", password.text);
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             errorMessage("🔒 weak password");
@@ -54,6 +72,7 @@ class AuthController extends GetxController {
   }
 
   void loginWithEmailAndPassword() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (loginEmail.text.isEmpty || loginPassword.text.isEmpty) {
       errorMessage("😎 All fields are required");
       return;
@@ -64,6 +83,8 @@ class AuthController extends GetxController {
             email: loginEmail.text, password: loginPassword.text);
         successMessage("🎉 Login Successfully");
         Get.offNamed("/home");
+        prefs.setString("email", loginEmail.text);
+        prefs.setString("password", loginPassword.text);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           errorMessage("😍 No user found for that email.");
@@ -74,6 +95,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
+
   void loginWithGamil() async {
     isLoading.value = true;
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -98,25 +120,28 @@ class AuthController extends GetxController {
   void logOut() async {
     await auth.signOut();
     Get.offNamed("/authPage");
+    successMessage("😭Logout");
   }
 
+// Data base work
 
-
-// Data base work 
-
-void initDatabase() async {
-  var uId = Uuid().v4();
-  var initAccount = AccountModel(
-    id: uId,
-    name:"Personal",
-    date: "",
-    expense: 00,
-    income: 00,
-    total: 00,
-    time: "",
-  );
-  await db.collection("users").doc(auth.currentUser!.uid).collection("accounts").doc("personal").set(initAccount.toJson());
-  successMessage("🪲 DB INIT");
-}
-
+  void initDatabase() async {
+    var uId = Uuid().v4();
+    var initAccount = AccountModel(
+      id: uId,
+      name: "Personal",
+      date: "",
+      expense: 00,
+      income: 00,
+      total: 00,
+      time: "",
+    );
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("accounts")
+        .doc("personal")
+        .set(initAccount.toJson());
+    successMessage("🪲 DB INIT");
+  }
 }
