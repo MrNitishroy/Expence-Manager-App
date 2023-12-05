@@ -171,7 +171,12 @@ class HomePage extends StatelessWidget {
               () => Column(
                 children: dbController.transactionList
                     .map(
-                      (element) => EntryTile(),
+                      (e) => EntryTile(
+                        amount: e.amount.toString(),
+                        comment: e.comment.toString(),
+                        date: e.date.toString(),
+                        isIncome: e.isIncome!,
+                      ),
                     )
                     .toList(),
               ),

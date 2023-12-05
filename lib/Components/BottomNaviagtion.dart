@@ -1,5 +1,6 @@
 import 'package:expense_manager/Components/BottomSheetComponets.dart';
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/BottomSheetController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,8 @@ class MyBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BottomSheetController bottomSheetController =
+        Get.put(BottomSheetController());
     return Container(
       // color: Colors.red,
       height: 60,
@@ -20,9 +23,10 @@ class MyBottomNavigation extends StatelessWidget {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
+                
                 Get.bottomSheet(
                   MyBottomSheet(
-                    isIncome: false,
+                    isIncome: true,
                   ),
                   backgroundColor: Colors.transparent,
                   isScrollControlled: true,
@@ -65,9 +69,10 @@ class MyBottomNavigation extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
+               
                 Get.bottomSheet(
                   MyBottomSheet(
-                    isIncome: true,
+                    isIncome: false,
                   ),
                   backgroundColor: Colors.transparent,
                   isScrollControlled: true,

@@ -4,7 +4,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EntryTile extends StatelessWidget {
-  const EntryTile({super.key});
+  final String comment;
+  final String date;
+  final bool isIncome;
+  final String amount;
+  const EntryTile({
+    super.key,
+    required this.comment,
+    required this.date,
+    required this.isIncome,
+    required this.amount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +26,7 @@ class EntryTile extends StatelessWidget {
               extentRatio: 0.4,
               children: [
                 SlidableAction(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)),
                   onPressed: (conte) {},
@@ -25,9 +35,10 @@ class EntryTile extends StatelessWidget {
                   icon: Icons.edit,
                 ),
                 SlidableAction(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
                   onPressed: (s) {},
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
@@ -35,39 +46,42 @@ class EntryTile extends StatelessWidget {
                 ),
               ]),
           child: Container(
-            padding: EdgeInsets.all(15),
-            // height: 100,
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).colorScheme.primaryContainer),
-      
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: isIncome
+                              ? greenColor
+                              : Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(100)),
                       child: SvgPicture.asset(
                         "Assets/Icons/FoodIcon/food1.svg",
                         width: 30,
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Buy food items",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+                        Text(
+                          comment,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                         Text(
-                          "18 jan 2023",
+                          date,
                           style: TextStyle(
                               fontSize: 12,
                               color: Theme.of(context)
@@ -78,10 +92,24 @@ class EntryTile extends StatelessWidget {
                     )
                   ],
                 ),
-                const Text(
-                  "-234",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
+                Row(
+                  children: [
+                    isIncome ? const Text(
+                      "+",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                    ):const Text(
+                      "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Text(
+                      amount,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ],
+                )
               ],
             ),
           )),
