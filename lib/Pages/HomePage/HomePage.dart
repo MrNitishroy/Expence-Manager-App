@@ -1,5 +1,6 @@
 import 'package:expense_manager/Components/BottomNaviagtion.dart';
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthController authController = Get.put(AuthController());
     DbController dbController = Get.put(DbController());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -107,11 +109,11 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                            const Text(
-                              "23543",
+                        Obx(() =>   Text(
+                              "${dbController.selectedAccountDetails.value.income}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
+                            ),)
                           ],
                         )
                       ],
@@ -135,7 +137,7 @@ class HomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100)),
                           child: SvgPicture.asset("Assets/Icons/expense.svg"),
                         ),
-                      const  SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -148,11 +150,11 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                           const  Text(
-                              "23543",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
+                         Obx(() =>   Text(
+                                "${dbController.selectedAccountDetails.value.expense}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),)
                           ],
                         )
                       ],
@@ -177,6 +179,7 @@ class HomePage extends StatelessWidget {
                         comment: e.comment.toString(),
                         date: e.date.toString(),
                         isIncome: e.isIncome!,
+                        time: e.time.toString(),
                       ),
                     )
                     .toList(),

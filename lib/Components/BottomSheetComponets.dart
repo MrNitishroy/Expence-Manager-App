@@ -1,5 +1,6 @@
 import 'package:expense_manager/Components/KeyPadButton.dart';
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -298,6 +299,7 @@ class MyBottomSheet extends StatelessWidget {
   Row ReasionSelector() {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Row(
       children: [
         Expanded(
@@ -316,7 +318,7 @@ class MyBottomSheet extends StatelessWidget {
               isExpanded: true,
               value: bottomSheetController.paymentModeValue.value,
               iconSize: 25,
-              items: bottomSheetController.paymentModeData.map((e) => DropdownMenuItem(
+              items: accountCntroller.paymentModeData.map((e) => DropdownMenuItem(
                 value: e.value,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -358,7 +360,7 @@ class MyBottomSheet extends StatelessWidget {
               value: bottomSheetController.paymentResionValue.value,
               isExpanded: true,
               iconSize: 25,
-              items: bottomSheetController.payemntResoneData.map((e) => DropdownMenuItem(
+              items: accountCntroller.categoryData.map((e) => DropdownMenuItem(
                 value: e.value,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

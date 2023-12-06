@@ -8,8 +8,10 @@ class EntryTile extends StatelessWidget {
   final String date;
   final bool isIncome;
   final String amount;
+  final String time;
   const EntryTile({
     super.key,
+    required this.time,
     required this.comment,
     required this.date,
     required this.isIncome,
@@ -80,13 +82,30 @@ class EntryTile extends StatelessWidget {
                             fontSize: 20,
                           ),
                         ),
-                        Text(
-                          date,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer),
+                        Row(
+                          children: [
+                            SvgPicture.asset("Assets/Icons/calender.svg"),
+                            SizedBox(width: 4),
+                            Text(
+                              date,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer),
+                            ),
+                            SizedBox(width: 10),
+                              SvgPicture.asset("Assets/Icons/clock.svg"),
+                            SizedBox(width: 4),
+                            Text(
+                              time,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer),
+                            ),
+                          ],
                         ),
                       ],
                     )

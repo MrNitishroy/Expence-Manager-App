@@ -18,24 +18,26 @@ class AccountCntroller extends GetxController {
   TextEditingController paymentMode = TextEditingController();
   RxList<AccountModel> accountData = RxList<AccountModel>();
   RxList<DropDownModel> categoryData = RxList<DropDownModel>();
+  RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
 
-
-@override
+  @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getAccount();
+    getCategory();
+    getPayementMode();
   }
-  void getAccount() async {
-    accountData.clear();
+
+  void getPayementMode() async {
+    paymentModeData.clear();
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
-        .collection("accounts")
+        .collection("paymentMode")
         .get()
         .then((value) {
       for (var element in value.docs) {
-        accountData.add(AccountModel.fromJson(element.data()));
+        paymentModeData.add(DropDownModel.fromJson(element.data()));
       }
     });
   }
@@ -62,6 +64,20 @@ class AccountCntroller extends GetxController {
     successMessage("🪲 Payment mode Deleted");
   }
 
+  void getCategory() async {
+    paymentModeData.clear();
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("category")
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        categoryData.add(DropDownModel.fromJson(element.data()));
+      }
+    });
+  }
+
   void addNewCategory() async {
     var newCategory = DropDownModel(
       value: category.text.toLowerCase(),
@@ -82,7 +98,7 @@ class AccountCntroller extends GetxController {
       errorMessage("❌ Please Enter Category Name");
     }
   }
- 
+
   void deleteCategory(String name) async {
     await db
         .collection("users")
@@ -91,9 +107,22 @@ class AccountCntroller extends GetxController {
         .doc(name)
         .delete();
     successMessage("🪲 Category Deleted");
-    
   }
- 
+
+  void getAccount() async {
+    accountData.clear();
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("accounts")
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        accountData.add(AccountModel.fromJson(element.data()));
+      }
+    });
+  }
+
   void addNewAccount(BuildContext context) async {
     var newAccount = AccountModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -122,7 +151,7 @@ class AccountCntroller extends GetxController {
   }
 
   void deleteAccount(String name) async {
-    print(name  );
+    print(name);
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)

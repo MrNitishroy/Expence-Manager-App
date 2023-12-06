@@ -10,21 +10,12 @@ class TransactionModel {
   bool? isIncome;
   String? iconPath;
 
-  TransactionModel(
-      {this.id,
-      this.date,
-      this.time,
-      this.amount,
-      this.paymentType,
-      this.category,
-      this.isIncome,
-      this.comment,
-      this.iconPath});
+  TransactionModel({this.id, this.date, this.time, this.amount, this.paymentType, this.category, this.comment, this.isIncome, this.iconPath});
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     date = json["date"];
-    date = json["time"];
+    time = json["time"];
     amount = json["amount"];
     paymentType = json["paymentType"];
     category = json["category"];

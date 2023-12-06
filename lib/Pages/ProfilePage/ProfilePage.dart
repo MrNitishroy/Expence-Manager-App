@@ -3,6 +3,7 @@ import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/ThemeController.dart';
 import 'package:expense_manager/Pages/ProfilePage/AccountTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/CategoryTile.dart';
+import 'package:expense_manager/Pages/ProfilePage/PaymentMode.dart';
 import 'package:expense_manager/Pages/ProfilePage/PersonalInfomation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,6 +46,8 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 10),
             CategoryTile(),
             SizedBox(height: 10),
+            PaymentTile(  ),
+            SizedBox(height: 10),
             AccountTile(),
             SizedBox(height: 80),
             Obx(
@@ -78,11 +81,11 @@ class ProfilePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
+            // ElevatedButton(
+            //     onPressed: () {
                  
-                },
-                child: Text("Time Button")),
+            //     },
+            //     child: Text("Time Button")),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

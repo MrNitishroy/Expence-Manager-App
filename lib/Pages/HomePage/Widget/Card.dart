@@ -11,8 +11,7 @@ class CreditCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CreditcardController creditcardController =
-        Get.put(CreditcardController());
+    CreditcardController creditcardController = Get.put(CreditcardController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     DbController dbController = Get.put(DbController());
     return Container(
@@ -33,34 +32,36 @@ class CreditCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset("Assets/Icons/logo.svg"),
                       SizedBox(width: 10),
-                      const Text(
-                        "5423.00",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5),
-                      )
+                     Obx(() => Text(
+                          "${dbController.selectedAccountDetails.value.total}",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5),
+                        ),)
                     ],
                   ),
                   Obx(() => DropdownButton(
-                    underline: SizedBox(),
-                    dropdownColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    elevation: 0,
-                    value: dbController.accountSelected.value,
-                    hint: Text("Select Account"),
-                    enableFeedback: true,
-                    borderRadius: BorderRadius.circular(10),
-                    items: accountCntroller.accountData
-                        .map((e) => DropdownMenuItem(
-                              value: e.name,
-                              child: Text("${e.name}"),
-                            ))
-                        .toList(),
-                    onChanged: (selected) {
-                      dbController.accountSelected.value = selected.toString();
-                    },
-                  ))
+                        underline: SizedBox(),
+                        dropdownColor:
+                            Theme.of(context).colorScheme.primaryContainer,
+                        elevation: 0,
+                        value: dbController.accountSelected.value,
+                        hint: Text("Select Account"),
+                        enableFeedback: true,
+                        borderRadius: BorderRadius.circular(10),
+                        items: accountCntroller.accountData
+                            .map((e) => DropdownMenuItem(
+                                  value: e.name!.toLowerCase(),
+                                  child: Text("${e.name}"),
+                                ))
+                            .toList(),
+                        onChanged: (selected) {
+                          dbController.accountSelected.value =
+                              selected.toString();
+                          dbController.onAccountSelected();
+                        },
+                      ))
                 ],
               ),
               SizedBox(height: 6),

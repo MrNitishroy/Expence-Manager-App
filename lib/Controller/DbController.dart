@@ -1,4 +1,8 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
 import 'package:expense_manager/Models/TransactionModel.dart';
@@ -12,11 +16,12 @@ import 'BottomSheetController.dart';
 class DbController extends GetxController {
   BottomSheetController bottomSheetController =
       Get.put(BottomSheetController());
+  AccountCntroller accountCntroller = Get.put(AccountCntroller());
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
-  RxString accountSelected = "Personal".obs;
+  RxString accountSelected = "personal".obs;
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
-  RxList<AccountModel> accountList = RxList<AccountModel>();
+  Rx<AccountModel> selectedAccountDetails = Rx<AccountModel>(AccountModel());
 
   @override
   void onInit() {
@@ -25,9 +30,14 @@ class DbController extends GetxController {
     getTransactionList();
   }
 
+  void onAccountSelected() {
+    getTransactionList();
+    setAccountDetails();
+  }
+
   void getTransactionList() async {
     transactionList.clear();
-    db
+    await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
@@ -35,10 +45,11 @@ class DbController extends GetxController {
         .collection("transactions")
         .get()
         .then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         transactionList.add(TransactionModel.fromJson(element.data()));
-      });
+      }
     });
+    setAccountDetails();
   }
 
   void addTransaction(BuildContext context) async {
@@ -46,15 +57,15 @@ class DbController extends GetxController {
     String date = DateFormat("dd MMM yyyy").format(
       DateTime.now(),
     );
-
     var transactionModel = TransactionModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       amount: 23,
       paymentType: bottomSheetController.paymentModeValue.value,
       category: bottomSheetController.paymentResionValue.value,
       comment: bottomSheetController.comment.text,
-      date: DateTime.now().toString(),
+      date: date,
       iconPath: "",
+      time: time,
       isIncome: bottomSheetController.isIncome.value,
     );
     await db
@@ -69,19 +80,44 @@ class DbController extends GetxController {
     successMessage("😍 Transaction Added");
   }
 
-  void getAccountsList() async {
-    accountList.clear();
-    db
+  void deleteTransaction(String id) async {
+    await db
         .collection("users")
         .doc(auth.currentUser!.uid)
-        .collection("accountsList")
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        accountList.add(AccountModel.fromJson(element.data()));
-      }
-    });
+        .collection("accounts")
+        .doc(accountSelected.value)
+        .collection("transactions")
+        .doc(id)
+        .delete();
+    successMessage("🪲 Transaction Deleted");
   }
 
- 
+  void updateTransaction(String id) async {
+  
+    successMessage("🤩 Transaction Updated");
+  }
+
+  void updateAccount() async {
+
+    
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("accounts")
+        .doc(accountSelected.value)
+        .update({
+      "total": selectedAccountDetails.value.total,
+      "income": selectedAccountDetails.value.income,
+      "expense": selectedAccountDetails.value.expense,
+    });
+  }
+  void setAccountDetails() {
+    print("searching start");
+    for (var element in accountCntroller.accountData) {
+      if (element.name!.toLowerCase() == accountSelected.value) {
+        selectedAccountDetails.value = element;
+      }
+    }
+    print(selectedAccountDetails.value.name);
+  }
 }

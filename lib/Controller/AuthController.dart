@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
+import 'package:expense_manager/Models/DropdownModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,7 @@ class AuthController extends GetxController {
 // Data base work
 
   void initDatabase(BuildContext context) async {
-      String time = TimeOfDay.now().format(context);
+    String time = TimeOfDay.now().format(context);
     String date = DateFormat("dd MMM yyyy").format(
       DateTime.now(),
     );
@@ -122,6 +123,41 @@ class AuthController extends GetxController {
         .collection("accounts")
         .doc("personal")
         .set(initAccount.toJson());
+
     successMessage("🪲 DB INIT");
+    initCategory();
+    initPaymentMode();
+  }
+
+  void initCategory() async {
+    var newCategory = DropDownModel(
+      value: "food",
+      name: "Food",
+      icon: "Assets/Icons/FoodIcon/food.svg",
+    );
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("category")
+        .add(
+          newCategory.toJson(),
+        );
+    successMessage("😍Category Init");
+  }
+
+  void initPaymentMode() async {
+    var newMode = DropDownModel(
+         value: "cash",
+      name: "Cash",
+      icon: "Assets/Icons/logo.svg",
+    );
+    await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("paymentMode")
+        .add(
+          newMode.toJson(),
+        );
+    successMessage("Init Payment Mode");
   }
 }
