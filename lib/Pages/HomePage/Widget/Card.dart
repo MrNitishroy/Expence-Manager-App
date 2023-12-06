@@ -32,36 +32,45 @@ class CreditCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset("Assets/Icons/logo.svg"),
                       SizedBox(width: 10),
-                     Obx(() => Text(
+                      Obx(
+                        () => Text(
                           "${dbController.selectedAccountDetails.value.total}",
                           style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5),
-                        ),)
+                        ),
+                      )
                     ],
                   ),
-                  Obx(() => DropdownButton(
-                        underline: SizedBox(),
-                        dropdownColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        elevation: 0,
-                        value: dbController.accountSelected.value,
-                        hint: Text("Select Account"),
-                        enableFeedback: true,
-                        borderRadius: BorderRadius.circular(10),
-                        items: accountCntroller.accountData
-                            .map((e) => DropdownMenuItem(
-                                  value: e.name!.toLowerCase(),
-                                  child: Text("${e.name}"),
-                                ))
-                            .toList(),
-                        onChanged: (selected) {
-                          dbController.accountSelected.value =
-                              selected.toString();
-                          dbController.onAccountSelected();
-                        },
-                      ))
+                  Obx(
+                    () => DropdownButton(
+                      underline: SizedBox(),
+                      dropdownColor:
+                          Theme.of(context).colorScheme.primaryContainer,
+                      elevation: 0,
+                      value: dbController.accountSelected.value,
+                      hint: Text("Select Account"),
+                      enableFeedback: true,
+                      borderRadius: BorderRadius.circular(10),
+                      items: accountCntroller.accountData
+                          .map((e) => DropdownMenuItem(
+                                value: e.name!.toLowerCase(),
+                                child: Text("${e.name}"),
+                              ))
+                          .toList(),
+                      onChanged: (selected) {
+                        dbController.accountSelected.value =
+                            selected.toString();
+                        dbController.onAccountSelected();
+                      },
+                    ),
+                  )
+                  // ElevatedButton(onPressed: (){
+                  //   accountCntroller.getAccount();
+                  //   print(accountCntroller.accountData);
+
+                  // }, child: Text("Press"))
                 ],
               ),
               SizedBox(height: 6),
@@ -78,22 +87,16 @@ class CreditCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30),
-              Container(
-                decoration: BoxDecoration(
+              Obx(
+                () => LinearProgressIndicator(
+                  value: dbController.selectedAccountDetails.value.total == null
+                      ? 0
+                      : dbController.selectedAccountDetails.value.total! /
+                          dbController.selectedAccountDetails.value.income!,
+                  semanticsValue: "100",
+                  minHeight: 7,
                   borderRadius: BorderRadius.circular(100),
-                  color: Theme.of(context).colorScheme.secondaryContainer,
                 ),
-                height: 10,
-                child: Row(children: [
-                  AnimatedContainer(
-                    duration: Duration(microseconds: 200),
-                    width: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
-                ]),
               ),
               SizedBox(height: 6),
               Row(
@@ -107,14 +110,29 @@ class CreditCard extends StatelessWidget {
                         color:
                             Theme.of(context).colorScheme.secondaryContainer),
                   ),
-                  Text(
-                    "54230",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                    ),
-                  ),
+                  Obx(
+                    () =>
+                        dbController.selectedAccountDetails.value.income == null
+                            ? Text(
+                                "loading..",
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer),
+                              )
+                            : Text(
+                                "${dbController.selectedAccountDetails.value.income}",
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
+                              ),
+                  )
                 ],
               ),
             ],

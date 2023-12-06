@@ -175,6 +175,7 @@ class HomePage extends StatelessWidget {
                 children: dbController.transactionList
                     .map(
                       (e) => EntryTile(
+                        id: e.id.toString(),
                         amount: e.amount.toString(),
                         comment: e.comment.toString(),
                         date: e.date.toString(),

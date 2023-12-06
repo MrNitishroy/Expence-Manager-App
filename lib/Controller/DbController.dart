@@ -20,6 +20,7 @@ class DbController extends GetxController {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
   RxString accountSelected = "personal".obs;
+
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
   Rx<AccountModel> selectedAccountDetails = Rx<AccountModel>(AccountModel());
 
@@ -28,6 +29,8 @@ class DbController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getTransactionList();
+    setAccountDetails();
+    accountCntroller.getAccount();
   }
 
   void onAccountSelected() {
@@ -53,13 +56,14 @@ class DbController extends GetxController {
   }
 
   void addTransaction(BuildContext context) async {
+    int amount = int.parse(bottomSheetController.amountValue.value);
     String time = TimeOfDay.now().format(context);
     String date = DateFormat("dd MMM yyyy").format(
       DateTime.now(),
     );
     var transactionModel = TransactionModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      amount: 23,
+      amount: amount,
       paymentType: bottomSheetController.paymentModeValue.value,
       category: bottomSheetController.paymentResionValue.value,
       comment: bottomSheetController.comment.text,
@@ -77,7 +81,10 @@ class DbController extends GetxController {
         .add(
           transactionModel.toJson(),
         );
+    getTransactionList();
     successMessage("😍 Transaction Added");
+    updateAccount(bottomSheetController.isIncome.value, amount);
+    accountCntroller.getAccount();
   }
 
   void deleteTransaction(String id) async {
@@ -92,25 +99,43 @@ class DbController extends GetxController {
     successMessage("🪲 Transaction Deleted");
   }
 
-  void updateTransaction(String id) async {
-  
-    successMessage("🤩 Transaction Updated");
+
+
+  void updateAccount(bool isIncome, int newAmount) async {
+    if (isIncome) {
+      int newTotal = selectedAccountDetails.value.total! + newAmount;
+      selectedAccountDetails.value.total = newTotal;
+      selectedAccountDetails.value.income =
+          selectedAccountDetails.value.income! + newAmount;
+
+      print("Income");
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .doc(accountSelected.value)
+          .update({
+        "total": selectedAccountDetails.value.total,
+        "income": selectedAccountDetails.value.income,
+      });
+    } else {
+      int newTotal = selectedAccountDetails.value.total! - newAmount;
+      selectedAccountDetails.value.total = newTotal;
+      selectedAccountDetails.value.expense =
+          selectedAccountDetails.value.expense! + newAmount;
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .doc(accountSelected.value)
+          .update({
+        "total": selectedAccountDetails.value.total,
+        "expense": selectedAccountDetails.value.expense,
+      });
+    }
+    successMessage("🤑 Account Updated");
   }
 
-  void updateAccount() async {
-
-    
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accounts")
-        .doc(accountSelected.value)
-        .update({
-      "total": selectedAccountDetails.value.total,
-      "income": selectedAccountDetails.value.income,
-      "expense": selectedAccountDetails.value.expense,
-    });
-  }
   void setAccountDetails() {
     print("searching start");
     for (var element in accountCntroller.accountData) {

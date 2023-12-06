@@ -1,9 +1,12 @@
 import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/DbController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class EntryTile extends StatelessWidget {
+  final String id;
   final String comment;
   final String date;
   final bool isIncome;
@@ -11,6 +14,7 @@ class EntryTile extends StatelessWidget {
   final String time;
   const EntryTile({
     super.key,
+    required this.id,
     required this.time,
     required this.comment,
     required this.date,
@@ -20,6 +24,7 @@ class EntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DbController dbController = Get.put(DbController());
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Slidable(
@@ -41,7 +46,9 @@ class EntryTile extends StatelessWidget {
                     topRight: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   ),
-                  onPressed: (s) {},
+                  onPressed: (s) {
+                    dbController.deleteTransaction(id);
+                  },
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
                   icon: Icons.delete_rounded,

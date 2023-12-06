@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Controller/BottomSheetController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
@@ -109,18 +111,26 @@ class AccountCntroller extends GetxController {
     successMessage("🪲 Category Deleted");
   }
 
+  bool isGettingAccount = false;
   void getAccount() async {
-    accountData.clear();
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accounts")
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
+    if (isGettingAccount) {
+      return;
+    }
+    try {
+      isGettingAccount = true;
+      var querySnapshot = await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .get();
+      accountData.clear(); // Clear before populating to avoid duplicates
+      for (var element in querySnapshot.docs) {
         accountData.add(AccountModel.fromJson(element.data()));
+        print(element.data());
       }
-    });
+    } finally {
+      isGettingAccount = false;
+    }
   }
 
   void addNewAccount(BuildContext context) async {
