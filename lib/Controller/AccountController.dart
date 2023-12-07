@@ -21,7 +21,9 @@ class AccountCntroller extends GetxController {
   RxList<AccountModel> accountData = RxList<AccountModel>();
   RxList<DropDownModel> categoryData = RxList<DropDownModel>();
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
-
+  Rx<Icon> categoryIconSelected = Icon(Icons.category).obs;
+  Rx<Icon> paymentModeIconSelected = Icon(Icons.wallet,).obs;
+  Rx<Icon> accountIconSelected = Icon(Icons.attach_money_rounded).obs;
   @override
   void onInit() {
     super.onInit();

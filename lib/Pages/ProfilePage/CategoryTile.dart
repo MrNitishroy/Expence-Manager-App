@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -63,7 +64,31 @@ class CategoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.add),
+              InkWell(
+                    onTap: () async {
+                      var icon = await FlutterIconPicker.showIconPicker(
+                        context,
+                        iconPackModes: [
+                          IconPack.cupertino,
+                          IconPack.fontAwesomeIcons,
+                          IconPack.lineAwesomeIcons,
+                          IconPack.material,
+                        ],
+                      );
+                      if (icon != null) {
+                        accountCntroller.categoryIconSelected.value =
+                            Icon(icon);
+                      }
+                      print(icon);
+                    },
+                    child: Obx(
+                      () => Container(
+                        child: Row(children: [
+                          accountCntroller.categoryIconSelected.value,
+                          Icon(Icons.arrow_drop_down)
+                        ]),
+                      ),
+                    )),
                 const SizedBox(width: 10),
                  Expanded(
                     child: TextField(

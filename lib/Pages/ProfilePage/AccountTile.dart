@@ -1,5 +1,7 @@
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/Models/IconPack.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -74,7 +76,31 @@ class AccountTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.add),
+              InkWell(
+                    onTap: () async {
+                      var icon = await FlutterIconPicker.showIconPicker(
+                        context,
+                        iconPackModes: [
+                          IconPack.cupertino,
+                          IconPack.fontAwesomeIcons,
+                          IconPack.lineAwesomeIcons,
+                          IconPack.material,
+                        ],
+                      );
+                      if (icon != null) {
+                        accountCntroller.accountIconSelected.value =
+                            Icon(icon);
+                      }
+                      print(icon);
+                    },
+                    child: Obx(
+                      () => Container(
+                        child: Row(children: [
+                          accountCntroller.accountIconSelected.value,
+                          Icon(Icons.arrow_drop_down)
+                        ]),
+                      ),
+                    )),
                 const SizedBox(width: 10),
                 Expanded(
                     child: TextField(
