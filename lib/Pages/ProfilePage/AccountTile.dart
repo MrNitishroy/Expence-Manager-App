@@ -78,29 +78,14 @@ class AccountTile extends StatelessWidget {
               children: [
               InkWell(
                     onTap: () async {
-                      var icon = await FlutterIconPicker.showIconPicker(
-                        context,
-                        iconPackModes: [
-                          IconPack.cupertino,
-                          IconPack.fontAwesomeIcons,
-                          IconPack.lineAwesomeIcons,
-                          IconPack.material,
-                        ],
-                      );
-                      if (icon != null) {
-                        accountCntroller.accountIconSelected.value =
-                            Icon(icon);
-                      }
-                      print(icon);
+                  
                     },
-                    child: Obx(
-                      () => Container(
+                    child:Container(
                         child: Row(children: [
-                          accountCntroller.accountIconSelected.value,
+                          Icon(Icons.cabin_rounded),
                           Icon(Icons.arrow_drop_down)
                         ]),
-                      ),
-                    )),
+                      ),),
                 const SizedBox(width: 10),
                 Expanded(
                     child: TextField(

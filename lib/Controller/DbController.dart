@@ -31,8 +31,9 @@ class DbController extends GetxController {
     getTransactionList();
 
     accountCntroller.getAccount();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 3), () {
       setAccountDetails();
+      successMessage("🤑 Account Updated");
     });
   }
 

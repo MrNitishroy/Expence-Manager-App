@@ -64,31 +64,16 @@ class CategoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              InkWell(
+               InkWell(
                     onTap: () async {
-                      var icon = await FlutterIconPicker.showIconPicker(
-                        context,
-                        iconPackModes: [
-                          IconPack.cupertino,
-                          IconPack.fontAwesomeIcons,
-                          IconPack.lineAwesomeIcons,
-                          IconPack.material,
-                        ],
-                      );
-                      if (icon != null) {
-                        accountCntroller.categoryIconSelected.value =
-                            Icon(icon);
-                      }
-                      print(icon);
+                  
                     },
-                    child: Obx(
-                      () => Container(
+                    child: Container(
                         child: Row(children: [
-                          accountCntroller.categoryIconSelected.value,
+                          Icon(Icons.cabin_rounded),
                           Icon(Icons.arrow_drop_down)
                         ]),
-                      ),
-                    )),
+                      ),),
                 const SizedBox(width: 10),
                  Expanded(
                     child: TextField(
