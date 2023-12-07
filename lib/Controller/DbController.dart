@@ -56,39 +56,47 @@ class DbController extends GetxController {
         transactionList.add(TransactionModel.fromJson(element.data()));
       }
     });
-    setAccountDetails();
   }
 
   void addTransaction(BuildContext context) async {
-    int amount = int.parse(bottomSheetController.amountValue.value);
-    String time = TimeOfDay.now().format(context);
-    String date = DateFormat("dd MMM yyyy").format(
-      DateTime.now(),
-    );
-    var transactionModel = TransactionModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      amount: amount,
-      paymentType: bottomSheetController.paymentModeValue.value,
-      category: bottomSheetController.paymentResionValue.value,
-      comment: bottomSheetController.comment.text,
-      date: date,
-      iconPath: "",
-      time: time,
-      isIncome: bottomSheetController.isIncome.value,
-    );
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accounts")
-        .doc(accountSelected.value)
-        .collection("transactions")
-        .add(
-          transactionModel.toJson(),
-        );
-    getTransactionList();
-    successMessage("😍 Transaction Added");
-    updateAccount(bottomSheetController.isIncome.value, amount);
-    accountCntroller.getAccount();
+    if (bottomSheetController.amountValue.value == "") {
+      errorMessage("Please Enter Amount");
+      return;
+    } else {
+      int amount = int.parse(bottomSheetController.amountValue.value);
+      String time = TimeOfDay.now().format(context);
+      String date = DateFormat("dd MMM yyyy").format(
+        DateTime.now(),
+      );
+      var transactionModel = TransactionModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        amount: amount,
+        paymentType: bottomSheetController.paymentModeValue.value,
+        category: bottomSheetController.paymentResionValue.value,
+        comment: bottomSheetController.comment.text,
+        date: date,
+        iconPath: "",
+        time: time,
+        isIncome: bottomSheetController.isIncome.value,
+      );
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .doc(accountSelected.value)
+          .collection("transactions")
+          .add(
+            transactionModel.toJson(),
+          );
+      getTransactionList();
+      accountCntroller.getAccount();
+      setAccountDetails();
+      successMessage("😍 Transaction Added");
+      updateAccount(bottomSheetController.isIncome.value, amount);
+      accountCntroller.getAccount();
+      bottomSheetController.amountValue.value = "";
+      bottomSheetController.comment.clear();
+    }
   }
 
   void deleteTransaction(String id) async {
@@ -102,8 +110,6 @@ class DbController extends GetxController {
         .delete();
     successMessage("🪲 Transaction Deleted");
   }
-
-
 
   void updateAccount(bool isIncome, int newAmount) async {
     if (isIncome) {

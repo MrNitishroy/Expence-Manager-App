@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/IconPickerController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +14,7 @@ class AccountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     CreditcardController creditcardController = Get.put(CreditcardController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    IconPickerController iconPickerController = Get.put(IconPickerController());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -74,16 +76,19 @@ class AccountTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              InkWell(
+                InkWell(
                     onTap: () async {
-                  
+                      iconPickerController.accountIconSelector(context);
                     },
-                    child:Container(
+                    child: Obx(
+                      () => Container(
                         child: Row(children: [
-                          Icon(Icons.cabin_rounded),
+                          SvgPicture.asset(iconPickerController
+                              .accountSelectedIconvalue.value),
                           Icon(Icons.arrow_drop_down)
                         ]),
-                      ),),
+                      ),
+                    )),
                 const SizedBox(width: 10),
                 Expanded(
                     child: TextField(

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'IconPickerController.dart';
+
 class AccountCntroller extends GetxController {
   BottomSheetController bottomSheetController =
       Get.put(BottomSheetController());
@@ -21,9 +23,7 @@ class AccountCntroller extends GetxController {
   RxList<AccountModel> accountData = RxList<AccountModel>();
   RxList<DropDownModel> categoryData = RxList<DropDownModel>();
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
-
-  String iconValue = "Icon(Icons.category)";
-  
+  IconPickerController iconPickerController = Get.put(IconPickerController());
   @override
   void onInit() {
     super.onInit();
@@ -59,7 +59,7 @@ class AccountCntroller extends GetxController {
     var newMode = DropDownModel(
       name: paymentMode.text,
       value: paymentMode.text.toLowerCase(),
-      icon: "Assets/Icons/logo.svg",
+      icon: iconPickerController.paymentModeSelectedIconvalue.value,
     );
     await db
         .collection("users")
@@ -110,7 +110,7 @@ class AccountCntroller extends GetxController {
     var newCategory = DropDownModel(
       value: category.text.toLowerCase(),
       name: category.text,
-      icon: "Assets/Icons/FoodIcon/food1.svg",
+      icon: iconPickerController.categorySelectedIconvalue.value,
     );
     if (category.text.isNotEmpty) {
       await db
@@ -170,6 +170,7 @@ class AccountCntroller extends GetxController {
       time: TimeOfDay.now().format(context),
       date: DateFormat("dd MMM yyyy").format(
         DateTime.now(),
+      
       ),
     );
     if (accountName.text.isNotEmpty) {

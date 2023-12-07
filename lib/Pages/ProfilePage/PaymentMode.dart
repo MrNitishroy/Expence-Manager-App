@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../Controller/AccountController.dart';
 import '../../Controller/BottomSheetController.dart';
+import '../../Controller/IconPickerController.dart';
 
 class PaymentTile extends StatelessWidget {
   const PaymentTile({super.key});
@@ -13,6 +14,7 @@ class PaymentTile extends StatelessWidget {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    IconPickerController iconPickerController = Get.put(IconPickerController());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -66,16 +68,19 @@ class PaymentTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               InkWell(
+                InkWell(
                     onTap: () async {
-                  
+                      iconPickerController.paymentModeIconSelector(context);
                     },
-                    child:Container(
+                    child: Obx(
+                      () => Container(
                         child: Row(children: [
-                          Icon(Icons.cabin_rounded),
+                          SvgPicture.asset(iconPickerController
+                              .paymentModeSelectedIconvalue.value),
                           Icon(Icons.arrow_drop_down)
                         ]),
-                      ),),
+                      ),
+                    )),
                 const SizedBox(width: 10),
                 Expanded(
                     child: TextField(

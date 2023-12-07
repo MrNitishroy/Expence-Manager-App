@@ -130,24 +130,68 @@ class AuthController extends GetxController {
   }
 
   void initCategory() async {
-    var newCategory = DropDownModel(
-      value: "food",
-      name: "Food",
-      icon: "Assets/Icons/FoodIcon/food.svg",
-    );
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("category")
-        .add(
-          newCategory.toJson(),
-        );
+    var newCategory = [
+      DropDownModel(
+        name: "Food",
+        value: "food",
+        icon: "Assets/Icons/FoodIcon/food.svg",
+      ),
+      DropDownModel(
+        name: "Shopping",
+        value: "shopping",
+        icon: "Assets/Icons/FoodIcon/shopping.svg",
+      ),
+      DropDownModel(
+        name: "Travel",
+        value: "travel",
+        icon: "Assets/Icons/FoodIcon/travel.svg",
+      ),
+      DropDownModel(
+        name: "Bread",
+        value: "bread",
+        icon: "Assets/Icons/FoodIcon/bread.svg",
+      ),
+      DropDownModel(
+        name: "Chiken",
+        value: "chiken",
+        icon: "Assets/Icons/FoodIcon/chiken.svg",
+      ),
+      DropDownModel(
+        name: "Rent",
+        value: "rent",
+        icon: "Assets/Icons/FoodIcon/home.svg",
+      ),
+      DropDownModel(
+        name: "Reacharge",
+        value: "reacharge",
+        icon: "Assets/Icons/FoodIcon/mobile.svg",
+      ),
+      DropDownModel(
+        name: "Bills",
+        value: "bills",
+        icon: "Assets/Icons/FoodIcon/other.svg",
+      ),
+      DropDownModel(
+        name: "Others",
+        value: "others",
+        icon: "Assets/Icons/FoodIcon/other.svg",
+      ),
+    ];
+    for (var element in newCategory) {
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("category")
+          .add(
+            element.toJson(),
+          );
+    }
     successMessage("😍Category Init");
   }
 
   void initPaymentMode() async {
     var newMode = DropDownModel(
-         value: "cash",
+      value: "cash",
       name: "Cash",
       icon: "Assets/Icons/logo.svg",
     );

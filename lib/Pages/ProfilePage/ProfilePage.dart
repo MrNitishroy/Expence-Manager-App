@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Controller/IconPickerController.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -18,6 +20,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthController authController = Get.put(AuthController());
     ThemeController themeController = Get.put(ThemeController());
+    IconPickerController iconPickerController = Get.put(IconPickerController());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -82,11 +85,16 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             // ElevatedButton(
-            //     onPressed: () {
+            //     onPressed: () async{
                  
+            //     iconPickerController.iconPicker(context);
+            //     print(iconPickerController.selectedIconvalue.value);
+            
             //     },
-            //     child: Text("Time Button")),
+            //     child: Text("Icon Picker")),
+            //     Obx(() =>  SvgPicture.asset(iconPickerController.selectedIconvalue.value),),
             SizedBox(height: 20),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

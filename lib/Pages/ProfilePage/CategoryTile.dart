@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/IconPickerController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,8 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
-        AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    IconPickerController iconPickerController = Get.put(IconPickerController());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -26,12 +28,12 @@ class CategoryTile extends StatelessWidget {
         title: Text("Category Details"),
         children: [
           Column(
-              children: bottomSheetController.payemntResoneData
+              children: accountCntroller.categoryData
                   .map(
                     (e) => ListTile(
-                        title: Text(e.name),
+                        title: Text(e.name!),
                         leading: SvgPicture.asset(
-                          e.icon,
+                          e.icon!,
                           color:
                               Theme.of(context).colorScheme.secondaryContainer,
                         ),
@@ -63,20 +65,23 @@ class CategoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               InkWell(
+                InkWell(
                     onTap: () async {
-                  
+                      iconPickerController.categoryIconSelector(context);
                     },
-                    child: Container(
+                    child: Obx(
+                      () => Container(
                         child: Row(children: [
-                          Icon(Icons.cabin_rounded),
+                          SvgPicture.asset(iconPickerController
+                              .categorySelectedIconvalue.value),
                           Icon(Icons.arrow_drop_down)
                         ]),
-                      ),),
+                      ),
+                    )),
                 const SizedBox(width: 10),
-                 Expanded(
+                Expanded(
                     child: TextField(
-                      controller: accountCntroller.category,
+                  controller: accountCntroller.category,
                   decoration: const InputDecoration(
                     filled: false,
                     enabledBorder: InputBorder.none,
