@@ -12,7 +12,7 @@ class PaymentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
-        AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -25,38 +25,41 @@ class PaymentTile extends StatelessWidget {
         leading: Icon(Icons.wallet),
         title: Text("Payment Mode"),
         children: [
-          Column(
-              children: accountCntroller.paymentModeData
-                  .map(
-                    (e) => ListTile(
-                        title: Text(e.name!),
-                        leading: SvgPicture.asset(
-                          e.icon!,
-                          color:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                        ),
-                        trailing: SizedBox(
-                          width: 70,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                              ),
-                              SizedBox(width: 20),
-                              Icon(
-                                Icons.delete_rounded,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                              ),
-                            ],
+          Obx(
+            () => Column(
+                children: accountCntroller.paymentModeData
+                    .map(
+                      (e) => ListTile(
+                          title: Text(e.name!),
+                          leading: SvgPicture.asset(
+                            e.icon!,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
                           ),
-                        )),
-                  )
-                  .toList()),
+                          trailing: SizedBox(
+                            width: 70,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
+                                SizedBox(width: 20),
+                                Icon(
+                                  Icons.delete_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
+                              ],
+                            ),
+                          )),
+                    )
+                    .toList()),
+          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: Row(
@@ -65,9 +68,9 @@ class PaymentTile extends StatelessWidget {
               children: [
                 const Icon(Icons.add),
                 const SizedBox(width: 10),
-                 Expanded(
+                Expanded(
                     child: TextField(
-                      controller: accountCntroller.category,
+                  controller: accountCntroller.paymentMode,
                   decoration: const InputDecoration(
                     filled: false,
                     enabledBorder: InputBorder.none,
@@ -77,7 +80,7 @@ class PaymentTile extends StatelessWidget {
                 )),
                 InkWell(
                   onTap: () {
-                    accountCntroller.addPaymentMode() ;
+                    accountCntroller.addPaymentMode();
                   },
                   child: Container(
                     width: 30,

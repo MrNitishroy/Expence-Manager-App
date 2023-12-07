@@ -29,8 +29,11 @@ class DbController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getTransactionList();
-    setAccountDetails();
+
     accountCntroller.getAccount();
+    Future.delayed(Duration(seconds: 1), () {
+      setAccountDetails();
+    });
   }
 
   void onAccountSelected() {

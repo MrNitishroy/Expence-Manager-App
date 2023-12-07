@@ -30,22 +30,35 @@ class AccountCntroller extends GetxController {
     getPayementMode();
   }
 
+  bool isPayemntModeGetting = false;
   void getPayementMode() async {
-    paymentModeData.clear();
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("paymentMode")
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        paymentModeData.add(DropDownModel.fromJson(element.data()));
-      }
-    });
+    if (isPayemntModeGetting) {
+      return;
+    }
+    try {
+      isPayemntModeGetting = true;
+      paymentModeData.clear();
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("paymentMode")
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          paymentModeData.add(DropDownModel.fromJson(element.data()));
+        }
+      });
+    } finally {
+      isPayemntModeGetting = false;
+    }
   }
 
   void addPaymentMode() async {
-    var newMode = DropDownModel();
+    var newMode = DropDownModel(
+      name: paymentMode.text,
+      value: paymentMode.text.toLowerCase(),
+      icon: "Assets/Icons/logo.svg",
+    );
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -54,6 +67,8 @@ class AccountCntroller extends GetxController {
           newMode.toJson(),
         );
     successMessage("😍 Payment mode Added");
+    paymentMode.clear();
+    getPayementMode();
   }
 
   void deletePaymentMode(String name) async {
@@ -66,18 +81,27 @@ class AccountCntroller extends GetxController {
     successMessage("🪲 Payment mode Deleted");
   }
 
+  bool isCategoryGetting = false;
   void getCategory() async {
-    paymentModeData.clear();
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("category")
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        categoryData.add(DropDownModel.fromJson(element.data()));
-      }
-    });
+    if (isCategoryGetting) {
+      return;
+    }
+    try {
+      isCategoryGetting = true;
+      categoryData.clear();
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("category")
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          categoryData.add(DropDownModel.fromJson(element.data()));
+        }
+      });
+    } finally {
+      isCategoryGetting = false;
+    }
   }
 
   void addNewCategory() async {
@@ -96,6 +120,7 @@ class AccountCntroller extends GetxController {
           );
       successMessage("😍 Category Added");
       category.clear();
+      getCategory();
     } else {
       errorMessage("❌ Please Enter Category Name");
     }
