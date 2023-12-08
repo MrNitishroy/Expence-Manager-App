@@ -20,7 +20,7 @@ class DbController extends GetxController {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
   RxString accountSelected = "personal".obs;
-
+  RxBool isLoading = true.obs;
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
   Rx<AccountModel> selectedAccountDetails = Rx<AccountModel>(AccountModel());
 
@@ -28,12 +28,18 @@ class DbController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    isLoading.value = true;
     getTransactionList();
 
     accountCntroller.getAccount();
     Future.delayed(Duration(seconds: 3), () {
+      accountCntroller.getAccount();
       setAccountDetails();
+      accountCntroller.getCategory();
+      accountCntroller.getPayementMode();
+
       successMessage("🤑 Account Updated");
+      isLoading.value = false;
     });
   }
 

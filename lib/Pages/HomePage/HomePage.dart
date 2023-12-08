@@ -25,16 +25,18 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         primary: true,
-        // bottom: const PreferredSize(
-        //   preferredSize: Size.fromHeight(5.0),
-        //   child: LinearProgressIndicator(
-        //     borderRadius: BorderRadius.only(
-        //       bottomLeft: Radius.circular(10),
-        //       bottomRight: Radius.circular(10),
-        //     ),
-        //     color: greenColor,
-        //   ),
-        // ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: Obx(
+            () => dbController.isLoading.value
+                ? LinearProgressIndicator(
+                    color: Theme.of(context).colorScheme.primary,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primaryContainer,
+                  )
+                : SizedBox(),
+          ),
+        ),
         title: Row(
           children: [
             Container(
@@ -109,11 +111,18 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                        Obx(() =>   Text(
-                              "${dbController.selectedAccountDetails.value.income}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),)
+                            Obx(
+                              () => dbController.selectedAccountDetails.value
+                                          .income ==
+                                      null
+                                  ? Text("Loading..")
+                                  : Text(
+                                      "${dbController.selectedAccountDetails.value.income}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                            )
                           ],
                         )
                       ],
@@ -150,11 +159,18 @@ class HomePage extends StatelessWidget {
                                       .colorScheme
                                       .secondaryContainer),
                             ),
-                         Obx(() =>   Text(
-                                "${dbController.selectedAccountDetails.value.expense}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),)
+                            Obx(
+                              () => dbController.selectedAccountDetails.value
+                                          .expense ==
+                                      null
+                                  ? Text("Loading..")
+                                  : Text(
+                                      "${dbController.selectedAccountDetails.value.expense}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                            )
                           ],
                         )
                       ],

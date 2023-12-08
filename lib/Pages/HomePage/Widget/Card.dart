@@ -33,13 +33,16 @@ class CreditCard extends StatelessWidget {
                       SvgPicture.asset("Assets/Icons/logo.svg"),
                       SizedBox(width: 10),
                       Obx(
-                        () => Text(
-                          "${dbController.selectedAccountDetails.value.total}",
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5),
-                        ),
+                        () => dbController.selectedAccountDetails.value.total ==
+                                null
+                            ? Text("Loading")
+                            : Text(
+                                "${dbController.selectedAccountDetails.value.total}",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5),
+                              ),
                       )
                     ],
                   ),
