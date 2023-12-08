@@ -50,12 +50,17 @@ class PaymentTile extends StatelessWidget {
                                       .secondaryContainer,
                                 ),
                                 SizedBox(width: 20),
-                                Icon(
+                               InkWell(
+                                onTap: (){
+                                  accountCntroller.deletePaymentMode(e.name!);
+                                },
+                                child:  Icon(
                                   Icons.delete_rounded,
                                   color: Theme.of(context)
                                       .colorScheme
                                       .secondaryContainer,
                                 ),
+                               )
                               ],
                             ),
                           )),

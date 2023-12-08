@@ -1,10 +1,9 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Controller/BottomSheetController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/DropdownModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
+import 'package:expense_manager/Models/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +22,7 @@ class AccountCntroller extends GetxController {
   RxList<AccountModel> accountData = RxList<AccountModel>();
   RxList<DropDownModel> categoryData = RxList<DropDownModel>();
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
+  Rx<UserModel> currentUserData = Rx<UserModel>(UserModel());
   IconPickerController iconPickerController = Get.put(IconPickerController());
   @override
   void onInit() {
@@ -30,6 +30,7 @@ class AccountCntroller extends GetxController {
     getAccount();
     getCategory();
     getPayementMode();
+    
   }
 
   bool isPayemntModeGetting = false;
@@ -80,6 +81,7 @@ class AccountCntroller extends GetxController {
         .collection("paymentMode")
         .doc(name)
         .delete();
+    getPayementMode();
     successMessage("🪲 Payment mode Deleted");
   }
 
@@ -170,7 +172,6 @@ class AccountCntroller extends GetxController {
       time: TimeOfDay.now().format(context),
       date: DateFormat("dd MMM yyyy").format(
         DateTime.now(),
-      
       ),
     );
     if (accountName.text.isNotEmpty) {
@@ -198,5 +199,11 @@ class AccountCntroller extends GetxController {
         .delete();
     successMessage("🪲 Account Deleted");
     getAccount();
+  }
+
+  void getUserDetails() async {
+    await db.collection("users").doc(auth.currentUser!.uid).get().then((value) {
+      currentUserData.value = UserModel.fromJson(value.data()!);
+    });
   }
 }

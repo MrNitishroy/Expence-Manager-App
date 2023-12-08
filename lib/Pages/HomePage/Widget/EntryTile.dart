@@ -10,10 +10,12 @@ class EntryTile extends StatelessWidget {
   final String comment;
   final String date;
   final bool isIncome;
+  final String icon;
   final String amount;
   final String time;
   const EntryTile({
     super.key,
+    required this.icon,
     required this.id,
     required this.time,
     required this.comment,
@@ -73,7 +75,7 @@ class EntryTile extends StatelessWidget {
                               : Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(100)),
                       child: SvgPicture.asset(
-                        "Assets/Icons/FoodIcon/food1.svg",
+                        icon,
                         width: 30,
                       ),
                     ),

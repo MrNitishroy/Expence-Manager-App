@@ -192,6 +192,7 @@ class HomePage extends StatelessWidget {
                     .map(
                       (e) => EntryTile(
                         id: e.id.toString(),
+                        icon: e.iconPath.toString(),
                         amount: e.amount.toString(),
                         comment: e.comment.toString(),
                         date: e.date.toString(),

@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/SettingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ class PersonalInfomationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingController settingController = Get.put(SettingController());
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -31,7 +33,9 @@ class PersonalInfomationTile extends StatelessWidget {
                           hintText: "Enter name",
                         ),
                       )
-                    : Text("Nitish kumar"),
+                    : accountCntroller.currentUserData.value.name == null
+                        ? Text("User Name")
+                        : Text(accountCntroller.currentUserData.value.name!),
                 leading: Icon(Icons.person),
                 trailing: settingController.isNameEdit.value
                     ? InkWell(
@@ -55,7 +59,13 @@ class PersonalInfomationTile extends StatelessWidget {
                           hintText: "Enter email",
                         ),
                       )
-                    : Text("Nitishr833@gmail.com"),
+                    : Obx(
+                        () => accountCntroller.currentUserData.value.email ==
+                                null
+                            ? Text("User Email")
+                            : Text(
+                                accountCntroller.currentUserData.value.email!),
+                      ),
                 leading: Icon(Icons.alternate_email_outlined),
                 trailing: settingController.isEmailEdit.value
                     ? InkWell(

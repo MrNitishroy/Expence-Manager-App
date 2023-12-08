@@ -380,6 +380,11 @@ class MyBottomSheet extends StatelessWidget {
               )).toList(),
               onChanged: (changeValue) {
                 bottomSheetController.paymentResionValue.value = changeValue.toString();
+                accountCntroller.categoryData.forEach((element) {
+                  if(element.value == changeValue){
+                    bottomSheetController.paymentResionIconValue.value = element.icon!;
+                  }
+                });
                 print(changeValue);
               },
           ),

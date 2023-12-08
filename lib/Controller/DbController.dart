@@ -37,7 +37,7 @@ class DbController extends GetxController {
       setAccountDetails();
       accountCntroller.getCategory();
       accountCntroller.getPayementMode();
-
+      accountCntroller.getUserDetails();
       successMessage("🤑 Account Updated");
       isLoading.value = false;
     });
@@ -81,7 +81,7 @@ class DbController extends GetxController {
         category: bottomSheetController.paymentResionValue.value,
         comment: bottomSheetController.comment.text,
         date: date,
-        iconPath: "",
+        iconPath: bottomSheetController.paymentResionIconValue.value,
         time: time,
         isIncome: bottomSheetController.isIncome.value,
       );

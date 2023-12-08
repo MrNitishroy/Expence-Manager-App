@@ -3,6 +3,7 @@ import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/DropdownModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
+import 'package:expense_manager/Models/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -127,6 +128,7 @@ class AuthController extends GetxController {
     successMessage("🪲 DB INIT");
     initCategory();
     initPaymentMode();
+    initUserData();
   }
 
   void initCategory() async {
@@ -203,5 +205,19 @@ class AuthController extends GetxController {
           newMode.toJson(),
         );
     successMessage("Init Payment Mode");
+  }
+
+  void initUserData() async {
+    var newUser = UserModel(
+      id: auth.currentUser!.uid,
+      name: auth.currentUser!.displayName,
+      email: auth.currentUser!.email,
+      profile: auth.currentUser!.photoURL,
+    );
+
+    await db.collection("users").doc(auth.currentUser!.uid).set(
+          newUser.toJson(),
+        );
+    successMessage("😍 User Init");
   }
 }
