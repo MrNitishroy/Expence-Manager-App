@@ -4,14 +4,13 @@ import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
+import 'package:expense_manager/Controller/NotificationController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/ProfilePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,6 +20,8 @@ class HomePage extends StatelessWidget {
     AuthController authController = Get.put(AuthController());
     DbController dbController = Get.put(DbController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    NotificationController notificationController =
+        Get.put(NotificationController());
     return Scaffold(
       // appBar: AppBar(
       //   automaticallyImplyLeading: true,

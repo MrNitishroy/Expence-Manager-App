@@ -36,8 +36,9 @@ class IconPickerController extends GetxController {
   ];
   RxString accountSelectedIconvalue = "Assets/Icons/bank.svg".obs;
   RxString categorySelectedIconvalue = "Assets/Icons/FoodIcon/other.svg".obs;
-  RxString paymentModeSelectedIconvalue = "Assets/Icons/PyementMode/cash.svg".obs;
-  
+  RxString paymentModeSelectedIconvalue =
+      "Assets/Icons/PyementMode/cash.svg".obs;
+
   void accountIconSelector(BuildContext context) async {
     await Get.defaultDialog(
       title: "Select Icon",
@@ -49,7 +50,6 @@ class IconPickerController extends GetxController {
         child: GridView.count(
           crossAxisCount: 6,
           crossAxisSpacing: 15,
-          
           mainAxisSpacing: 15,
           children: iconsPath
               .map(
@@ -67,6 +67,7 @@ class IconPickerController extends GetxController {
       ),
     );
   }
+
   void categoryIconSelector(BuildContext context) async {
     await Get.defaultDialog(
       title: "Select Icon",
@@ -78,7 +79,6 @@ class IconPickerController extends GetxController {
         child: GridView.count(
           crossAxisCount: 6,
           crossAxisSpacing: 15,
-          
           mainAxisSpacing: 15,
           children: iconsPath
               .map(
@@ -96,6 +96,7 @@ class IconPickerController extends GetxController {
       ),
     );
   }
+
   void paymentModeIconSelector(BuildContext context) async {
     await Get.defaultDialog(
       title: "Select Icon",
@@ -107,7 +108,6 @@ class IconPickerController extends GetxController {
         child: GridView.count(
           crossAxisCount: 6,
           crossAxisSpacing: 15,
-          
           mainAxisSpacing: 15,
           children: iconsPath
               .map(
