@@ -69,11 +69,6 @@ class CreditCard extends StatelessWidget {
                       },
                     ),
                   )
-                  // ElevatedButton(onPressed: (){
-                  //   accountCntroller.getAccount();
-                  //   print(accountCntroller.accountData);
-
-                  // }, child: Text("Press"))
                 ],
               ),
               SizedBox(height: 6),
@@ -89,14 +84,16 @@ class CreditCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Obx(
                 () => LinearProgressIndicator(
-                  value: dbController.selectedAccountDetails.value.total == null
-                      ? 0
-                      : dbController.selectedAccountDetails.value.total! /
-                          dbController.selectedAccountDetails.value.income!,
-                  semanticsValue: "100",
+                  value:
+                      dbController.selectedAccountDetails.value.income == null
+                          ? 0
+                          : (dbController.selectedAccountDetails.value.income! -
+                                  dbController
+                                      .selectedAccountDetails.value.expense!) /
+                              dbController.selectedAccountDetails.value.income!,
                   minHeight: 7,
                   borderRadius: BorderRadius.circular(100),
                 ),
@@ -135,6 +132,24 @@ class CreditCard extends StatelessWidget {
                                       .secondaryContainer,
                                 ),
                               ),
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Obx(
+                    () => Text(
+                      accountCntroller.currentUserData.value.name
+                          .toString()
+                          .toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          letterSpacing: 3,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),

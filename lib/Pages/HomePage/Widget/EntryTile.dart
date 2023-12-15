@@ -44,6 +44,8 @@ class EntryTile extends StatelessWidget {
                   Row(
                     children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: isIncome

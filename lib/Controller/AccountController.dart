@@ -21,62 +21,7 @@ class AccountCntroller extends GetxController {
   TextEditingController category = TextEditingController();
   TextEditingController paymentMode = TextEditingController();
   RxList<AccountModel> accountData = RxList<AccountModel>();
-  RxList<DropDownModel> categoryData = RxList<DropDownModel>([
-       DropDownModel(
-        id: "cat1",
-        name: "Food",
-        value: "food",
-        icon: "Assets/Icons/FoodIcon/food.svg",
-      ),
-      DropDownModel(
-        id: "cat2",
-        name: "Shopping",
-        value: "shopping",
-        icon: "Assets/Icons/FoodIcon/shopping.svg",
-      ),
-      DropDownModel(
-        id: "cat3",
-        name: "Travel",
-        value: "travel",
-        icon: "Assets/Icons/FoodIcon/travel.svg",
-      ),
-      DropDownModel(
-        id: "cat4",
-        name: "Bread",
-        value: "bread",
-        icon: "Assets/Icons/FoodIcon/bread.svg",
-      ),
-      DropDownModel(
-        id: "cat5",
-        name: "Chiken",
-        value: "chiken",
-        icon: "Assets/Icons/FoodIcon/chiken.svg",
-      ),
-      DropDownModel(
-        id: "cat6",
-        name: "Rent",
-        value: "rent",
-        icon: "Assets/Icons/FoodIcon/home.svg",
-      ),
-      DropDownModel(
-        id: "cat7",
-        name: "Reacharge",
-        value: "reacharge",
-        icon: "Assets/Icons/FoodIcon/mobile.svg",
-      ),
-      DropDownModel(
-        id: "cat8",
-        name: "Bills",
-        value: "bills",
-        icon: "Assets/Icons/FoodIcon/other.svg",
-      ),
-      DropDownModel(
-        id: "cat9",
-        name: "Others",
-        value: "others",
-        icon: "Assets/Icons/FoodIcon/other.svg",
-      ),
-  ]);
+  RxList<DropDownModel> categoryData = RxList<DropDownModel>([]);
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
   Rx<UserModel> currentUserData = Rx<UserModel>(UserModel());
   IconPickerController iconPickerController = Get.put(IconPickerController());

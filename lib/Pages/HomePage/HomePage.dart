@@ -1,4 +1,5 @@
 import 'package:expense_manager/Components/BottomNaviagtion.dart';
+import 'package:expense_manager/Components/TransactionDetails.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
@@ -21,58 +22,58 @@ class HomePage extends StatelessWidget {
     DbController dbController = Get.put(DbController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        primary: true,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: Obx(
-            () => dbController.isLoading.value
-                ? LinearProgressIndicator(
-                    color: Theme.of(context).colorScheme.primary,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                  )
-                : SizedBox(),
-          ),
-        ),
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: SvgPicture.asset("Assets/Icons/logo.svg"),
-            ),
-            SizedBox(width: 10),
-            const Text(
-              "UNIWALT",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.7),
-            )
-          ],
-        ),
-        actions: [
-          InkWell(
-            onTap: () {
-              // authController.logOut();
-              Get.to(ProfilePage());
-            },
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: SvgPicture.asset("Assets/Icons/menu.svg"),
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: true,
+      //   elevation: 0,
+      //   backgroundColor: Colors.transparent,
+      //   primary: true,
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(0),
+      //     child: Obx(
+      //       () => dbController.isLoading.value
+      //           ? LinearProgressIndicator(
+      //               color: Theme.of(context).colorScheme.primary,
+      //               backgroundColor:
+      //                   Theme.of(context).colorScheme.primaryContainer,
+      //             )
+      //           : SizedBox(),
+      //     ),
+      //   ),
+      //   title: Row(
+      //     children: [
+      //       Container(
+      //         padding: const EdgeInsets.all(8),
+      //         width: 40,
+      //         height: 40,
+      //         decoration: BoxDecoration(
+      //           color: Theme.of(context).colorScheme.primaryContainer,
+      //           borderRadius: BorderRadius.circular(15),
+      //         ),
+      //         child: SvgPicture.asset("Assets/Icons/logo.svg"),
+      //       ),
+      //       SizedBox(width: 10),
+      //       const Text(
+      //         "UNIWALT",
+      //         style: TextStyle(
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.bold,
+      //             letterSpacing: 1.7),
+      //       )
+      //     ],
+      //   ),
+      //   actions: [
+      //     InkWell(
+      //       onTap: () {
+      //         // authController.logOut();
+      //         Get.to(ProfilePage());
+      //       },
+      //       child: Container(
+      //         padding: EdgeInsets.all(10),
+      //         child: SvgPicture.asset("Assets/Icons/menu.svg"),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       bottomNavigationBar: MyBottomNavigation(),
       body: Padding(
           padding: const EdgeInsets.all(10),
@@ -82,7 +83,59 @@ class HomePage extends StatelessWidget {
             },
             child: ListView(
               children: [
-                const SizedBox(height: 10),
+                Obx(
+                  () => dbController.isLoading.value
+                      ? LinearProgressIndicator(
+                          color: Theme.of(context).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                        )
+                      : SizedBox(),
+                ),
+                  const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: SvgPicture.asset("Assets/Icons/logo.svg"),
+                        ),
+                        SizedBox(width: 10),
+                        const Text(
+                          "UNIWALT",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.7),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // authController.logOut();
+                            Get.to(ProfilePage());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: SvgPicture.asset("Assets/Icons/menu.svg"),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 30),
                 const CreditCard(),
                 const SizedBox(height: 20),
                 Row(
@@ -199,7 +252,9 @@ class HomePage extends StatelessWidget {
                         .map(
                           (e) => EntryTile(
                             id: e.id.toString(),
-                            onTap: () {},
+                            onTap: () {
+                              TransactionDetails(context, e);
+                            },
                             icon: e.iconPath.toString(),
                             amount: e.amount.toString(),
                             comment: e.comment.toString(),

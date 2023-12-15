@@ -22,12 +22,13 @@ class DbController extends GetxController {
   final auth = FirebaseAuth.instance;
   RxString accountSelected = "personal".obs;
   RxBool isLoading = true.obs;
+  TextEditingController commentUpdateText = TextEditingController();
+  RxBool isCommentEditing = false.obs;
   RxList<TransactionModel> transactionList = RxList<TransactionModel>();
   Rx<AccountModel> selectedAccountDetails = Rx<AccountModel>(AccountModel());
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     isLoading.value = true;
     getTransactionList();
@@ -60,6 +61,31 @@ class DbController extends GetxController {
     print("refress");
     successMessage("❤️ Refresh");
     isLoading.value = false;
+  }
+
+  Future updateCommentTransaction(String id) async {
+    if (commentUpdateText.text.isEmpty) {
+      errorMessage("Please Enter Comment");
+      return;
+    }
+   await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("accounts")
+        .doc(accountSelected.value)
+        .collection("transactions")
+        .doc(id)
+        .update(
+      {
+        "comment": commentUpdateText.text,
+      },
+    );
+    getTransactionList();
+    successMessage("🤑 Comment Updated");
+    isCommentEditing.value = true;
+    commentUpdateText.clear();
+    Get.back();
+   
   }
 
   Future getTransactionList() async {
@@ -124,7 +150,6 @@ class DbController extends GetxController {
   }
 
   Future deleteTransaction(String id) async {
-
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -133,7 +158,7 @@ class DbController extends GetxController {
         .collection("transactions")
         .doc(id)
         .delete();
-    
+
     getTransactionList();
     setAccountDetails();
     successMessage("🪲 Transaction Deleted");
