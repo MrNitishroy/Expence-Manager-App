@@ -1,6 +1,7 @@
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/ThemeController.dart';
+import 'package:expense_manager/Pages/DemoPage.dart';
 import 'package:expense_manager/Pages/ProfilePage/AccountTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/CategoryTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/PaymentMode.dart';
@@ -84,15 +85,12 @@ class ProfilePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
               ),
             ),
-            // ElevatedButton(
-            //     onPressed: () async{
-                 
-            //     iconPickerController.iconPicker(context);
-            //     print(iconPickerController.selectedIconvalue.value);
+            ElevatedButton(
+                onPressed: () async{
+                  Get.to(DemoPage());
             
-            //     },
-            //     child: Text("Icon Picker")),
-            //     Obx(() =>  SvgPicture.asset(iconPickerController.selectedIconvalue.value),),
+                },
+                child: Text("Icon Picker")),
             SizedBox(height: 20),
 
             Row(

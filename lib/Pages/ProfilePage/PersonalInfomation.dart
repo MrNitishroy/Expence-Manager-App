@@ -1,4 +1,5 @@
 import 'package:expense_manager/Controller/AccountController.dart';
+import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/SettingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ class PersonalInfomationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     SettingController settingController = Get.put(SettingController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
+    AuthController authController  = Get.put(AuthController());
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -25,7 +27,8 @@ class PersonalInfomationTile extends StatelessWidget {
             children: [
               ListTile(
                 title: settingController.isNameEdit.value
-                    ? const TextField(
+                    ?  TextField(
+                      controller: authController.nameController,
                         decoration: InputDecoration(
                           filled: false,
                           enabledBorder: InputBorder.none,
@@ -34,24 +37,29 @@ class PersonalInfomationTile extends StatelessWidget {
                         ),
                       )
                     : accountCntroller.currentUserData.value.name == null
-                        ? Text("User Name")
+                        ? accountCntroller.currentUserData.value.name == null
+                            ? Text("User Name")
+                            : Text(accountCntroller.currentUserData.value.name!)
                         : Text(accountCntroller.currentUserData.value.name!),
                 leading: Icon(Icons.person),
                 trailing: settingController.isNameEdit.value
                     ? InkWell(
                         onTap: () {
+                          authController.updateUserName();
                           settingController.isNameEdit.value = false;
                         },
                         child: Icon(Icons.save))
                     : InkWell(
                         onTap: () {
+                          
                           settingController.isNameEdit.value = true;
                         },
                         child: Icon(Icons.edit)),
               ),
               ListTile(
                 title: settingController.isEmailEdit.value
-                    ? const TextField(
+                    ?  TextField(
+                      controller: authController.emailUpdate,
                         decoration: InputDecoration(
                           filled: false,
                           enabledBorder: InputBorder.none,
@@ -62,7 +70,11 @@ class PersonalInfomationTile extends StatelessWidget {
                     : Obx(
                         () => accountCntroller.currentUserData.value.email ==
                                 null
-                            ? Text("User Email")
+                            ? accountCntroller.currentUserData.value.name ==
+                                    null
+                                ? Text("User Email")
+                                : Text(accountCntroller
+                                    .currentUserData.value.name!)
                             : Text(
                                 accountCntroller.currentUserData.value.email!),
                       ),
@@ -75,20 +87,16 @@ class PersonalInfomationTile extends StatelessWidget {
                         child: Icon(Icons.save))
                     : InkWell(
                         onTap: () {
+                          authController.updateUserEmail();
                           settingController.isEmailEdit.value = true;
                         },
                         child: Icon(Icons.edit)),
               ),
               ListTile(
                 title: settingController.isPasswordEdit.value
-                    ? const TextField(
-                        decoration: InputDecoration(
-                          filled: false,
-                          enabledBorder: InputBorder.none,
-                          border: InputBorder.none,
-                          hintText: "Enter password",
-                        ),
-                      )
+                    ? accountCntroller.currentUserData.value.password == null
+                        ? Text("No paswword shaved")
+                        :  Text(accountCntroller.currentUserData.value.password! )
                     : Text("**********"),
                 leading: Icon(Icons.lock),
                 trailing: settingController.isPasswordEdit.value
@@ -96,12 +104,12 @@ class PersonalInfomationTile extends StatelessWidget {
                         onTap: () {
                           settingController.isPasswordEdit.value = false;
                         },
-                        child: Icon(Icons.save))
+                        child: Icon(Icons.remove_red_eye))
                     : InkWell(
                         onTap: () {
                           settingController.isPasswordEdit.value = true;
                         },
-                        child: Icon(Icons.edit)),
+                        child: Icon(Icons.visibility_off)),
               )
             ],
           ),

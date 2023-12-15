@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 import 'BottomSheetController.dart';
 
@@ -48,7 +49,20 @@ class DbController extends GetxController {
     setAccountDetails();
   }
 
-  void getTransactionList() async {
+  void onPageRefresh() async {
+    isLoading.value = true;
+    await accountCntroller.getAccount();
+    await setAccountDetails();
+    await accountCntroller.getCategory();
+    await accountCntroller.getPayementMode();
+    await accountCntroller.getUserDetails();
+    await getTransactionList();
+    print("refress");
+    successMessage("❤️ Refresh");
+    isLoading.value = false;
+  }
+
+  Future getTransactionList() async {
     transactionList.clear();
     await db
         .collection("users")
@@ -64,7 +78,9 @@ class DbController extends GetxController {
     });
   }
 
-  void addTransaction(BuildContext context) async {
+  Future addTransaction(BuildContext context) async {
+    String tempId = Uuid().v1();
+    String id = "tran" + tempId;
     if (bottomSheetController.amountValue.value == "") {
       errorMessage("Please Enter Amount");
       return;
@@ -75,7 +91,7 @@ class DbController extends GetxController {
         DateTime.now(),
       );
       var transactionModel = TransactionModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: id,
         amount: amount,
         paymentType: bottomSheetController.paymentModeValue.value,
         category: bottomSheetController.paymentResionValue.value,
@@ -91,7 +107,8 @@ class DbController extends GetxController {
           .collection("accounts")
           .doc(accountSelected.value)
           .collection("transactions")
-          .add(
+          .doc(id)
+          .set(
             transactionModel.toJson(),
           );
       getTransactionList();
@@ -103,9 +120,11 @@ class DbController extends GetxController {
       bottomSheetController.amountValue.value = "";
       bottomSheetController.comment.clear();
     }
+    update();
   }
 
-  void deleteTransaction(String id) async {
+  Future deleteTransaction(String id) async {
+
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -114,16 +133,18 @@ class DbController extends GetxController {
         .collection("transactions")
         .doc(id)
         .delete();
+    
+    getTransactionList();
+    setAccountDetails();
     successMessage("🪲 Transaction Deleted");
   }
 
-  void updateAccount(bool isIncome, int newAmount) async {
+  Future updateAccount(bool isIncome, int newAmount) async {
     if (isIncome) {
       int newTotal = selectedAccountDetails.value.total! + newAmount;
       selectedAccountDetails.value.total = newTotal;
       selectedAccountDetails.value.income =
           selectedAccountDetails.value.income! + newAmount;
-
       print("Income");
       await db
           .collection("users")
@@ -152,7 +173,7 @@ class DbController extends GetxController {
     successMessage("🤑 Account Updated");
   }
 
-  void setAccountDetails() {
+  Future setAccountDetails() async {
     print("searching start");
     for (var element in accountCntroller.accountData) {
       if (element.name!.toLowerCase() == accountSelected.value) {

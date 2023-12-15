@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 import 'IconPickerController.dart';
 
@@ -20,7 +21,62 @@ class AccountCntroller extends GetxController {
   TextEditingController category = TextEditingController();
   TextEditingController paymentMode = TextEditingController();
   RxList<AccountModel> accountData = RxList<AccountModel>();
-  RxList<DropDownModel> categoryData = RxList<DropDownModel>();
+  RxList<DropDownModel> categoryData = RxList<DropDownModel>([
+       DropDownModel(
+        id: "cat1",
+        name: "Food",
+        value: "food",
+        icon: "Assets/Icons/FoodIcon/food.svg",
+      ),
+      DropDownModel(
+        id: "cat2",
+        name: "Shopping",
+        value: "shopping",
+        icon: "Assets/Icons/FoodIcon/shopping.svg",
+      ),
+      DropDownModel(
+        id: "cat3",
+        name: "Travel",
+        value: "travel",
+        icon: "Assets/Icons/FoodIcon/travel.svg",
+      ),
+      DropDownModel(
+        id: "cat4",
+        name: "Bread",
+        value: "bread",
+        icon: "Assets/Icons/FoodIcon/bread.svg",
+      ),
+      DropDownModel(
+        id: "cat5",
+        name: "Chiken",
+        value: "chiken",
+        icon: "Assets/Icons/FoodIcon/chiken.svg",
+      ),
+      DropDownModel(
+        id: "cat6",
+        name: "Rent",
+        value: "rent",
+        icon: "Assets/Icons/FoodIcon/home.svg",
+      ),
+      DropDownModel(
+        id: "cat7",
+        name: "Reacharge",
+        value: "reacharge",
+        icon: "Assets/Icons/FoodIcon/mobile.svg",
+      ),
+      DropDownModel(
+        id: "cat8",
+        name: "Bills",
+        value: "bills",
+        icon: "Assets/Icons/FoodIcon/other.svg",
+      ),
+      DropDownModel(
+        id: "cat9",
+        name: "Others",
+        value: "others",
+        icon: "Assets/Icons/FoodIcon/other.svg",
+      ),
+  ]);
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
   Rx<UserModel> currentUserData = Rx<UserModel>(UserModel());
   IconPickerController iconPickerController = Get.put(IconPickerController());
@@ -30,11 +86,10 @@ class AccountCntroller extends GetxController {
     getAccount();
     getCategory();
     getPayementMode();
-    
   }
 
   bool isPayemntModeGetting = false;
-  void getPayementMode() async {
+  Future getPayementMode() async {
     if (isPayemntModeGetting) {
       return;
     }
@@ -56,8 +111,11 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  void addPaymentMode() async {
+  Future addPaymentMode() async {
+    String tempId = Uuid().v1();
+    String id = "pay" + tempId;
     var newMode = DropDownModel(
+      id: id,
       name: paymentMode.text,
       value: paymentMode.text.toLowerCase(),
       icon: iconPickerController.paymentModeSelectedIconvalue.value,
@@ -66,7 +124,8 @@ class AccountCntroller extends GetxController {
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("paymentMode")
-        .add(
+        .doc(id)
+        .set(
           newMode.toJson(),
         );
     successMessage("😍 Payment mode Added");
@@ -74,7 +133,7 @@ class AccountCntroller extends GetxController {
     getPayementMode();
   }
 
-  void deletePaymentMode(String name) async {
+  Future deletePaymentMode(String name) async {
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -86,7 +145,7 @@ class AccountCntroller extends GetxController {
   }
 
   bool isCategoryGetting = false;
-  void getCategory() async {
+  Future getCategory() async {
     if (isCategoryGetting) {
       return;
     }
@@ -99,8 +158,8 @@ class AccountCntroller extends GetxController {
           .collection("category")
           .get()
           .then((value) {
-        for (var element in value.docs) {
-          categoryData.add(DropDownModel.fromJson(element.data()));
+        for (var e in value.docs) {
+          categoryData.add(DropDownModel.fromJson(e.data()));
         }
       });
     } finally {
@@ -108,8 +167,11 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  void addNewCategory() async {
+  Future addNewCategory() async {
+    String tempId = Uuid().v1();
+    String id = "cat" + tempId;
     var newCategory = DropDownModel(
+      id: id,
       value: category.text.toLowerCase(),
       name: category.text,
       icon: iconPickerController.categorySelectedIconvalue.value,
@@ -119,7 +181,8 @@ class AccountCntroller extends GetxController {
           .collection("users")
           .doc(auth.currentUser!.uid)
           .collection("category")
-          .add(
+          .doc(id)
+          .set(
             newCategory.toJson(),
           );
       successMessage("😍 Category Added");
@@ -130,7 +193,7 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  void deleteCategory(String name) async {
+  Future deleteCategory(String name) async {
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -141,7 +204,7 @@ class AccountCntroller extends GetxController {
   }
 
   bool isGettingAccount = false;
-  void getAccount() async {
+  Future getAccount() async {
     if (isGettingAccount) {
       return;
     }
@@ -162,9 +225,11 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  void addNewAccount(BuildContext context) async {
+  Future addNewAccount(BuildContext context) async {
+    String tempId = Uuid().v1();
+    String id = "ac" + tempId;
     var newAccount = AccountModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: id,
       name: accountName.text,
       expense: 0,
       income: 0,
@@ -179,7 +244,7 @@ class AccountCntroller extends GetxController {
           .collection("users")
           .doc(auth.currentUser!.uid)
           .collection("accounts")
-          .doc(accountName.text)
+          .doc(id)
           .set(newAccount.toJson());
       successMessage("🪲 New Account Added");
       accountName.clear();
@@ -189,7 +254,7 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  void deleteAccount(String name) async {
+  Future deleteAccount(String name) async {
     print(name);
     await db
         .collection("users")
@@ -201,7 +266,7 @@ class AccountCntroller extends GetxController {
     getAccount();
   }
 
-  void getUserDetails() async {
+  Future getUserDetails() async {
     await db.collection("users").doc(auth.currentUser!.uid).get().then((value) {
       currentUserData.value = UserModel.fromJson(value.data()!);
     });

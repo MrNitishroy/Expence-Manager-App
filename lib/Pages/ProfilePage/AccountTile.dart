@@ -1,3 +1,4 @@
+import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/IconPickerController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class AccountTile extends StatelessWidget {
     CreditcardController creditcardController = Get.put(CreditcardController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     IconPickerController iconPickerController = Get.put(IconPickerController());
+    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_manager/Config/Colors.dart';
+import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/DropdownModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
@@ -7,7 +7,6 @@ import 'package:expense_manager/Models/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -16,9 +15,12 @@ class AuthController extends GetxController {
   RxBool isLogin = true.obs;
   TextEditingController loginEmail = TextEditingController();
   TextEditingController loginPassword = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailUpdate = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController cPassword = TextEditingController();
+  AccountCntroller accountCntroller = Get.put(AccountCntroller());
   RxString pwdError = "".obs;
   RxBool isLoading = false.obs;
   RxBool ispwdHide = true.obs;
@@ -28,7 +30,6 @@ class AuthController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     fillData();
   }
@@ -39,7 +40,7 @@ class AuthController extends GetxController {
     loginPassword.text = prefs.getString("password") ?? "";
   }
 
-  void signupWithEmailAndPassword(BuildContext context) async {
+  Future<void> signupWithEmailAndPassword(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     pwdError.value = "";
     if (email.text.isEmpty || password.text.isEmpty || cPassword.text.isEmpty) {
@@ -51,9 +52,11 @@ class AuthController extends GetxController {
         try {
           await auth.createUserWithEmailAndPassword(
               email: email.text, password: password.text);
-
           successMessage("🎉 Account Created Successfully");
-          initDatabase(context);
+          await initDatabase(context);
+          await initCategory();
+          await initPaymentMode();
+          await initUserData();
           Get.offNamed("/home");
           prefs.setString("email", email.text);
           prefs.setString("password", password.text);
@@ -103,7 +106,7 @@ class AuthController extends GetxController {
 
 // Data base work
 
-  void initDatabase(BuildContext context) async {
+  Future<void> initDatabase(BuildContext context) async {
     String time = TimeOfDay.now().format(context);
     String date = DateFormat("dd MMM yyyy").format(
       DateTime.now(),
@@ -124,75 +127,84 @@ class AuthController extends GetxController {
         .collection("accounts")
         .doc("personal")
         .set(initAccount.toJson());
-
     successMessage("🪲 DB INIT");
-    initCategory();
-    initPaymentMode();
-    initUserData();
   }
 
-  void initCategory() async {
+  Future<void> initCategory() async {
+    String tempId = Uuid().v1();
     var newCategory = [
       DropDownModel(
+        id: "cat$tempId",
         name: "Food",
         value: "food",
         icon: "Assets/Icons/FoodIcon/food.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Shopping",
         value: "shopping",
         icon: "Assets/Icons/FoodIcon/shopping.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Travel",
         value: "travel",
         icon: "Assets/Icons/FoodIcon/travel.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Bread",
         value: "bread",
         icon: "Assets/Icons/FoodIcon/bread.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Chiken",
         value: "chiken",
         icon: "Assets/Icons/FoodIcon/chiken.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Rent",
         value: "rent",
         icon: "Assets/Icons/FoodIcon/home.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Reacharge",
         value: "reacharge",
         icon: "Assets/Icons/FoodIcon/mobile.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Bills",
         value: "bills",
         icon: "Assets/Icons/FoodIcon/other.svg",
       ),
       DropDownModel(
+        id: "cat$tempId",
         name: "Others",
         value: "others",
         icon: "Assets/Icons/FoodIcon/other.svg",
       ),
     ];
-    for (var element in newCategory) {
+    for(var cat in newCategory){
       await db
           .collection("users")
           .doc(auth.currentUser!.uid)
           .collection("category")
           .add(
-            element.toJson(),
+            cat.toJson(),
           );
     }
     successMessage("😍Category Init");
   }
 
-  void initPaymentMode() async {
+  Future<void> initPaymentMode() async {
+    String tempId = Uuid().v1();
+    String id = "tran" + tempId;
     var newMode = DropDownModel(
+      id: id,
       value: "cash",
       name: "Cash",
       icon: "Assets/Icons/logo.svg",
@@ -207,17 +219,41 @@ class AuthController extends GetxController {
     successMessage("Init Payment Mode");
   }
 
-  void initUserData() async {
+  Future<void> initUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     var newUser = UserModel(
-      id: auth.currentUser!.uid,
-      name: auth.currentUser!.displayName,
-      email: auth.currentUser!.email,
-      profile: auth.currentUser!.photoURL,
-    );
+        id: auth.currentUser!.uid,
+        name: auth.currentUser!.displayName,
+        email: auth.currentUser!.email,
+        profile: auth.currentUser!.photoURL,
+        password: prefs.getString("password") ?? "");
 
     await db.collection("users").doc(auth.currentUser!.uid).set(
           newUser.toJson(),
         );
     successMessage("😍 User Init");
+  }
+
+  Future updateUserName() async {
+    await db.collection("users").doc(auth.currentUser!.uid).update({
+      "name": nameController.text,
+    });
+    accountCntroller.getUserDetails();
+    successMessage("Name Updated");
+  }
+
+  Future updateUserEmail() async {
+    await db.collection("users").doc(auth.currentUser!.uid).update({
+      "email": emailUpdate.text,
+    });
+    accountCntroller.getUserDetails();
+    successMessage('Email updated');
+  }
+
+  Future updateUserNumber() async {
+    await db.collection("users").doc(auth.currentUser!.uid).update({
+      "name": "Nitish Kumar",
+    });
   }
 }
