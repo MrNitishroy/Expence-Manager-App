@@ -1,7 +1,5 @@
-import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/ThemeController.dart';
-import 'package:expense_manager/Pages/DemoPage.dart';
 import 'package:expense_manager/Pages/ProfilePage/AccountTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/CategoryTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/PaymentMode.dart';
@@ -9,9 +7,6 @@ import 'package:expense_manager/Pages/ProfilePage/PersonalInfomation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../Controller/IconPickerController.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -50,7 +45,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 10),
             CategoryTile(),
             SizedBox(height: 10),
-            PaymentTile(  ),
+            PaymentTile(),
             SizedBox(height: 10),
             AccountTile(),
             SizedBox(height: 80),
@@ -85,14 +80,16 @@ class ProfilePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
               ),
             ),
-            ElevatedButton(
-                onPressed: () async{
-                  Get.to(DemoPage());
-            
-                },
-                child: Text("Icon Picker")),
+            // ElevatedButton(
+            //     onPressed: () async {
+               
+            //     },
+            //     child: Text("Icon Picker")),
+            // ElevatedButton(
+            //     onPressed: () async {
+            //     },
+            //     child: Text("Close")),
             SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

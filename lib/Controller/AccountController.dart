@@ -78,12 +78,16 @@ class AccountCntroller extends GetxController {
     getPayementMode();
   }
 
-  Future deletePaymentMode(String name) async {
+  Future deletePaymentMode(String id) async {
+    if (paymentModeData.length == 1) {
+      errorMessage("❌ You can't delete last Payment Mode");
+      return;
+    }
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("paymentMode")
-        .doc(name)
+        .doc(id)
         .delete();
     getPayementMode();
     successMessage("🪲 Payment mode Deleted");
@@ -138,13 +142,18 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  Future deleteCategory(String name) async {
+  Future deleteCategory(String id) async {
+    if (categoryData.length == 1) {
+      errorMessage("❌ You can't delete last Category");
+      return;
+    }
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("category")
-        .doc(name)
+        .doc(id)
         .delete();
+    getCategory();
     successMessage("🪲 Category Deleted");
   }
 
@@ -199,16 +208,20 @@ class AccountCntroller extends GetxController {
     }
   }
 
-  Future deleteAccount(String name) async {
-    print(name);
+  Future deleteAccount(String id) async {
+    print(id);
+    if (accountData.length == 1) {
+      errorMessage("❌ You can't delete last account");
+      return;
+    }
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
-        .doc(name)
+        .doc(id)
         .delete();
-    successMessage("🪲 Account Deleted");
     getAccount();
+    successMessage("🪲 Account Deleted");
   }
 
   Future getUserDetails() async {

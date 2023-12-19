@@ -22,7 +22,8 @@ class EntryTile extends StatelessWidget {
     required this.comment,
     required this.date,
     required this.isIncome,
-    required this.amount, required this.onTap,
+    required this.amount,
+    required this.onTap,
   });
 
   @override
@@ -33,92 +34,75 @@ class EntryTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).colorScheme.primaryContainer,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
-                  Row(
+                  Container(
+                    width: 50,
+                    height: 50,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: isIncome
+                            ? greenColor
+                            : Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: SvgPicture.asset(
+                      icon,
+                      width: 30,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: isIncome
-                                ? greenColor
-                                : Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.circular(100)),
-                        child: SvgPicture.asset(
-                          icon,
-                          width: 30,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Text(comment,
+                          style: Theme.of(context).textTheme.bodyLarge),
+                      SizedBox(height: 3),
+                      Row(
                         children: [
+                          SvgPicture.asset("Assets/Icons/calender.svg"),
+                          SizedBox(width: 4),
                           Text(
-                            comment,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                            date,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset("Assets/Icons/calender.svg"),
-                              SizedBox(width: 4),
-                              Text(
-                                date,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer),
-                              ),
-                              SizedBox(width: 10),
-                                SvgPicture.asset("Assets/Icons/clock.svg"),
-                              SizedBox(width: 4),
-                              Text(
-                                time,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer),
-                              ),
-                            ],
+                          SizedBox(width: 10),
+                          SvgPicture.asset("Assets/Icons/clock.svg"),
+                          SizedBox(width: 4),
+                          Text(
+                            time,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      isIncome ? const Text(
-                        "+",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ):const Text(
-                        "-",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text(
-                        amount,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ],
                   )
                 ],
               ),
-            ),
+              Row(
+                children: [
+                  isIncome
+                      ? Text("+",
+                          style: Theme.of(context).textTheme.headlineMedium)
+                      : Text(
+                          "-",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                  Text(amount,
+                      style: Theme.of(context).textTheme.headlineMedium),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
       // child: Slidable(
       //     endActionPane: ActionPane(

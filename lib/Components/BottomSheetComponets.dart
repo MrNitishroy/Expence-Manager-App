@@ -17,8 +17,8 @@ class MyBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     BottomSheetController bottomSheetController =
         Get.put(BottomSheetController());
-        bottomSheetController.isIncome.value = isIncome;
-        DbController dbController = Get.put(DbController());
+    bottomSheetController.isIncome.value = isIncome;
+    DbController dbController = Get.put(DbController());
     return Obx(
       () => AnimatedContainer(
         duration: Duration(milliseconds: 200),
@@ -52,7 +52,9 @@ class MyBottomSheet extends StatelessWidget {
                   const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [isIncome ? const Text("INCOME") : const Text("EXPENSE")],
+                    children: [
+                      isIncome ? const Text("INCOME") : const Text("EXPENSE")
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Row(
@@ -138,7 +140,7 @@ class MyBottomSheet extends StatelessWidget {
                                     onTap: () {
                                       HapticFeedback.lightImpact();
                                       if (bottomSheetController
-                                              .amountValue.value.isNotEmpty) {
+                                          .amountValue.value.isNotEmpty) {
                                         bottomSheetController
                                                 .amountValue.value =
                                             bottomSheetController
@@ -318,26 +320,29 @@ class MyBottomSheet extends StatelessWidget {
               isExpanded: true,
               value: bottomSheetController.paymentModeValue.value,
               iconSize: 25,
-              items: accountCntroller.paymentModeData.map((e) => DropdownMenuItem(
-                value: e.value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(e.icon!),
-                        SizedBox(width: 10),
-                        Text(
-                          e.name!,
-                          style: TextStyle(fontSize: 15),
+              items: accountCntroller.paymentModeData
+                  .map((e) => DropdownMenuItem(
+                        value: e.value,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(e.icon!),
+                                SizedBox(width: 10),
+                                Text(
+                                  e.name!,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              )).toList(),
+                      ))
+                  .toList(),
               onChanged: (changeValue) {
-                bottomSheetController.paymentModeValue.value = changeValue.toString();
+                bottomSheetController.paymentModeValue.value =
+                    changeValue.toString();
                 print(changeValue);
               },
             ),
@@ -352,6 +357,7 @@ class MyBottomSheet extends StatelessWidget {
               color: paymentResionColor.withOpacity(0.2),
             ),
             child: DropdownButton(
+   
               borderRadius: BorderRadius.circular(10),
               dropdownColor: paymentResionColor.withOpacity(0.2),
               focusColor: paymentResionColor.withOpacity(0.2),
@@ -360,34 +366,39 @@ class MyBottomSheet extends StatelessWidget {
               value: bottomSheetController.paymentResionValue.value,
               isExpanded: true,
               iconSize: 25,
-              items: accountCntroller.categoryData.map((e) => DropdownMenuItem(
-                value: e.value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(e.icon!),
-                        SizedBox(width: 10),
-                        Text(
-                          e.name!,
-                          style: TextStyle(fontSize: 15),
+              items: accountCntroller.categoryData
+                  .map((e) => DropdownMenuItem(
+
+                        value: e.value,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(e.icon!),
+                                SizedBox(width: 10),
+                                Text(
+                                  e.name!,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              )).toList(),
+                      ))
+                  .toList(),
               onChanged: (changeValue) {
-                bottomSheetController.paymentResionValue.value = changeValue.toString();
+                bottomSheetController.paymentResionValue.value =
+                    changeValue.toString();
                 accountCntroller.categoryData.forEach((element) {
-                  if(element.value == changeValue){
-                    bottomSheetController.paymentResionIconValue.value = element.icon!;
+                  if (element.value == changeValue) {
+                    bottomSheetController.paymentResionIconValue.value =
+                        element.icon!;
                   }
                 });
                 print(changeValue);
               },
-          ),
+            ),
           ),
         )
       ],

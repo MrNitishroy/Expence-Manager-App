@@ -11,7 +11,7 @@ class PersonalInfomationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     SettingController settingController = Get.put(SettingController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
-    AuthController authController  = Get.put(AuthController());
+    AuthController authController = Get.put(AuthController());
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -27,8 +27,8 @@ class PersonalInfomationTile extends StatelessWidget {
             children: [
               ListTile(
                 title: settingController.isNameEdit.value
-                    ?  TextField(
-                      controller: authController.nameController,
+                    ? TextField(
+                        controller: authController.nameController,
                         decoration: InputDecoration(
                           filled: false,
                           enabledBorder: InputBorder.none,
@@ -51,52 +51,19 @@ class PersonalInfomationTile extends StatelessWidget {
                         child: Icon(Icons.save))
                     : InkWell(
                         onTap: () {
-                          
                           settingController.isNameEdit.value = true;
                         },
                         child: Icon(Icons.edit)),
               ),
               ListTile(
-                title: settingController.isEmailEdit.value
-                    ?  TextField(
-                      controller: authController.emailUpdate,
-                        decoration: InputDecoration(
-                          filled: false,
-                          enabledBorder: InputBorder.none,
-                          border: InputBorder.none,
-                          hintText: "Enter email",
-                        ),
-                      )
-                    : Obx(
-                        () => accountCntroller.currentUserData.value.email ==
-                                null
-                            ? accountCntroller.currentUserData.value.name ==
-                                    null
-                                ? Text("User Email")
-                                : Text(accountCntroller
-                                    .currentUserData.value.name!)
-                            : Text(
-                                accountCntroller.currentUserData.value.email!),
-                      ),
+                title: Text(accountCntroller.currentUserData.value.email!),
                 leading: Icon(Icons.alternate_email_outlined),
-                trailing: settingController.isEmailEdit.value
-                    ? InkWell(
-                        onTap: () {
-                          settingController.isEmailEdit.value = false;
-                        },
-                        child: Icon(Icons.save))
-                    : InkWell(
-                        onTap: () {
-                          authController.updateUserEmail();
-                          settingController.isEmailEdit.value = true;
-                        },
-                        child: Icon(Icons.edit)),
               ),
               ListTile(
                 title: settingController.isPasswordEdit.value
                     ? accountCntroller.currentUserData.value.password == null
                         ? Text("No paswword shaved")
-                        :  Text(accountCntroller.currentUserData.value.password! )
+                        : Text(accountCntroller.currentUserData.value.password!)
                     : Text("**********"),
                 leading: Icon(Icons.lock),
                 trailing: settingController.isPasswordEdit.value

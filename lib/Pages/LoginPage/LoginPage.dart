@@ -33,12 +33,9 @@ class LoginPage extends StatelessWidget {
                     child: SvgPicture.asset("Assets/Icons/logo.svg"),
                   ),
                   SizedBox(width: 10),
-                  const Text(
+                   Text(
                     "UNIWALT",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.7),
+                  style:Theme.of(context).textTheme.headlineMedium
                   )
                 ],
               ),
@@ -55,15 +52,12 @@ class LoginPage extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        const Row(
+                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "WELCOME 😍 ",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.7),
+                              style:Theme.of(context).textTheme.headlineSmall
                             )
                           ],
                         ),

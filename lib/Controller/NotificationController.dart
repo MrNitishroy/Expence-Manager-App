@@ -14,7 +14,7 @@ class NotificationController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     isNotificationPermissionGranted.value = await Reflex.isPermissionGranted;
-    requestPermission();
+  
   }
 
   Future checkPermission() async {

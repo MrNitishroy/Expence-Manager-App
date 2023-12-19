@@ -29,7 +29,7 @@ class AuthController extends GetxController {
   final db = FirebaseFirestore.instance;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     fillData();
   }

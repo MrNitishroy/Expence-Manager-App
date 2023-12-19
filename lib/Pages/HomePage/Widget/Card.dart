@@ -2,6 +2,7 @@ import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/CreditcardController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
+import 'package:expense_manager/Pages/ProfilePage/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -35,13 +36,12 @@ class CreditCard extends StatelessWidget {
                       Obx(
                         () => dbController.selectedAccountDetails.value.total ==
                                 null
-                            ? Text("Loading")
+                            ? Text("Loading",
+                                style: Theme.of(context).textTheme.labelSmall)
                             : Text(
                                 "${dbController.selectedAccountDetails.value.total}",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.5),
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                               ),
                       )
                     ],
@@ -53,13 +53,16 @@ class CreditCard extends StatelessWidget {
                           Theme.of(context).colorScheme.primaryContainer,
                       elevation: 0,
                       value: dbController.accountSelected.value,
-                      hint: Text("Select Account"),
+                      hint: Text("Accounts",
+                          style: Theme.of(context).textTheme.bodyMedium),
                       enableFeedback: true,
                       borderRadius: BorderRadius.circular(10),
                       items: accountCntroller.accountData
                           .map((e) => DropdownMenuItem(
                                 value: e.name!.toLowerCase(),
-                                child: Text("${e.name}"),
+                                child: Text("${e.name}",
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium),
                               ))
                           .toList(),
                       onChanged: (selected) {
@@ -76,9 +79,7 @@ class CreditCard extends StatelessWidget {
                 children: [
                   Text(
                     "Total Balance",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color:
                             Theme.of(context).colorScheme.secondaryContainer),
                   ),
@@ -87,13 +88,15 @@ class CreditCard extends StatelessWidget {
               SizedBox(height: 20),
               Obx(
                 () => LinearProgressIndicator(
-                  value:
-                      dbController.selectedAccountDetails.value.income == null
-                          ? 0
-                          : (dbController.selectedAccountDetails.value.income! -
-                                  dbController
-                                      .selectedAccountDetails.value.expense!) /
-                              dbController.selectedAccountDetails.value.income!,
+                  value: dbController.selectedAccountDetails.value.income ==
+                              0 ||
+                          dbController.selectedAccountDetails.value.income ==
+                              null
+                      ? 0
+                      : (dbController.selectedAccountDetails.value.income! -
+                              dbController
+                                  .selectedAccountDetails.value.expense!) /
+                          dbController.selectedAccountDetails.value.income!,
                   minHeight: 7,
                   borderRadius: BorderRadius.circular(100),
                 ),
@@ -139,17 +142,35 @@ class CreditCard extends StatelessWidget {
               Row(
                 children: [
                   Obx(
-                    () => Text(
-                      accountCntroller.currentUserData.value.name
-                          .toString()
-                          .toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 3,
-                          color:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    () => accountCntroller.currentUserData.value.name == null
+                        ? InkWell(
+                            onTap: () {
+                              Get.toNamed("/profilePage");
+                            },
+                            child: Text(
+                              "CLICK TO SET USER NAME".toString().toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                letterSpacing: 3,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            accountCntroller.currentUserData.value.name
+                                .toString()
+                                .toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                letterSpacing: 3,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                                fontWeight: FontWeight.bold),
+                          ),
                   )
                 ],
               ),

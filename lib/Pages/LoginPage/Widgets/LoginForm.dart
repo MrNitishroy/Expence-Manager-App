@@ -22,32 +22,34 @@ class LoginForm extends StatelessWidget {
               )),
         ),
         const SizedBox(height: 30),
-        Obx(() => TextFormField(
-          obscureText: authController.ispwdHide.value,
-          controller: authController.loginPassword,
-          onFieldSubmitted: (s) {
-            print("Click on Done button $s ");
-            authController.loginWithEmailAndPassword();
-          },
-          decoration: InputDecoration(
-              hintText: "Password",
-              suffix: authController.ispwdHide.value
-                  ? InkWell(
-                      onTap: () {
-                        authController.ispwdHide.value =
-                            !authController.ispwdHide.value;
-                      },
-                      child: const Icon(Icons.visibility_off))
-                  : InkWell(
-                      onTap: () {
-                        authController.ispwdHide.value =
-                            !authController.ispwdHide.value;
-                      },
-                      child: const Icon(Icons.visibility)),
-              prefixIcon: Icon(
-                Icons.lock_sharp,
-              )),
-        ),),
+        Obx(
+          () => TextFormField(
+            obscureText: authController.ispwdHide.value,
+            controller: authController.loginPassword,
+            onFieldSubmitted: (s) {
+              print("Click on Done button $s ");
+              authController.loginWithEmailAndPassword();
+            },
+            decoration: InputDecoration(
+                hintText: "Password",
+                suffix: authController.ispwdHide.value
+                    ? InkWell(
+                        onTap: () {
+                          authController.ispwdHide.value =
+                              !authController.ispwdHide.value;
+                        },
+                        child: const Icon(Icons.visibility_off))
+                    : InkWell(
+                        onTap: () {
+                          authController.ispwdHide.value =
+                              !authController.ispwdHide.value;
+                        },
+                        child: const Icon(Icons.visibility)),
+                prefixIcon: Icon(
+                  Icons.lock_sharp,
+                )),
+          ),
+        ),
         const SizedBox(height: 10),
         // const Text(
         //   "Forgot your password?",
@@ -57,49 +59,52 @@ class LoginForm extends StatelessWidget {
         //       decorationColor: Colors.blue,
         //       fontSize: 15),
         // ),
-        Row(children: [
-          Obx(() => Checkbox(value: authController.remenberMe.value, onChanged: (value) {
-            authController.remenberMe.value = value!;
-          }),),
-          Text("Remember me")
-
-        ],),
+        Row(
+          children: [
+            Obx(
+              () => Checkbox(
+                  value: authController.remenberMe.value,
+                  onChanged: (value) {
+                    authController.remenberMe.value = value!;
+                  }),
+            ),
+            Text("Remember me", style: Theme.of(context).textTheme.bodyLarge)
+          ],
+        ),
         const SizedBox(height: 20),
-        InkWell(
-            onTap: () {
-              authController.loginWithEmailAndPassword();
-            },
-            child: Obx(
-              () => Container(
-                width: 250,
+        Obx(() => authController.isLoading.value
+            ? Container(
                 height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).colorScheme.primary),
-                child: authController.isLoading.value
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('Assets/Icons/lock.svg',
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            "LOGIN",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                width: 50,
+                child: const CircularProgressIndicator(),
+              )
+            : InkWell(
+                onTap: () { authController.loginWithEmailAndPassword();
+                },
+                child: Container(
+                  width: 250,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.primary),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('Assets/Icons/lock.svg',
+                          color: Theme.of(context).colorScheme.onBackground),
+                      const SizedBox(
+                        width: 10,
                       ),
-              ),
-            ))
+                      const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              )),
+       
       ],
     );
   }

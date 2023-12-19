@@ -4,11 +4,21 @@ import 'package:flutter/material.dart';
 var lightTheme = ThemeData(
   useMaterial3: true,
   inputDecorationTheme: const InputDecorationTheme(
-    filled: true,
     fillColor: lightBgColor,
-    contentPadding: EdgeInsets.symmetric(
-      vertical: 20,
-      horizontal: 20,
+    filled: true,
+    enabledBorder: InputBorder.none,
+    prefixIconColor: lightLableColor,
+        labelStyle: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: lightFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+    hintStyle: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: lightFontColor,
+      fontWeight: FontWeight.w500,
     ),
   ),
   colorScheme: const ColorScheme.light(
@@ -20,22 +30,124 @@ var lightTheme = ThemeData(
     secondaryContainer: lightLableColor,
     primary: lightPrimaryColor,
   ),
+
+  textTheme:const TextTheme(
+    headlineLarge: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 24,
+      color: lightFontColor,
+      fontWeight: FontWeight.w700,
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 20,
+      color: lightFontColor,
+      fontWeight: FontWeight.w600,
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: lightFontColor,
+      fontWeight: FontWeight.w600,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 16,
+      color: lightFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: lightFontColor,
+      fontWeight: FontWeight.w400,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 13,
+      color: lightFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 13,
+      color: lightLableColor,
+      fontWeight: FontWeight.w300,
+    ),
+  )
 );
 var darkTheme = ThemeData(
-    useMaterial3: true,
-    colorScheme: const ColorScheme.dark(
-      brightness: Brightness.dark,
-      background: darkBgColor,
-      onBackground: darkFontColor,
-      primaryContainer: darkDivColor,
-      onPrimaryContainer: darkFontColor,
-      secondaryContainer: darkLableColor,
-      primary: darkPrimaryColor,
+  useMaterial3: true,
+  colorScheme: const ColorScheme.dark(
+    brightness: Brightness.dark,
+    background: darkBgColor,
+    onBackground: darkFontColor,
+    primaryContainer: darkDivColor,
+    onPrimaryContainer: darkFontColor,
+    secondaryContainer: darkLableColor,
+    primary: darkPrimaryColor,
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    fillColor: darkBgColor,
+    filled: true,
+    enabledBorder: InputBorder.none,
+    prefixIconColor: darkLableColor,
+    labelStyle: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: darkFontColor,
+      fontWeight: FontWeight.w500,
     ),
+    hintStyle: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: darkFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
+textTheme:const TextTheme(
+    headlineLarge: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 24,
+      color: darkFontColor,
+      fontWeight: FontWeight.w700,
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 20,
+      color: darkFontColor,
+      fontWeight: FontWeight.w600,
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: darkFontColor,
+      fontWeight: FontWeight.w600,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: darkFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      color: darkFontColor,
+      fontWeight: FontWeight.w400,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 13,
+      color: darkFontColor,
+      fontWeight: FontWeight.w500,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 13,
+      color: darkLableColor,
+      fontWeight: FontWeight.w300,
+    ),
+  )
 
-    inputDecorationTheme: const InputDecorationTheme(
-      fillColor: darkBgColor,
-      filled: true,
-      enabledBorder: InputBorder.none,
-      prefixIconColor: darkLableColor,
-    ));
+);

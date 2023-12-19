@@ -37,26 +37,17 @@ class CategoryTile extends StatelessWidget {
                           color:
                               Theme.of(context).colorScheme.secondaryContainer,
                         ),
-                        trailing: SizedBox(
-                          width: 70,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                              ),
-                              SizedBox(width: 20),
-                              Icon(
-                                Icons.delete_rounded,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                              ),
-                            ],
-                          ),
-                        )),
+                        trailing: InkWell(
+                                onTap: (){
+                                  accountCntroller.deleteCategory(e.id!);
+                                },
+                                child: Icon(
+                                  Icons.delete_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
+                              ),),
                   )
                   .toList()),
           Padding(
