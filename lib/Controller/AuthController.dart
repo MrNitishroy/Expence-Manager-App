@@ -27,11 +27,15 @@ class AuthController extends GetxController {
   RxBool remenberMe = true.obs;
   final auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
+  RxString paswordSaved = "".obs;
 
   @override
   void onInit() async {
     super.onInit();
     fillData();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    paswordSaved.value = prefs.getString("password")! ;
+
   }
 
   void fillData() async {
@@ -188,7 +192,7 @@ class AuthController extends GetxController {
         icon: "Assets/Icons/FoodIcon/other.svg",
       ),
     ];
-    for(var cat in newCategory){
+    for (var cat in newCategory) {
       await db
           .collection("users")
           .doc(auth.currentUser!.uid)

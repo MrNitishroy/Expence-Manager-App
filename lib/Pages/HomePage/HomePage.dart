@@ -123,7 +123,7 @@ class HomePage extends StatelessWidget {
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),
-                          child: SvgPicture.asset("Assets/Icons/menu.svg"),
+                          child: SvgPicture.asset("Assets/Icons/menu.svg",color: Theme.of(context).colorScheme.onBackground,),
                         ),
                       ),
                     ],

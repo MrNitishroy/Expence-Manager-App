@@ -3,6 +3,7 @@ import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/SettingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonalInfomationTile extends StatelessWidget {
   const PersonalInfomationTile({super.key});
@@ -12,6 +13,7 @@ class PersonalInfomationTile extends StatelessWidget {
     SettingController settingController = Get.put(SettingController());
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     AuthController authController = Get.put(AuthController());
+
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -63,7 +65,7 @@ class PersonalInfomationTile extends StatelessWidget {
                 title: settingController.isPasswordEdit.value
                     ? accountCntroller.currentUserData.value.password == null
                         ? Text("No paswword shaved")
-                        : Text(accountCntroller.currentUserData.value.password!)
+                        : Text(authController.paswordSaved.value)
                     : Text("**********"),
                 leading: Icon(Icons.lock),
                 trailing: settingController.isPasswordEdit.value
@@ -76,7 +78,8 @@ class PersonalInfomationTile extends StatelessWidget {
                         onTap: () {
                           settingController.isPasswordEdit.value = true;
                         },
-                        child: Icon(Icons.visibility_off)),
+                        child: Icon(Icons.visibility_off),
+                      ),
               )
             ],
           ),

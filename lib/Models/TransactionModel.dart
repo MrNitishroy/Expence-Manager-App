@@ -9,8 +9,10 @@ class TransactionModel {
   String? comment;
   bool? isIncome;
   String? iconPath;
+  String? location  ;
 
-  TransactionModel({this.id, this.date, this.time, this.amount, this.paymentType, this.category, this.comment, this.isIncome, this.iconPath});
+
+  TransactionModel({this.id, this.date, this.time, this.amount, this.paymentType, this.category, this.comment, this.isIncome, this.iconPath,this.location});
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -22,6 +24,7 @@ class TransactionModel {
     comment = json["comment"];
     isIncome = json["isIncome"];
     iconPath = json["iconPath"];
+    location = json["location"];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class TransactionModel {
     _data["comment"] = comment;
     _data["isIncome"] = isIncome;
     _data["iconPath"] = iconPath;
+    _data["location"] = location;
     return _data;
   }
 }
