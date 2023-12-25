@@ -1,4 +1,5 @@
 import 'package:expense_manager/Components/BottomNaviagtion.dart';
+import 'package:expense_manager/Components/MyDrawer.dart';
 import 'package:expense_manager/Components/TransactionDetails.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
@@ -23,58 +24,11 @@ class HomePage extends StatelessWidget {
     NotificationController notificationController =
         Get.put(NotificationController());
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: true,
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      //   primary: true,
-      //   bottom: PreferredSize(
-      //     preferredSize: Size.fromHeight(0),
-      //     child: Obx(
-      //       () => dbController.isLoading.value
-      //           ? LinearProgressIndicator(
-      //               color: Theme.of(context).colorScheme.primary,
-      //               backgroundColor:
-      //                   Theme.of(context).colorScheme.primaryContainer,
-      //             )
-      //           : SizedBox(),
-      //     ),
-      //   ),
-      //   title: Row(
-      //     children: [
-      //       Container(
-      //         padding: const EdgeInsets.all(8),
-      //         width: 40,
-      //         height: 40,
-      //         decoration: BoxDecoration(
-      //           color: Theme.of(context).colorScheme.primaryContainer,
-      //           borderRadius: BorderRadius.circular(15),
-      //         ),
-      //         child: SvgPicture.asset("Assets/Icons/logo.svg"),
-      //       ),
-      //       SizedBox(width: 10),
-      //       const Text(
-      //         "UNIWALT",
-      //         style: TextStyle(
-      //             fontSize: 20,
-      //             fontWeight: FontWeight.bold,
-      //             letterSpacing: 1.7),
-      //       )
-      //     ],
-      //   ),
-      //   actions: [
-      //     InkWell(
-      //       onTap: () {
-      //         // authController.logOut();
-      //         Get.to(ProfilePage());
-      //       },
-      //       child: Container(
-      //         padding: EdgeInsets.all(10),
-      //         child: SvgPicture.asset("Assets/Icons/menu.svg"),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+      // drawer: MyDrawer(),
+      endDrawer: Container(
+        child: MyDrawer(context),
+        width: 350,
+      ),
       bottomNavigationBar: MyBottomNavigation(),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -99,35 +53,46 @@ class HomePage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(15),
+                      Builder(
+                        builder: (context) => InkWell(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: SvgPicture.asset("Assets/Icons/logo.svg"),
+                          ),
                         ),
-                        child: SvgPicture.asset("Assets/Icons/logo.svg"),
                       ),
                       SizedBox(width: 10),
-                      Text("UNI-WALLETS",
-                          style: Theme.of(context).textTheme.headlineMedium),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // authController.logOut();
-                        Get.toNamed("/profilePage");
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: SvgPicture.asset("Assets/Icons/menu.svg",color: Theme.of(context).colorScheme.onBackground,),
-                        ),
+                      Text(
+                        "UNI-WALLETS",
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ],
-                  )
+                  ),
+                  Builder(
+                    builder: (context) => InkWell(
+                      onTap: () {
+                        // authController.logOut();
+                        // Get.toNamed("/profilePage");
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: SvgPicture.asset(
+                          "Assets/Icons/menu.svg",
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
