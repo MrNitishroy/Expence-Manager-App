@@ -9,7 +9,7 @@ class BottomSheetController extends GetxController {
   RxString amountValue = "".obs;
   RxString paymentModeValue = "cash".obs;
   RxString paymentResionValue = "others".obs;
-  RxString paymentResionIconValue = "Assets/Icons/FoodIcon/food.svg".obs;
+  RxString paymentResionIconValue = "Assets/Icons/FoodIcon/other.svg".obs;
   TextEditingController comment = TextEditingController();
  
 }

@@ -1,12 +1,14 @@
 import 'package:expense_manager/Components/BottomSheetComponets.dart';
+import 'package:expense_manager/Components/GroupBottomSheet.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/BottomSheetController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class MyBottomNavigation extends StatelessWidget {
-  const MyBottomNavigation({super.key});
+class GroupBottomNavigation extends StatelessWidget {
+  final String groupId;
+  const GroupBottomNavigation({super.key, required this.groupId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class MyBottomNavigation extends StatelessWidget {
               highlightColor: Colors.transparent,
               onTap: () {
                 Get.bottomSheet(
-                  MyBottomSheet(
+                  GroupBottomSheet(
+                    groupId: groupId,
                     isIncome: true,
                   ),
                   backgroundColor: Colors.transparent,
@@ -69,7 +72,8 @@ class MyBottomNavigation extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Get.bottomSheet(
-                  MyBottomSheet(
+                  GroupBottomSheet(
+                    groupId: groupId,
                     isIncome: false,
                   ),
                   backgroundColor: Colors.transparent,

@@ -68,7 +68,7 @@ class DbController extends GetxController {
       errorMessage("Please Enter Comment");
       return;
     }
-   await db
+    await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
@@ -85,7 +85,6 @@ class DbController extends GetxController {
     isCommentEditing.value = true;
     commentUpdateText.clear();
     Get.back();
-   
   }
 
   Future getTransactionList() async {
@@ -96,6 +95,7 @@ class DbController extends GetxController {
         .collection("accounts")
         .doc(accountSelected.value)
         .collection("transactions")
+        .orderBy("timestamp", descending: true)
         .get()
         .then((value) {
       for (var element in value.docs) {
@@ -125,6 +125,7 @@ class DbController extends GetxController {
         date: date,
         iconPath: bottomSheetController.paymentResionIconValue.value,
         time: time,
+        timestamp: DateTime.now(),
         isIncome: bottomSheetController.isIncome.value,
       );
       await db

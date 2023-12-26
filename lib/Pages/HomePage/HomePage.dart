@@ -5,6 +5,7 @@ import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
+import 'package:expense_manager/Controller/GroupController.dart';
 import 'package:expense_manager/Controller/NotificationController.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/Card.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatelessWidget {
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     NotificationController notificationController =
         Get.put(NotificationController());
+    GroupController groupController = Get.put(GroupController());
     return Scaffold(
       // drawer: MyDrawer(),
       endDrawer: Container(
@@ -82,6 +84,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         // authController.logOut();
                         // Get.toNamed("/profilePage");
+                        groupController.getYourGroup();
                         Scaffold.of(context).openEndDrawer();
                       },
                       child: Container(

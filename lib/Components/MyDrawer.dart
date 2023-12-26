@@ -1,5 +1,7 @@
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
+import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
+import 'package:expense_manager/Pages/GroupTransaction/GroupTransactionPage.dart';
 import 'package:expense_manager/Pages/ProfilePage/AccountTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/CategoryTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/PaymentMode.dart';
@@ -89,7 +91,15 @@ MyDrawer(BuildContext context) {
                 children: groupController.yourGroupList
                     .map(
                       (element) => ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          groupController.getGroupTransaction(element.id!);
+                          print("Group Id: ${element.id}");
+                          Get.to(
+                            GroupTransaction(
+                              groupModel: element,
+                            ),
+                          );
+                        },
                         leading: CircleAvatar(
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
@@ -107,24 +117,26 @@ MyDrawer(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: (){
-                  // Get.to()
+                onTap: () {
+                  Get.to(GroupPage());
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),  
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(children: [
-                    Icon(Icons.add),
-                    Text(
-                      "New Group",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    )
-                  ]),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add),
+                      Text(
+                        "New Group",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ],
