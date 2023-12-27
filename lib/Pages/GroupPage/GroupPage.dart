@@ -1,5 +1,6 @@
 import 'package:expense_manager/Controller/GroupController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class GroupPage extends StatelessWidget {
@@ -10,109 +11,224 @@ class GroupPage extends StatelessWidget {
     GroupController groupController = Get.put(GroupController());
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text("Group Page"),
         actions: [
           IconButton(
               onPressed: () {
-                groupController.getGroup();
+                groupController.onRefresh();
               },
               icon: Icon(Icons.refresh))
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("Group Page"),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: groupController.groupName,
-                decoration: InputDecoration(
-                  hintText: "Group Name",
-                  fillColor: Theme.of(context).colorScheme.primaryContainer,
-                  filled: true,
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.all(10),
+                // height: 200,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset("Assets/Icons/group.svg"),
+                              SizedBox(width: 10),
+                              Text("New Group Info"),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          TextField(
+                            controller: groupController.groupName,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                              hintText: "Group Name",
+                              prefixIcon: Icon(
+                                Icons.group,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: groupController.email,
+                                  decoration: const InputDecoration(
+                                    hintText: "Member Email",
+                                    prefixIcon: Icon(
+                                      Icons.alternate_email_outlined,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              InkWell(
+                                onTap: () {
+                                  groupController.findUsers();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    "Assets/Icons/donw.svg",
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text(
+                                "Member list",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Obx(
+                            () => Column(
+                              children: groupController.groupMember.map((e) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    child: Text("A"),
+                                  ),
+                                  title: Text(e.email! ?? "No Email"),
+                                  trailing: InkWell(
+                                    onTap: () {},
+                                    child: Icon(Icons.delete),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          // ListTile(
+                          //   leading: CircleAvatar(
+                          //     backgroundColor:
+                          //         Theme.of(context).colorScheme.primary,
+                          //     child: Text("A"),
+                          //   ),
+                          //   title: Text("Nroy7033@gmail.com"),
+                          //   trailing: InkWell(
+                          //       onTap: () {}, child: Icon(Icons.delete)),
+                          // ),
+
+                          SizedBox(height: 20),
+                          Obx(
+                            () => groupController.isLoading.value
+                                ? const CircularProgressIndicator()
+                                : InkWell(
+                                    onTap: () {
+                                      groupController.createGroup();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 20),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        "CREATE GROUP",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          // InkWell(
+                          //           onTap: () {
+                          //             groupController.createGroup();
+                          //           },
+                          //           child: Container(
+                          //             padding: EdgeInsets.symmetric(
+                          //                 vertical: 10, horizontal: 20),
+                          //             decoration: BoxDecoration(
+                          //               color: Theme.of(context)
+                          //                   .colorScheme
+                          //                   .primary,
+                          //               borderRadius: BorderRadius.circular(10),
+                          //             ),
+                          //             child: Text(
+                          //               "CREATE GROUP",
+                          //               style: Theme.of(context)
+                          //                   .textTheme
+                          //                   .bodyLarge,
+                          //             ),
+                          //           ),
+                          //         ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                controller: groupController.email,
-                decoration: InputDecoration(
-                  hintText: "Group Name",
-                  fillColor: Theme.of(context).colorScheme.primaryContainer,
-                  filled: true,
-                  suffix: IconButton(
-                    onPressed: () {
-                      groupController.findUsers();
-                    },
-                    icon: Icon(Icons.add),
-                  ),
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text("Added Members"),
-              Obx(
-                () => Column(
-                  children: groupController.groupMember.map((e) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text("A"),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset("Assets/Icons/group.svg"),
+                              SizedBox(width: 10),
+                              Text("All Your Groups"),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Obx(
+                            () => Column(
+                              children: groupController.yourGroupList.map((e) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    child: Text(e.name![0].toUpperCase()),
+                                  ),
+                                  title: Text(e.name!),
+                                  trailing: InkWell(
+                                      onTap: () {}, child: Icon(Icons.delete)),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                        ],
                       ),
-                      title: Text(e.email!),
-                      trailing: Icon(Icons.delete),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Obx(
-                () => groupController.isLoading.value
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        onPressed: () {
-                          groupController.createGroup();
-                        },
-                        child: const Text("Create Group"),
-                      ),
-              ),
-              const Text("All groups"),
-              Obx(
-                () => Column(
-                  children: groupController.groupList.map((e) {
-                    return ListTile(
-                      onTap: () {
-                        print(e.name);
-                        print(e.members);
-                      },
-                      leading: CircleAvatar(
-                        child: Text("A"),
-                      ),
-                      title: Text("${e.name}"),
-                      trailing: Icon(Icons.delete),
-                    );
-                  }).toList(),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  groupController.getYourGroup();
-                },
-                child: Text("get your group"),
-              ),
-               Obx(
-                () => Column(
-                  children: groupController.yourGroupList.map((e) {
-                    return ListTile(
-                      onTap: () {
-                        print(e.name);
-                        print(e.members);
-                      },
-                      leading: CircleAvatar(
-                        child: Text("A"),
-                      ),
-                      title: Text("${e.name}"),
-                      trailing: Icon(Icons.delete),
-                    );
-                  }).toList(),
+                    ),
+                  ],
                 ),
               ),
             ],

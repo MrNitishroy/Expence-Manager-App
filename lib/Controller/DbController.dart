@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
@@ -28,21 +25,31 @@ class DbController extends GetxController {
   Rx<AccountModel> selectedAccountDetails = Rx<AccountModel>(AccountModel());
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     isLoading.value = true;
     getTransactionList();
 
     accountCntroller.getAccount();
-    Future.delayed(Duration(seconds: 3), () {
-      accountCntroller.getAccount();
-      setAccountDetails();
-      accountCntroller.getCategory();
-      accountCntroller.getPayementMode();
-      accountCntroller.getUserDetails();
+    Future.delayed(Duration(seconds: 3), () async {
+      await accountCntroller.getAccount();
+      await setAccountDetails();
+      await accountCntroller.getCategory();
+      await accountCntroller.getPayementMode();
+      await accountCntroller.getUserDetails();
       successMessage("🤑 Account Updated");
+      await onPageRefresh();
       isLoading.value = false;
     });
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    commentUpdateText.dispose();
+    transactionList.clear();
+    selectedAccountDetails.value = AccountModel();
   }
 
   void onAccountSelected() {
@@ -50,7 +57,7 @@ class DbController extends GetxController {
     setAccountDetails();
   }
 
-  void onPageRefresh() async {
+  Future<void> onPageRefresh() async {
     isLoading.value = true;
     await accountCntroller.getAccount();
     await setAccountDetails();

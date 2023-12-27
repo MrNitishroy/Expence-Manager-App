@@ -4,9 +4,17 @@ class GroupModel {
   String? id;
   String? admin;
   String? name;
+  int? income;
+  int? expense;
   List<UserModel>? members; // Change the type to List<UserModel>
 
-  GroupModel({this.id, this.name, this.members, this.admin});
+  GroupModel(
+      {this.id,
+      this.name,
+      this.members,
+      this.admin,
+      this.income,
+      this.expense});
 
   GroupModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -21,6 +29,8 @@ class GroupModel {
       members = [];
     }
 
+    income = json["income"];
+    expense = json["expense"];
     admin = json["admin"];
   }
 
@@ -28,10 +38,12 @@ class GroupModel {
     final Map<String, dynamic> _data = <String, dynamic>{};
     _data["id"] = id;
     _data["name"] = name;
-    _data["admin"] = admin;
+    _data["income"] = income;
     if (members != null) {
       _data["members"] = members!.map((member) => member.toJson()).toList();
     }
+    _data["expense"] = expense;
+    _data["admin"] = admin;
     return _data;
   }
 }

@@ -32,6 +32,18 @@ class AccountCntroller extends GetxController {
     getCategory();
     getPayementMode();
   }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    accountName.dispose();
+    category.dispose();
+    paymentMode.dispose();
+    accountData.clear();
+    categoryData.clear();
+    paymentModeData.clear();
+    
+  }
 
   bool isPayemntModeGetting = false;
   Future getPayementMode() async {
@@ -202,7 +214,7 @@ class AccountCntroller extends GetxController {
           .set(newAccount.toJson());
       successMessage("🪲 New Account Added");
       accountName.clear();
-      getAccount();
+      await getAccount();
     } else {
       errorMessage("❌ Please Enter Account Name");
     }

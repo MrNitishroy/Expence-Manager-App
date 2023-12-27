@@ -22,6 +22,7 @@ class AuthController extends GetxController {
   TextEditingController cPassword = TextEditingController();
   AccountCntroller accountCntroller = Get.put(AccountCntroller());
   RxString pwdError = "".obs;
+  RxString nameError = "".obs;
   RxBool isLoading = false.obs;
   RxBool ispwdHide = true.obs;
   RxBool remenberMe = true.obs;
@@ -34,9 +35,10 @@ class AuthController extends GetxController {
     super.onInit();
     fillData();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    paswordSaved.value = prefs.getString("password")! ;
-
+    paswordSaved.value = prefs.getString("password")!;
   }
+
+
 
   void fillData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -46,13 +48,14 @@ class AuthController extends GetxController {
 
   Future<void> signupWithEmailAndPassword(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+       isLoading.value = true;
     pwdError.value = "";
-    if (email.text.isEmpty || password.text.isEmpty || cPassword.text.isEmpty) {
+    if (email.text.isEmpty || password.text.isEmpty) {
       errorMessage("😎 All fields are required");
       return;
     } else {
-      if (password.text == cPassword.text) {
-        isLoading.value = true;
+      if (nameController.text!= "") {
+     
         try {
           await auth.createUserWithEmailAndPassword(
               email: email.text, password: password.text);
@@ -75,8 +78,9 @@ class AuthController extends GetxController {
         }
         isLoading.value = false;
       } else {
-        pwdError.value = "Password and Confirm Password not match";
-        errorMessage("🔒 Password not match");
+        nameError.value = "Name is required";
+        isLoading.value = false;
+        // errorMessage("🔒 Password not match");
       }
     }
   }
@@ -115,6 +119,8 @@ class AuthController extends GetxController {
     String date = DateFormat("dd MMM yyyy").format(
       DateTime.now(),
     );
+    String tempId = Uuid().v1();
+    String accountId = "ac" + tempId;
     var uId = Uuid().v4();
     var initAccount = AccountModel(
       id: uId,
@@ -129,7 +135,7 @@ class AuthController extends GetxController {
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
-        .doc("personal")
+        .doc(accountId)
         .set(initAccount.toJson());
     successMessage("🪲 DB INIT");
   }
@@ -217,7 +223,8 @@ class AuthController extends GetxController {
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("paymentMode")
-        .add(
+        .doc(id)
+        .set(
           newMode.toJson(),
         );
     successMessage("Init Payment Mode");
@@ -228,7 +235,7 @@ class AuthController extends GetxController {
 
     var newUser = UserModel(
         id: auth.currentUser!.uid,
-        name: auth.currentUser!.displayName,
+        name: nameController.text,
         email: auth.currentUser!.email,
         profile: auth.currentUser!.photoURL,
         password: prefs.getString("password") ?? "");

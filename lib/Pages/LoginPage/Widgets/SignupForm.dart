@@ -11,6 +11,22 @@ class SignupForm extends StatelessWidget {
     AuthController authController = Get.put(AuthController());
     return Column(
       children: [
+        Obx(
+          () => TextField(
+            controller: authController.nameController,
+            textInputAction: TextInputAction.next,
+            
+            decoration: InputDecoration(
+              errorText: authController.nameError.value,
+              
+              helperStyle: const TextStyle(color: Colors.red),
+              hintText: "Full Name",
+              prefixIcon: Icon(
+                Icons.person_outline_sharp,
+              ),
+            ),
+          ),
+        ),
         TextField(
           controller: authController.email,
           textInputAction: TextInputAction.next,
@@ -21,22 +37,9 @@ class SignupForm extends StatelessWidget {
               )),
         ),
         const SizedBox(height: 30),
-        Obx(
-          () => TextField(
-            controller: authController.password,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-                helperText: authController.pwdError.value,
-                helperStyle: const TextStyle(color: Colors.red),
-                hintText: "Password",
-                prefixIcon: Icon(
-                  Icons.lock_sharp,
-                )),
-          ),
-        ),
-        const SizedBox(height: 10),
+        // const SizedBox(height: 10),
         TextFormField(
-          controller: authController.cPassword,
+          controller: authController.password,
           onFieldSubmitted: (s) {},
           decoration: const InputDecoration(
               hintText: "Confirm Password",

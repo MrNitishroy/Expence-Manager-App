@@ -18,6 +18,7 @@ class GroupTransaction extends StatelessWidget {
       appBar: AppBar(
         title: InkWell(
             onTap: () {
+              groupController.findGroupIncomeandExpense(groupModel.id!);
               Get.to(GroupInfoPage(
                 groupInfo: groupModel,
               ));

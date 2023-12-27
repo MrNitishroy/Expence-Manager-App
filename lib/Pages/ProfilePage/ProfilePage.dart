@@ -1,5 +1,6 @@
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/ThemeController.dart';
+import 'package:expense_manager/Pages/GroupPage/GroupTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/AccountTile.dart';
 import 'package:expense_manager/Pages/ProfilePage/CategoryTile.dart';
 import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
@@ -49,13 +50,15 @@ class ProfilePage extends StatelessWidget {
             PaymentTile(),
             SizedBox(height: 10),
             AccountTile(),
+            SizedBox(height: 10),
+            GroupTile(),
             SizedBox(height: 80),
-            ElevatedButton(
-              onPressed: () async {
-                Get.to(GroupPage());
-              },
-              child: Text("Goup Page"),
-            ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     Get.to(GroupPage());
+            //   },
+            //   child: Text("Goup Page"),
+            // ),
             Obx(
               () => ListTile(
                 title: themeController.isDark.value
@@ -87,11 +90,7 @@ class ProfilePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
               ),
             ),
-            // ElevatedButton(
-            //     onPressed: () async {
-
-            //     },
-            //     child: Text("Icon Picker")),
+       
 
             SizedBox(height: 20),
             Row(

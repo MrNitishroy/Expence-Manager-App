@@ -1,12 +1,10 @@
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Models/GroupModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
 import 'package:expense_manager/Models/TransactionModel.dart';
 import 'package:expense_manager/Models/UserModel.dart';
+import 'package:expense_manager/Pages/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,12 +24,30 @@ class GroupController extends GetxController {
   RxList<GroupModel> groupList = RxList<GroupModel>([]);
   RxList<GroupModel> yourGroupList = RxList<GroupModel>([]);
   RxList<TransactionModel> groupTransaction = RxList<TransactionModel>([]);
+  RxString groupIncome = "0".obs;
+  RxString groupExpense = "0".obs;
   RxBool isLoading = false.obs;
+  RxBool isGroupDetailsLoading = false.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getGroup();
+  }
+
+  Future<void> onRefresh() async {
+    await getGroup();
+  await   getYourGroup();
+  }
+
+  Future findGroupIncomeandExpense(String groupId) async {
+    isGroupDetailsLoading.value = true;
+    await db.collection("groups").doc(groupId).get().then((value) {
+      groupIncome.value = value.data()!["income"].toString();
+      groupExpense.value = value.data()!["expense"].toString();
+    });
+    isGroupDetailsLoading.value = false;
   }
 
   void findUsers() async {
@@ -55,6 +71,7 @@ class GroupController extends GetxController {
   } // findUsers
 
   void createGroup() async {
+    isLoading.value = true;
     var addinGroupYourSelf = UserModel(
       id: accountCntroller.currentUserData.value.id,
       dob: accountCntroller.currentUserData.value.dob,
@@ -66,7 +83,7 @@ class GroupController extends GetxController {
       role: "admin",
     );
     groupMember.add(addinGroupYourSelf);
-    isLoading.value = true;
+
     if (groupName.text.isEmpty) {
       errorMessage("Group Name is Empty");
       isLoading.value = false;
@@ -79,18 +96,23 @@ class GroupController extends GetxController {
     }
     String groupId = uuid.v4();
     successMessage("Group Created");
-    await db.collection("groups").doc(groupId).set({
-      "id": groupId,
-      "name": groupName.text,
-      "members": groupMember.map((e) => e.toJson()).toList(),
-      "admin": accountCntroller.currentUserData.value.email,
-    });
+    await db.collection("groups").doc(groupId).set(
+      {
+        "id": groupId,
+        "name": groupName.text,
+        "members": groupMember.map((e) => e.toJson()).toList(),
+        "admin": accountCntroller.currentUserData.value.email,
+        "income": 0,
+        "expense": 0,
+      },
+    );
     groupMember.clear();
     groupName.clear();
     print("created");
-    getGroup();
+  await onRefresh();
+
     isLoading.value = false;
-  } // createGroup
+  }
 
   Future<void> getGroup() async {
     groupList.clear();
@@ -156,18 +178,36 @@ class GroupController extends GetxController {
       errorMessage("Amount is Empty");
       return;
     } else {
-      await db
-          .collection("groups")
-          .doc(groupId)
-          .collection("transactions")
-          .doc(newId)
-          .set(
-            newTransaction.toJson(),
-          );
+      if (bottomSheetController.isIncome.value) {
+        await db
+            .collection("groups")
+            .doc(groupId)
+            .collection("transactions")
+            .doc(newId)
+            .set(
+              newTransaction.toJson(),
+            );
+        await db.collection("groups").doc(groupId).update({
+          "income": FieldValue.increment(amount),
+        });
+      } else {
+        await db
+            .collection("groups")
+            .doc(groupId)
+            .collection("transactions")
+            .doc(newId)
+            .set(
+              newTransaction.toJson(),
+            );
+        await db.collection("groups").doc(groupId).update({
+          "expense": FieldValue.increment(amount),
+        });
+      }
       getGroupTransaction(groupId);
       successMessage("😍 Transaction Added To Group");
       bottomSheetController.amountValue.value = "";
       bottomSheetController.comment.clear();
+      await onRefresh();
     }
   }
 
@@ -188,5 +228,12 @@ class GroupController extends GetxController {
     } catch (ex) {
       print(ex);
     }
+  }
+
+  Future<void> deleteGroup(String id) async {
+    await db.collection("groups").doc(id).delete();
+    getGroup();
+    Get.offAll(HomePage());
+    successMessage("Group Deleted");
   }
 }
