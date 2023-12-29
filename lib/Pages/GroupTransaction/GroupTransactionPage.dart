@@ -2,6 +2,7 @@ import 'package:expense_manager/Components/GroupBottomNavigation.dart';
 import 'package:expense_manager/Controller/GroupController.dart';
 import 'package:expense_manager/Models/GroupModel.dart';
 import 'package:expense_manager/Pages/GroupInfo/GroupInfoPage.dart';
+import 'package:expense_manager/Pages/GroupTransaction/GroupTransactionDetails.dart';
 import 'package:expense_manager/Pages/HomePage/Widget/EntryTile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,11 +20,11 @@ class GroupTransaction extends StatelessWidget {
         title: InkWell(
             onTap: () {
               groupController.findGroupIncomeandExpense(groupModel.id!);
-              Get.to(GroupInfoPage(
-                groupInfo: groupModel,
-              ),
-              transition: Transition.rightToLeft
-              );
+              Get.to(
+                  GroupInfoPage(
+                    groupInfo: groupModel,
+                  ),
+                  transition: Transition.rightToLeft);
             },
             child: Row(
               children: [
@@ -48,7 +49,9 @@ class GroupTransaction extends StatelessWidget {
                     .map(
                       (e) => EntryTile(
                         id: e.id.toString(),
-                        onTap: () {},
+                        onTap: () {
+                          GroupTransactionDetails(e, context, groupModel.id!);
+                        },
                         icon: e.iconPath.toString(),
                         amount: e.amount.toString(),
                         comment: e.comment.toString(),

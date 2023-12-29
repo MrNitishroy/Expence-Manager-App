@@ -38,7 +38,7 @@ class GroupController extends GetxController {
 
   Future<void> onRefresh() async {
     await getGroup();
-  await   getYourGroup();
+    await getYourGroup();
   }
 
   Future findGroupIncomeandExpense(String groupId) async {
@@ -69,11 +69,11 @@ class GroupController extends GetxController {
       errorMessage("User Not Found");
     });
   } // findUsers
-  
+
   void removeUser(UserModel user) {
     groupMember.remove(user);
   }
-  
+
   void createGroup() async {
     isLoading.value = true;
     var addinGroupYourSelf = UserModel(
@@ -113,7 +113,7 @@ class GroupController extends GetxController {
     groupMember.clear();
     groupName.clear();
     print("created");
-  await onRefresh();
+    await onRefresh();
 
     isLoading.value = false;
   }
@@ -239,5 +239,22 @@ class GroupController extends GetxController {
     getGroup();
     Get.offAll(HomePage());
     successMessage("Group Deleted");
+  }
+
+  Future<void> updateGroupTransaction(
+      String groupid, String transactionid, String resion) async {
+    await db
+        .collection("groups")
+        .doc(groupid)
+        .collection("transactions")
+        .doc(transactionid)
+        .update(
+      {
+        "comment": resion,
+      },
+    );
+    Get.back();
+    getGroupTransaction(groupid);
+    successMessage("😍 Transaction Updated");
   }
 }
