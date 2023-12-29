@@ -2,6 +2,7 @@ import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Pages/AboutUs/AboutUsPage.dart';
 import 'package:expense_manager/Pages/BugPage/BugPage.dart';
+import 'package:expense_manager/Pages/FuturePage/UpcommingFuture.dart';
 import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
 import 'package:expense_manager/Pages/GroupPage/GroupTile.dart';
 import 'package:expense_manager/Pages/GroupTransaction/GroupTransactionPage.dart';
@@ -92,7 +93,9 @@ MyDrawer(BuildContext context) {
           AccountTile(),
           SizedBox(height: 50),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(UpcommingFuture());
+            },
             leading: Icon(
               Icons.update_outlined,
               color: Theme.of(context).colorScheme.onBackground,
