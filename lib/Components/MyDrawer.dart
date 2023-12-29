@@ -1,5 +1,6 @@
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
+import 'package:expense_manager/Pages/AboutUs/AboutUsPage.dart';
 import 'package:expense_manager/Pages/BugPage/BugPage.dart';
 import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
 import 'package:expense_manager/Pages/GroupPage/GroupTile.dart';
@@ -10,6 +11,7 @@ import 'package:expense_manager/Pages/ProfilePage/PaymentMode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../Controller/GroupController.dart';
 import '../Pages/ProfilePage/ProfilePage.dart';
@@ -101,7 +103,15 @@ MyDrawer(BuildContext context) {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () async {
+              PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+              Get.to(
+                  AboutUsPage(
+                    version: packageInfo.version.toString(),
+                  ),
+                  transition: Transition.rightToLeftWithFade);
+            },
             leading: Icon(
               Icons.person,
               color: Theme.of(context).colorScheme.onBackground,
@@ -113,7 +123,7 @@ MyDrawer(BuildContext context) {
           ),
           ListTile(
             onTap: () {
-              Get.to(BugPage(),transition: Transition.rightToLeftWithFade);
+              Get.to(BugPage(), transition: Transition.rightToLeftWithFade);
             },
             leading: Icon(
               Icons.bug_report_outlined,

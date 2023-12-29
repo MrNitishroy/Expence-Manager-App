@@ -3,6 +3,7 @@ import 'package:expense_manager/Components/MyDrawer.dart';
 import 'package:expense_manager/Components/TransactionDetails.dart';
 import 'package:expense_manager/Config/Colors.dart';
 import 'package:expense_manager/Controller/AccountController.dart';
+import 'package:expense_manager/Controller/AppController.dart';
 import 'package:expense_manager/Controller/AuthController.dart';
 import 'package:expense_manager/Controller/DbController.dart';
 import 'package:expense_manager/Controller/GroupController.dart';
@@ -26,7 +27,6 @@ class HomePage extends StatelessWidget {
         Get.put(NotificationController());
     GroupController groupController = Get.put(GroupController());
     return Scaffold(
-      // drawer: MyDrawer(),
       endDrawer: Container(
         child: MyDrawer(context),
         width: 350,
