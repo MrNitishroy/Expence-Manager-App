@@ -26,7 +26,7 @@ MyDrawer(BuildContext context) {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              Get.to(ProfilePage());
+              Get.toNamed("/profilePage");
             },
             child: Container(
               child: Row(

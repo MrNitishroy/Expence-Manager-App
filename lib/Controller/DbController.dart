@@ -43,14 +43,7 @@ class DbController extends GetxController {
     });
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-    commentUpdateText.dispose();
-    transactionList.clear();
-    selectedAccountDetails.value = AccountModel();
-  }
+
 
   void onAccountSelected() {
     getTransactionList();

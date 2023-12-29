@@ -21,7 +21,9 @@ class GroupTransaction extends StatelessWidget {
               groupController.findGroupIncomeandExpense(groupModel.id!);
               Get.to(GroupInfoPage(
                 groupInfo: groupModel,
-              ));
+              ),
+              transition: Transition.rightToLeft
+              );
             },
             child: Row(
               children: [

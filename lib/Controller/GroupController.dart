@@ -69,7 +69,11 @@ class GroupController extends GetxController {
       errorMessage("User Not Found");
     });
   } // findUsers
-
+  
+  void removeUser(UserModel user) {
+    groupMember.remove(user);
+  }
+  
   void createGroup() async {
     isLoading.value = true;
     var addinGroupYourSelf = UserModel(

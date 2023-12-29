@@ -1,4 +1,5 @@
 import 'package:expense_manager/Controller/GroupController.dart';
+import 'package:expense_manager/Pages/GroupTransaction/GroupTransactionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -116,7 +117,9 @@ class GroupPage extends StatelessWidget {
                                   ),
                                   title: Text(e.email! ?? "No Email"),
                                   trailing: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      groupController.removeUser(e);
+                                    },
                                     child: Icon(Icons.delete),
                                   ),
                                 );
@@ -212,6 +215,10 @@ class GroupPage extends StatelessWidget {
                             () => Column(
                               children: groupController.yourGroupList.map((e) {
                                 return ListTile(
+                                  onTap: (){
+                                    groupController.getGroupTransaction(e.id!);
+                                    Get.to(GroupTransaction(groupModel: e,),transition: Transition.rightToLeftWithFade);
+                                  },
                                   leading: CircleAvatar(
                                     backgroundColor:
                                         Theme.of(context).colorScheme.primary,

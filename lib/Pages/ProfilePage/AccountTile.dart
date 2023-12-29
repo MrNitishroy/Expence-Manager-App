@@ -45,7 +45,7 @@ class AccountTile extends StatelessWidget {
                         ),
                         trailing:InkWell(
                                 onTap: () {
-                                  accountCntroller.deleteAccount(e.id!);
+                                  accountCntroller.deleteAccount(e.name!);
                                 },
                                 child: Icon(
                                   Icons.delete_rounded,

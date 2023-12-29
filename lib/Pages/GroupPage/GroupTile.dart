@@ -53,6 +53,7 @@ class GroupTile extends StatelessWidget {
                             GroupTransaction(
                               groupModel: e,
                             ),
+                            transition: Transition.rightToLeft,
                           );
                         },
                         leading: CircleAvatar(
@@ -75,7 +76,7 @@ class GroupTile extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(GroupPage());
+                    Get.to(GroupPage(),transition: Transition.rightToLeftWithFade);
                   },
                   child: Container(
                       decoration: BoxDecoration(

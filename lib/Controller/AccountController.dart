@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/Controller/BottomSheetController.dart';
+import 'package:expense_manager/Controller/DbController.dart';
 import 'package:expense_manager/Models/AccountModel.dart';
 import 'package:expense_manager/Models/DropdownModel.dart';
 import 'package:expense_manager/Models/MeesagesModel.dart';
@@ -32,19 +33,7 @@ class AccountCntroller extends GetxController {
     getCategory();
     getPayementMode();
   }
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-    accountName.dispose();
-    category.dispose();
-    paymentMode.dispose();
-    accountData.clear();
-    categoryData.clear();
-    paymentModeData.clear();
-    
-  }
-
+  
   bool isPayemntModeGetting = false;
   Future getPayementMode() async {
     if (isPayemntModeGetting) {
@@ -155,7 +144,7 @@ class AccountCntroller extends GetxController {
   }
 
   Future deleteCategory(String id) async {
-    if (categoryData.length == 1) {
+    if (categoryData.length == 1 || id.toLowerCase() == "others") {
       errorMessage("❌ You can't delete last Category");
       return;
     }
@@ -210,27 +199,28 @@ class AccountCntroller extends GetxController {
           .collection("users")
           .doc(auth.currentUser!.uid)
           .collection("accounts")
-          .doc(id)
+          .doc(accountName.text.toLowerCase())
           .set(newAccount.toJson());
       successMessage("🪲 New Account Added");
       accountName.clear();
       await getAccount();
+      
     } else {
       errorMessage("❌ Please Enter Account Name");
     }
   }
 
-  Future deleteAccount(String id) async {
-    print(id);
-    if (accountData.length == 1) {
-      errorMessage("❌ You can't delete last account");
+  Future deleteAccount(String name) async {
+    print(name);
+    if (accountData.length == 1 || name.toLowerCase() == "personal") {
+      errorMessage("❌ You can't delete this account");
       return;
     }
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
-        .doc(id)
+        .doc(name.toLowerCase())
         .delete();
     getAccount();
     successMessage("🪲 Account Deleted");

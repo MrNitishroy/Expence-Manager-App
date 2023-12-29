@@ -38,8 +38,6 @@ class AuthController extends GetxController {
     paswordSaved.value = prefs.getString("password")!;
   }
 
-
-
   void fillData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     loginEmail.text = prefs.getString("email") ?? "";
@@ -48,14 +46,13 @@ class AuthController extends GetxController {
 
   Future<void> signupWithEmailAndPassword(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-       isLoading.value = true;
+    isLoading.value = true;
     pwdError.value = "";
     if (email.text.isEmpty || password.text.isEmpty) {
       errorMessage("😎 All fields are required");
       return;
     } else {
-      if (nameController.text!= "") {
-     
+      if (nameController.text != "") {
         try {
           await auth.createUserWithEmailAndPassword(
               email: email.text, password: password.text);
@@ -123,7 +120,7 @@ class AuthController extends GetxController {
     String accountId = "ac" + tempId;
     var uId = Uuid().v4();
     var initAccount = AccountModel(
-      id: uId,
+      id: "personal",
       name: "Personal",
       date: date,
       expense: 00,
@@ -135,7 +132,7 @@ class AuthController extends GetxController {
         .collection("users")
         .doc(auth.currentUser!.uid)
         .collection("accounts")
-        .doc(accountId)
+        .doc("personal")
         .set(initAccount.toJson());
     successMessage("🪲 DB INIT");
   }

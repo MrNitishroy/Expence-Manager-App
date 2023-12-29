@@ -1,3 +1,4 @@
+import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
 import 'package:expense_manager/Pages/HomePage/HomePage.dart';
 import 'package:expense_manager/Pages/LoginPage/LoginPage.dart';
 import 'package:expense_manager/Pages/ProfilePage/ProfilePage.dart';
@@ -17,6 +18,12 @@ var pages = [
   GetPage(
     name: '/profilePage',
     page: () => ProfilePage(),
+    transition: Transition.rightToLeftWithFade
+  ),
+  
+  GetPage(
+    name: '/groupPage',
+    page: () => GroupPage(),
     transition: Transition.rightToLeftWithFade
   ),
 
