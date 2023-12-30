@@ -43,15 +43,14 @@ class DbController extends GetxController {
     });
   }
 
-
-
   void onAccountSelected() {
     getTransactionList();
     setAccountDetails();
   }
 
   Future<void> onPageRefresh() async {
-    isLoading.value = true;
+ try{
+     isLoading.value = true;
     await accountCntroller.getAccount();
     await setAccountDetails();
     await accountCntroller.getCategory();
@@ -61,47 +60,59 @@ class DbController extends GetxController {
     print("refress");
     successMessage("❤️ Refresh");
     isLoading.value = false;
+ }catch(ex)
+ {
+  errorMessage(ex.toString());
+ }
   }
 
   Future updateCommentTransaction(String id) async {
-    if (commentUpdateText.text.isEmpty) {
-      errorMessage("Please Enter Comment");
-      return;
+    try {
+      if (commentUpdateText.text.isEmpty) {
+        errorMessage("Please Enter Comment");
+        return;
+      }
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .doc(accountSelected.value)
+          .collection("transactions")
+          .doc(id)
+          .update(
+        {
+          "comment": commentUpdateText.text,
+        },
+      );
+      getTransactionList();
+      successMessage("🤑 Comment Updated");
+      isCommentEditing.value = true;
+      commentUpdateText.clear();
+      Get.back();
+    } catch (ex) {
+      errorMessage(ex.toString());
     }
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accounts")
-        .doc(accountSelected.value)
-        .collection("transactions")
-        .doc(id)
-        .update(
-      {
-        "comment": commentUpdateText.text,
-      },
-    );
-    getTransactionList();
-    successMessage("🤑 Comment Updated");
-    isCommentEditing.value = true;
-    commentUpdateText.clear();
-    Get.back();
   }
 
   Future getTransactionList() async {
-    transactionList.clear();
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("accounts")
-        .doc(accountSelected.value)
-        .collection("transactions")
-        .orderBy("timestamp", descending: true)
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        transactionList.add(TransactionModel.fromJson(element.data()));
-      }
-    });
+    try {
+      transactionList.clear();
+      await db
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("accounts")
+          .doc(accountSelected.value)
+          .collection("transactions")
+          .orderBy("timestamp", descending: true)
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          transactionList.add(TransactionModel.fromJson(element.data()));
+        }
+      });
+    } catch (ex) {
+      errorMessage(ex.toString());
+    }
   }
 
   Future addTransaction(BuildContext context) async {
@@ -166,46 +177,52 @@ class DbController extends GetxController {
   }
 
   Future updateAccount(bool isIncome, int newAmount) async {
-    if (isIncome) {
-      int newTotal = selectedAccountDetails.value.total! + newAmount;
-      selectedAccountDetails.value.total = newTotal;
-      selectedAccountDetails.value.income =
-          selectedAccountDetails.value.income! + newAmount;
-      print("Income");
-      await db
-          .collection("users")
-          .doc(auth.currentUser!.uid)
-          .collection("accounts")
-          .doc(accountSelected.value)
-          .update({
-        "total": selectedAccountDetails.value.total,
-        "income": selectedAccountDetails.value.income,
-      });
-    } else {
-      int newTotal = selectedAccountDetails.value.total! - newAmount;
-      selectedAccountDetails.value.total = newTotal;
-      selectedAccountDetails.value.expense =
-          selectedAccountDetails.value.expense! + newAmount;
-      await db
-          .collection("users")
-          .doc(auth.currentUser!.uid)
-          .collection("accounts")
-          .doc(accountSelected.value)
-          .update({
-        "total": selectedAccountDetails.value.total,
-        "expense": selectedAccountDetails.value.expense,
-      });
+    try {
+      if (isIncome) {
+        int newTotal = selectedAccountDetails.value.total! + newAmount;
+        selectedAccountDetails.value.total = newTotal;
+        selectedAccountDetails.value.income =
+            selectedAccountDetails.value.income! + newAmount;
+        print("Income");
+        await db
+            .collection("users")
+            .doc(auth.currentUser!.uid)
+            .collection("accounts")
+            .doc(accountSelected.value)
+            .update({
+          "total": selectedAccountDetails.value.total,
+          "income": selectedAccountDetails.value.income,
+        });
+      } else {
+        int newTotal = selectedAccountDetails.value.total! - newAmount;
+        selectedAccountDetails.value.total = newTotal;
+        selectedAccountDetails.value.expense =
+            selectedAccountDetails.value.expense! + newAmount;
+        await db
+            .collection("users")
+            .doc(auth.currentUser!.uid)
+            .collection("accounts")
+            .doc(accountSelected.value)
+            .update({
+          "total": selectedAccountDetails.value.total,
+          "expense": selectedAccountDetails.value.expense,
+        });
+      }
+      successMessage("🤑 Account Updated");
+    } catch (ex) {
+      errorMessage(ex.toString());
     }
-    successMessage("🤑 Account Updated");
   }
 
   Future setAccountDetails() async {
-    print("searching start");
-    for (var element in accountCntroller.accountData) {
-      if (element.name!.toLowerCase() == accountSelected.value) {
-        selectedAccountDetails.value = element;
+    try {
+      for (var element in accountCntroller.accountData) {
+        if (element.name!.toLowerCase() == accountSelected.value) {
+          selectedAccountDetails.value = element;
+        }
       }
+    } catch (ex) {
+      errorMessage(ex.toString());
     }
-    print(selectedAccountDetails.value.name);
   }
 }

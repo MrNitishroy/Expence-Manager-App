@@ -83,8 +83,19 @@ class AboutUsPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
+            Obx(() => appController.isLoading.value
+                ? LinearProgressIndicator()
+                : const Row(
+                    children: [
+                      Text(
+                        "Your are using latest version",
+                        style: TextStyle(fontSize: 12, color: Colors.green),
+                      ),
+                    ],
+                  )),
+            SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
@@ -93,12 +104,22 @@ class AboutUsPage extends StatelessWidget {
                   icon: Icon(Icons.bug_report_rounded),
                   label: Text("Bug Report"),
                 ),
+                ElevatedButton.icon(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.green),
+                  ),
+                  onPressed: () {
+                    appController.checkUpdate(context);
+                  },
+                  icon: Icon(Icons.update_sharp),
+                  label: Text("Check Update"),
+                ),
               ],
             ),
+            SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
-
 }

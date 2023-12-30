@@ -17,12 +17,14 @@ class BugPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Bug Report"),
         actions: [
-          IconButton(
-            onPressed: () {
-              bugReportController.getBugReport();
-            },
-            icon: Icon(Icons.refresh),
-          )
+          accountCntroller.currentUserData.value.email!.toLowerCase() == "nitishr833@gmail.com"
+              ? IconButton(
+                  onPressed: () {
+                    bugReportController.getBugReport();
+                  },
+                  icon: Icon(Icons.refresh),
+                )
+              : SizedBox()
         ],
       ),
       body: Padding(
@@ -90,8 +92,8 @@ class BugPage extends StatelessWidget {
                     ],
                   )),
               SizedBox(height: 20),
-              Obx(() => accountCntroller.currentUserData.value.email ==
-                      "Nitishr833@gmail.com"
+              Obx(() => accountCntroller.currentUserData.value.email!.toLowerCase() ==
+                      "nitishr833@gmail.com"
                   ? Column(
                       children: bugReportController.bugList
                           .map(
