@@ -11,7 +11,7 @@ class SplacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SplaceController splaceController = Get.put(SplaceController());
-   
+    AccountCntroller accountCntroller = Get.put(AccountCntroller());
     return Scaffold(
       body: Center(
         child: SvgPicture.asset(

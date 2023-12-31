@@ -34,8 +34,8 @@ class AuthController extends GetxController {
   void onInit() async {
     super.onInit();
     fillData();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    paswordSaved.value = prefs.getString("password")!;
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // paswordSaved.value = prefs.getString("password")!;
   }
 
   void fillData() async {

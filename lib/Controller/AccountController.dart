@@ -29,11 +29,11 @@ class AccountCntroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAccount();
-    getCategory();
-    getPayementMode();
+    // getAccount();
+    // getCategory();
+    // getPayementMode();
   }
-  
+
   bool isPayemntModeGetting = false;
   Future getPayementMode() async {
     if (isPayemntModeGetting) {
@@ -80,8 +80,8 @@ class AccountCntroller extends GetxController {
   }
 
   Future deletePaymentMode(String id) async {
-    if (paymentModeData.length == 1) {
-      errorMessage("❌ You can't delete last Payment Mode");
+    if (paymentModeData.length == 1 || id.toLowerCase() == "cash") {
+      errorMessage("You can't delete this");
       return;
     }
     await db
@@ -204,7 +204,6 @@ class AccountCntroller extends GetxController {
       successMessage("🪲 New Account Added");
       accountName.clear();
       await getAccount();
-      
     } else {
       errorMessage("❌ Please Enter Account Name");
     }

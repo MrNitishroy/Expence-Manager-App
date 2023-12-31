@@ -27,29 +27,31 @@ class CategoryTile extends StatelessWidget {
         leading: Icon(Icons.category),
         title: Text("Category Details"),
         children: [
-          Column(
+          Obx(
+            () => Column(
               children: accountCntroller.categoryData
                   .map(
                     (e) => ListTile(
-                        title: Text(e.name!),
-                        leading: SvgPicture.asset(
-                          e.icon!,
+                      title: Text(e.name!),
+                      leading: SvgPicture.asset(
+                        e.icon!,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                      trailing: InkWell(
+                        onTap: () {
+                          accountCntroller.deleteCategory(e.id.toString());
+                        },
+                        child: Icon(
+                          Icons.delete_rounded,
                           color:
                               Theme.of(context).colorScheme.secondaryContainer,
                         ),
-                        trailing: InkWell(
-                                onTap: (){
-                                  accountCntroller.deleteCategory(e.id!);
-                                },
-                                child: Icon(
-                                  Icons.delete_rounded,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                ),
-                              ),),
+                      ),
+                    ),
                   )
-                  .toList()),
+                  .toList(),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: Row(
