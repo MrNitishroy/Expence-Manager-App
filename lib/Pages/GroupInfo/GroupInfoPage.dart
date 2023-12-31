@@ -1,6 +1,7 @@
 import 'package:expense_manager/Controller/AccountController.dart';
 import 'package:expense_manager/Controller/GroupController.dart';
 import 'package:expense_manager/Models/GroupModel.dart';
+import 'package:expense_manager/Pages/GroupInfo/UpdateMemebers.dart';
 import 'package:expense_manager/Pages/GroupInfo/Widgets/ExpanseAndIncome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,6 +21,11 @@ class GroupInfoPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(groupInfo.name!),
           actions: [
+            InkWell(
+                onTap: () {
+                  UpdateMember(groupInfo.id!);
+                },
+                child: Icon(Icons.person_add)),
             groupInfo.admin == accountCntroller.currentUserData.value.email
                 ? IconButton(
                     onPressed: () {
@@ -62,8 +68,9 @@ class GroupInfoPage extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(
                                   "Assets/Icons/rupee.svg",
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                                 const SizedBox(width: 10),
                                 Obx(() => Text(
@@ -97,7 +104,7 @@ class GroupInfoPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Column(
+                      Obx(() => Column(
                           children: groupInfo.members!
                               .map(
                                 (e) => ListTile(
@@ -112,8 +119,9 @@ class GroupInfoPage extends StatelessWidget {
                                     title: Text(e.name ?? "No Name"),
                                     subtitle: Text(
                                       e.email!,
-                                      style:
-                                          Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     ),
                                     trailing: e.email ==
                                             accountCntroller
@@ -142,7 +150,7 @@ class GroupInfoPage extends StatelessWidget {
                                                 .labelSmall,
                                           )),
                               )
-                              .toList())
+                              .toList()))
                     ],
                   ),
                 )

@@ -70,6 +70,34 @@ class GroupController extends GetxController {
     });
   } // findUsers
 
+  Future<void> updateGroupMember(String groupId, String email) async {
+    await db.collection("users").get().then((value) {
+      for (var e in value.docs) {
+        if (e.data()["email"] == email.toLowerCase()) {
+          print(e.data());
+          if (e.data()["email"] ==
+              accountCntroller.currentUserData.value.email) {
+            errorMessage("You can't add yourself");
+            return;
+          }
+
+          db.collection("groups").doc(groupId).update({
+            "members": FieldValue.arrayUnion([e.data()]),
+          });
+          successMessage("Member added");
+          getGroupTransaction(groupId);
+          Get.back();
+
+          return;
+        }
+      }
+      errorMessage("User Not Found");
+    });
+
+    successMessage("User Added");
+    await onRefresh();
+  }
+
   void removeUser(UserModel user) {
     groupMember.remove(user);
   }
