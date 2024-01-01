@@ -1,3 +1,4 @@
+
 import 'package:expense_manager/Components/NewUpdateDialog.dart';
 import 'package:expense_manager/Controller/AppController.dart';
 import 'package:expense_manager/Pages/BugPage/BugPage.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsPage extends StatelessWidget {
   final String version;
@@ -16,14 +18,16 @@ class AboutUsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("About Us"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              NewUpdateDialog(context);
-            },
-            icon: Icon(Icons.update_rounded),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // NewUpdateDialog(context);
+        //       // appController.checkLatestVersion(context);
+            
+        //     },
+        //     icon: Icon(Icons.update_rounded),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

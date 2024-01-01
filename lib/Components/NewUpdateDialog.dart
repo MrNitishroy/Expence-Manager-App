@@ -1,7 +1,10 @@
+import 'package:expense_manager/Controller/AppController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<dynamic> NewUpdateDialog(BuildContext context) {
+  AppController appController = Get.put(AppController());
   return Get.defaultDialog(
       title: "New Update Available",
       content: Column(
@@ -17,12 +20,20 @@ Future<dynamic> NewUpdateDialog(BuildContext context) {
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(Colors.red),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
           icon: Icon(Icons.close),
           label: Text("Close"),
         ),
         ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            launchUrl(
+              Uri.parse(appController.apkUrl.value),
+              mode: LaunchMode.externalApplication,
+            );
+            Get.back();
+          },
           icon: Icon(Icons.update_rounded),
           label: Text("UPDATE"),
         ),

@@ -26,6 +26,7 @@ class GroupInfoPage extends StatelessWidget {
                   UpdateMember(groupInfo.id!);
                 },
                 child: Icon(Icons.person_add)),
+                SizedBox(width: 10,),
             groupInfo.admin == accountCntroller.currentUserData.value.email
                 ? IconButton(
                     onPressed: () {
