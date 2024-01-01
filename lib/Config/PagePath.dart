@@ -3,6 +3,7 @@ import 'package:expense_manager/Pages/GroupPage/GroupPage.dart';
 import 'package:expense_manager/Pages/HomePage/HomePage.dart';
 import 'package:expense_manager/Pages/LoginPage/LoginPage.dart';
 import 'package:expense_manager/Pages/ProfilePage/ProfilePage.dart';
+import 'package:expense_manager/Pages/Welcome/Welcome.dart';
 import 'package:get/get.dart';
 
 var pages = [
@@ -30,6 +31,11 @@ var pages = [
   GetPage(
     name: '/bugPage',
     page: () => BugPage(),
+    transition: Transition.rightToLeftWithFade
+  ),
+  GetPage(
+    name: '/welcomePage',
+    page: () => WelcomePage(),
     transition: Transition.rightToLeftWithFade
   ),
 

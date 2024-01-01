@@ -13,7 +13,7 @@ class SplaceController extends GetxController {
     if (auth.currentUser != null) {
       Get.offNamed("/home");
     } else {
-      Get.offNamed("/authPage");
+      Get.offNamed("/welcomePage");
     }
   }
 }
