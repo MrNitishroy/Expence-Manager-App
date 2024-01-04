@@ -18,16 +18,6 @@ class AboutUsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("About Us"),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       // NewUpdateDialog(context);
-        //       // appController.checkLatestVersion(context);
-            
-        //     },
-        //     icon: Icon(Icons.update_rounded),
-        //   ),
-        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

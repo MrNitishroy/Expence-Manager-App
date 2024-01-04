@@ -17,6 +17,10 @@ class GroupInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AccountCntroller accountCntroller = Get.put(AccountCntroller());
     GroupController groupController = Get.put(GroupController());
+    String remainingBalance = "";
+    int income = groupInfo.income!.toInt();
+    int expense = groupInfo.expense!.toInt();
+    remainingBalance = (income - expense).toString();
     return Scaffold(
         appBar: AppBar(
           title: Text(groupInfo.name!),
@@ -26,7 +30,9 @@ class GroupInfoPage extends StatelessWidget {
                   UpdateMember(groupInfo.id!);
                 },
                 child: Icon(Icons.person_add)),
-                SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             groupInfo.admin == accountCntroller.currentUserData.value.email
                 ? IconButton(
                     onPressed: () {
@@ -80,7 +86,16 @@ class GroupInfoPage extends StatelessWidget {
                                         fontSize: 70,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                    ))
+                                    )),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Remaining Balance : ${remainingBalance}",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                               ],
                             ),
                           ],
