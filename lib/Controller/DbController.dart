@@ -161,7 +161,17 @@ class DbController extends GetxController {
     update();
   }
 
-  Future deleteTransaction(String id) async {
+  Future deleteTransaction(String id,bool isEncome) async {
+    if(isEncome)
+    {
+      int amount = transactionList.firstWhere((element) => element.id==id).amount!;
+      updateAccount(true, -amount);
+    }
+    else
+    {
+      int amount = transactionList.firstWhere((element) => element.id==id).amount!;
+      updateAccount(false, amount);
+    }
     await db
         .collection("users")
         .doc(auth.currentUser!.uid)
@@ -170,7 +180,6 @@ class DbController extends GetxController {
         .collection("transactions")
         .doc(id)
         .delete();
-
     getTransactionList();
     setAccountDetails();
     successMessage("🪲 Transaction Deleted");
@@ -225,4 +234,9 @@ class DbController extends GetxController {
       errorMessage(ex.toString());
     }
   }
+
+
+
+  
+
 }

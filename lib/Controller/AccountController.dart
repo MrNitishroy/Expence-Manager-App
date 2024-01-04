@@ -26,6 +26,7 @@ class AccountCntroller extends GetxController {
   RxList<DropDownModel> paymentModeData = RxList<DropDownModel>();
   Rx<UserModel> currentUserData = Rx<UserModel>(UserModel());
   IconPickerController iconPickerController = Get.put(IconPickerController());
+  RxInt coolDownTime = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -230,4 +231,36 @@ class AccountCntroller extends GetxController {
       currentUserData.value = UserModel.fromJson(value.data()!);
     });
   }
+
+  Future resetAccount(String id) async{
+   if(coolDownTime==0){
+     await db
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("accounts")
+        .doc(id)
+        .update({
+      "income": 0,
+      "expense": 0,
+      "total": 0,
+      "transactions":[],
+    });
+    getAccount();
+    successMessage("Account Reseted");
+   }
+  }
+
+
+  Future timeCoolDown() async {
+    coolDownTime.value = 6;
+    while (coolDownTime.value > 0) {
+      await Future.delayed(Duration(seconds: 1));
+      coolDownTime.value--;
+      if(coolDownTime.value==0){
+        break;
+      }
+    }
+  }
+
+
 }

@@ -230,7 +230,7 @@ Future<dynamic> TransactionDetails(BuildContext context, TransactionModel e) {
                 ),
                 SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
                       padding: EdgeInsets.all(8),
@@ -252,6 +252,17 @@ Future<dynamic> TransactionDetails(BuildContext context, TransactionModel e) {
                             style: TextStyle(fontSize: 15),
                           )
                         ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        dbController.deleteTransaction(e.id.toString(),e.isIncome!);
+                        Get.back();
+                      },
+                      child: Icon(
+                        Icons.delete_outline,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ),
                   ],

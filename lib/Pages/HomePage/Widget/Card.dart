@@ -140,6 +140,7 @@ class CreditCard extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Obx(
                     () => accountCntroller.currentUserData.value.name == null
@@ -171,7 +172,52 @@ class CreditCard extends StatelessWidget {
                                     .secondaryContainer,
                                 fontWeight: FontWeight.bold),
                           ),
-                  )
+                  ),
+                  InkWell(
+                    onTap: () {
+                      accountCntroller.timeCoolDown();
+                      Get.defaultDialog(
+                        title: "Account reset",
+                        content: Column(
+                          children: [
+                            Text(
+                                "Are you sure you want to reset your account? All data will be lost."),
+                            // SizedBox(height: 20),
+                          ],
+                        ),
+                        cancel: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Text("Cancel"),
+                          ),
+                        ),
+                        confirm:Obx(() =>  accountCntroller.coolDownTime.value == 0
+                            ? InkWell(
+                                onTap: () {
+                                  accountCntroller.resetAccount(
+                                      dbController.accountSelected.value);
+                                  Get.back();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("Reset"),
+                                ),
+                              )
+                            : Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("Reset ${accountCntroller.coolDownTime.value}",style: TextStyle(
+                                    color: Colors.grey
+                                  ),),
+                                ),)
+                      );
+                    },
+                    child: Icon(Icons.restore_outlined,
+                        color:
+                            Theme.of(context).colorScheme.secondaryContainer),
+                  ),
                 ],
               ),
             ],
